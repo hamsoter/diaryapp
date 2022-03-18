@@ -5,49 +5,15 @@ import './components/UI/App.css';
 import {
   ChakraProvider,
   Box,
-  Text,
   theme,
   useControllableState,
-  Button,
   Flex,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverArrow,
-  PopoverCloseButton,
-  useDisclosure,
   Spacer,
   Heading,
 } from '@chakra-ui/react';
 import DiaryLists from './components/Diary/DiaryLists';
-// import { useState } from 'react/cjs/react.production.min';
-
-const PopoverBtn = () => {
-  const { defaultIsOpen } = useDisclosure();
-  const firstFieldRef = React.useRef(null);
-
-  return (
-    <Popover defaultIsOpen={true} closeOnBlur={false}>
-      <PopoverTrigger>
-        <Button
-          onClick={e => e.preventDefault()}
-          colorScheme="orange"
-          variant="solid"
-        >
-          +
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent w={200} color={'orange.700'}>
-        <PopoverArrow />
-        <PopoverCloseButton mt={1} />
-        <PopoverHeader fontWeight={'bold'}>반가워요!</PopoverHeader>
-        <PopoverBody>이곳을 눌러 새 일기장을 생성할 수 있습니다!</PopoverBody>
-      </PopoverContent>
-    </Popover>
-  );
-};
+// import AddDiaryBtn from './components/UI/AddDiaryBtn';
+import AddDiaryModal from './components/UI/AddDiaryModal';
 
 function App() {
   const DUMMY_DATA_ARR = [
@@ -58,12 +24,12 @@ function App() {
     },
     {
       id: 'e2',
-      name: '책 일기',
+      name: '독후감',
       lastRecord: new Date(),
     },
     {
       id: 'e3',
-      name: '나의 일상',
+      name: '일상',
       lastRecord: new Date(),
     },
     {
@@ -98,10 +64,11 @@ function App() {
           w={['100%']}
         >
           <Heading fontSize={'xl'} isTruncated>
-            내 책장
+            나의 책장
           </Heading>
           <Spacer></Spacer>
-          <PopoverBtn></PopoverBtn>
+          <AddDiaryModal></AddDiaryModal>
+          {/* <AddDiaryBtn /> */}
         </Flex>
         <DiaryLists diaries={diaries}></DiaryLists>
       </Box>
