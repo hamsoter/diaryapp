@@ -7,11 +7,10 @@ const DiaryLists = props => {
 
   return (
     <UnorderedList
-      pt={3}
       m={0}
+      py={2}
       bg={'orange.50'}
       borderBottomRadius={'md'}
-      minH={'80vh'}
       display={'flex'}
       flexWrap="wrap"
       justifyContent={'space-between'}

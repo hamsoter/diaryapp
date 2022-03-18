@@ -7,13 +7,13 @@ const Diary = props => {
   return (
     <ListItem
       bg={'green.500'}
-      w={640 / 3 - 10}
-      h={260}
+      w={['100%', '48%', '31.5%']}
+      h={['400px', '400px', '250px']}
       listStyleType={'none'}
       borderRightRadius={'2xl'}
-      mb={4}
       display={'flex'}
       flexDir={'column'}
+      my={2}
     >
       <Text fontSize={'lg'}>{name}</Text>
       <Text fontSize={'xs'}>

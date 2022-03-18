@@ -18,12 +18,12 @@ function App() {
   const DUMMY_DATA_ARR = [
     {
       id: 'e1',
-      name: '요리 일지',
+      name: '요리 기록',
       lastRecord: new Date(),
     },
     {
       id: 'e2',
-      name: '책 기록',
+      name: '책 일기',
       lastRecord: new Date(),
     },
     {
@@ -38,12 +38,12 @@ function App() {
     },
     {
       id: 'e5',
-      name: '책 기록',
+      name: '다이어트 일기',
       lastRecord: new Date(),
     },
     {
       id: 'e6',
-      name: '나의 일상',
+      name: '육아 일기',
       lastRecord: new Date(),
     },
   ];
@@ -53,13 +53,14 @@ function App() {
   });
   return (
     <ChakraProvider theme={theme}>
-      <Box w={'640px'} m="auto" pt={10}>
+      <Box w={['100%', '400px', '640px']} m="auto">
         <Flex
           borderTopRadius={'md'}
           bg={'orange.400'}
           color={'white'}
           alignItems={'center'}
           p={3}
+          w={['100%']}
         >
           <Text fontSize={'xl'} isTruncated>
             내 책장
