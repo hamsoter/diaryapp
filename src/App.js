@@ -10,9 +10,44 @@ import {
   useControllableState,
   Button,
   Flex,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverArrow,
+  PopoverCloseButton,
+  useDisclosure,
+  Spacer,
+  Heading,
 } from '@chakra-ui/react';
 import DiaryLists from './components/Diary/DiaryLists';
 // import { useState } from 'react/cjs/react.production.min';
+
+const PopoverBtn = () => {
+  const { defaultIsOpen } = useDisclosure();
+  const firstFieldRef = React.useRef(null);
+
+  return (
+    <Popover defaultIsOpen={true} closeOnBlur={false}>
+      <PopoverTrigger>
+        <Button
+          onClick={e => e.preventDefault()}
+          colorScheme="orange"
+          variant="solid"
+        >
+          +
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent w={200} color={'orange.700'}>
+        <PopoverArrow />
+        <PopoverCloseButton mt={1} />
+        <PopoverHeader fontWeight={'bold'}>반가워요!</PopoverHeader>
+        <PopoverBody>이곳을 눌러 새 일기장을 생성할 수 있습니다!</PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
+};
 
 function App() {
   const DUMMY_DATA_ARR = [
@@ -62,12 +97,11 @@ function App() {
           p={3}
           w={['100%']}
         >
-          <Text fontSize={'xl'} isTruncated>
+          <Heading fontSize={'xl'} isTruncated>
             내 책장
-          </Text>
-          <Button colorScheme="orange" variant="solid" ml={'auto'}>
-            +
-          </Button>
+          </Heading>
+          <Spacer></Spacer>
+          <PopoverBtn></PopoverBtn>
         </Flex>
         <DiaryLists diaries={diaries}></DiaryLists>
       </Box>

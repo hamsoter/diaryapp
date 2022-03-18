@@ -8,7 +8,7 @@ const DiaryLists = props => {
   return (
     <UnorderedList
       m={0}
-      py={2}
+      p={3}
       bg={'orange.50'}
       borderBottomRadius={'md'}
       display={'flex'}
