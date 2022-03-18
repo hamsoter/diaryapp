@@ -1,7 +1,6 @@
 import React from 'react';
 import './components/UI/App.css';
 
-import './components/UI/App.css';
 import {
   ChakraProvider,
   Box,
@@ -13,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import DiaryLists from './components/Diary/DiaryLists';
 // import AddDiaryBtn from './components/UI/AddDiaryBtn';
-import AddDiaryModal from './components/UI/AddDiaryModal';
+import AddDiaryModal from './components/Diary/AddDiaryModal';
 
 function App() {
   const DUMMY_DATA_ARR = [
