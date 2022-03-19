@@ -2,3 +2,13 @@ body.chakra-ui-light {
   /* orange.200 */
   background-color: #fbd38d;
 }
+
+body,
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+}
