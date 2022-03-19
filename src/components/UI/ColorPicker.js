@@ -3,12 +3,8 @@ import React from 'react';
 import { CirclePicker } from 'react-color';
 
 const ColorPicker = props => {
-  const [selectedColor, setSelectedColor] = useControllableState({
-    defaultValue: '#FF6900',
-  });
-
   const colorChangeHandler = e => {
-    setSelectedColor(e.hex);
+    props.onSetSelectedColor(e.hex);
   };
 
   const colorArr = [
@@ -34,7 +30,7 @@ const ColorPicker = props => {
         onChange={colorChangeHandler}
         // onChangeComplete={colorFunc}
         direction={'column'}
-        color={selectedColor}
+        color={props.onGetSelectedColor}
         colors={colorArr}
         width="240px" //240
         // circleSize={35}

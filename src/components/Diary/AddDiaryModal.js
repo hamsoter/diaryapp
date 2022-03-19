@@ -24,17 +24,35 @@ import ColorPicker from '../UI/ColorPicker';
 const AddDiaryModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [newDiaryData, setNewDiaryData] = useControllableState({
+    defaultValue: {
+      name: '',
+      id: '',
+      title: '',
+    },
+  });
+
+  const [selectedColor, setSelectedColor] = useControllableState({
+    defaultValue: '#FF6900',
+  });
+  const nameInputRef = useRef();
+  const titleInputRef = useRef();
+
   const submitHandler = e => {
-    console.log('submit');
+    e.preventDefault();
+
+    const enteredUserName = nameInputRef.current.value;
+    const enteredDiaryTitle = titleInputRef.current.value;
+
+    const newDiaryBook = {
+      id: Math.random().toString(),
+      name: enteredUserName,
+      title: enteredDiaryTitle,
+      color: selectedColor,
+    };
+
+    console.log(newDiaryBook);
   };
-
-  // const [selectedColor, setSelectedColor] = useControllableState({
-  //   defaultValue: '#FF6900',
-  // });
-
-  // const colorChangeHandler = e => {
-  //   setSelectedColor(e.hex);
-  // };
 
   return (
     <>
@@ -50,31 +68,46 @@ const AddDiaryModal = () => {
           <ModalBody>
             {/* 폼 */}
             {/* <AddDiaryForm></AddDiaryForm> */}
-            <FormControl id="addDiaryForm" onSubmit={submitHandler}>
-              <FormLabel htmlFor="name">당신의 이름</FormLabel>
-              <Input id="name" type="text" colorScheme={'orange'} />
-              <FormLabel mt={5} htmlFor="title">
-                새 일기장의 이름
-              </FormLabel>
-              <Input id="title" type="text" colorScheme={'orange'} />
-              <FormLabel mt={5}>커버 색상</FormLabel>
-              <ColorPicker></ColorPicker>
-            </FormControl>
+            <form id="addDiaryForm" onSubmit={submitHandler}>
+              <FormControl>
+                <FormLabel htmlFor="name">당신의 이름</FormLabel>
+                <Input
+                  id="name"
+                  ref={nameInputRef}
+                  type="text"
+                  colorScheme={'orange'}
+                />
+                <FormLabel mt={5} htmlFor="title">
+                  새 일기장의 이름
+                </FormLabel>
+                <Input
+                  id="title"
+                  ref={titleInputRef}
+                  type="text"
+                  colorScheme={'orange'}
+                />
+                <FormLabel mt={5}>커버 색상</FormLabel>
+                <ColorPicker
+                  onGetSelectedColor={selectedColor}
+                  onSetSelectedColor={setSelectedColor}
+                ></ColorPicker>
+              </FormControl>
 
-            <ModalFooter px={0}>
-              <Button
-                mt={5}
-                type="submit"
-                form="addDiaryForm"
-                w={['100%', '100%', '100px']}
-                colorScheme="orange"
-                onClick={() => {
-                  onClose();
-                }}
-              >
-                추가
-              </Button>
-            </ModalFooter>
+              <ModalFooter px={0}>
+                <Button
+                  mt={5}
+                  type="submit"
+                  form="addDiaryForm"
+                  w={['100%', '100%', '100px']}
+                  colorScheme="orange"
+                  onClick={() => {
+                    onClose();
+                  }}
+                >
+                  추가
+                </Button>
+              </ModalFooter>
+            </form>
           </ModalBody>
         </ModalContent>
       </Modal>
