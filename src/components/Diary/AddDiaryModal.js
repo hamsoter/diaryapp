@@ -21,8 +21,9 @@ import {
 } from '@chakra-ui/react';
 import ColorPicker from '../UI/ColorPicker';
 import { useFormik } from 'formik';
+import * as yup from 'yup';
 
-const AddDiaryModal = () => {
+const AddDiaryModal = props => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // const [newDiaryData, setNewDiaryData] = useControllableState({
@@ -33,24 +34,31 @@ const AddDiaryModal = () => {
   //   },
   // });
 
-  const [selectedColor, setSelectedColor] = useControllableState({
-    defaultValue: '#FF6900',
-  });
+  const [selectedColor, setSelectedColor] = React.useState('#FF6900');
   // const nameInputRef = useRef();
   // const titleInputRef = useRef();
 
   const formik = useFormik({
+    // 초기값 설정
     initialValues: {
-      id: Math.random().toString(),
+      id: '',
       userName: '',
       title: '',
       color: selectedColor,
+      // 임시 날짜
+      lastRecord: new Date(),
     },
-    onSubmit: values => {
-      console.log(values);
-      // 색상값 초기화
-      setSelectedColor('#FF6900');
+    onSubmit: (values, action) => {
+      values.id = Math.random().toString();
+      values.color = selectedColor;
+      props.onSaveDiary(values);
+      action.resetForm();
     },
+    // 이 코드를 넣었더니 갑자기 key 오류가 안 뜸...
+    validationSchema: yup.object({
+      userName: yup.string().required('이름을 입력해주세요.'),
+      title: yup.string().required('일기장 이름을 입력해주세요.'),
+    }),
   });
 
   return (

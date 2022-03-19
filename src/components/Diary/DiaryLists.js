@@ -19,7 +19,7 @@ const DiaryLists = props => {
         return (
           <Diary
             key={diary.id}
-            name={diary.name}
+            name={diary.userName}
             lastRecord={diary.lastRecord}
           ></Diary>
         );

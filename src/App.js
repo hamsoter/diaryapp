@@ -11,46 +11,45 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import DiaryLists from './components/Diary/DiaryLists';
-// import AddDiaryBtn from './components/UI/AddDiaryBtn';
 import AddDiaryModal from './components/Diary/AddDiaryModal';
 
 function App() {
   const DUMMY_DATA_ARR = [
     {
       id: 'e1',
-      name: '요리 기록',
+      userName: '요리 기록',
       lastRecord: new Date(),
     },
     {
       id: 'e2',
-      name: '독후감',
+      userName: '일상',
       lastRecord: new Date(),
     },
     {
       id: 'e3',
-      name: '일상',
+      userName: '동숲 일기',
       lastRecord: new Date(),
     },
     {
       id: 'e4',
-      name: '동숲 일기',
+      userName: '다이어트 일기',
       lastRecord: new Date(),
     },
     {
       id: 'e5',
-      name: '다이어트 일기',
-      lastRecord: new Date(),
-    },
-    {
-      id: 'e6',
-      name: '육아 일기',
+      userName: '육아 일기',
       lastRecord: new Date(),
     },
   ];
 
-  const [diaries, setDiaries] = useControllableState({
-    defaultValue: DUMMY_DATA_ARR,
-  });
+  const [diaries, setDiaries] = React.useState(DUMMY_DATA_ARR);
+
+  const saveDiaryHandler = newDiary => {
+    setDiaries(prevState => {
+      return [...prevState, newDiary];
+    });
+  };
+
   return (
     <ChakraProvider theme={theme}>
       <Box w={['100%', '400px', '640px']} m="auto">
@@ -66,8 +65,7 @@ function App() {
             나의 책장
           </Heading>
           <Spacer></Spacer>
-          <AddDiaryModal></AddDiaryModal>
-          {/* <AddDiaryBtn /> */}
+          <AddDiaryModal onSaveDiary={saveDiaryHandler}></AddDiaryModal>
         </Flex>
         <DiaryLists diaries={diaries}></DiaryLists>
       </Box>
