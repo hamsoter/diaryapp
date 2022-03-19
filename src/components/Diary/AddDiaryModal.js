@@ -20,39 +20,38 @@ import {
   useControllableState,
 } from '@chakra-ui/react';
 import ColorPicker from '../UI/ColorPicker';
+import { useFormik } from 'formik';
 
 const AddDiaryModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [newDiaryData, setNewDiaryData] = useControllableState({
-    defaultValue: {
-      name: '',
-      id: '',
-      title: '',
-    },
-  });
+  // const [newDiaryData, setNewDiaryData] = useControllableState({
+  //   defaultValue: {
+  //     name: '',
+  //     id: '',
+  //     title: '',
+  //   },
+  // });
 
   const [selectedColor, setSelectedColor] = useControllableState({
     defaultValue: '#FF6900',
   });
-  const nameInputRef = useRef();
-  const titleInputRef = useRef();
+  // const nameInputRef = useRef();
+  // const titleInputRef = useRef();
 
-  const submitHandler = e => {
-    e.preventDefault();
-
-    const enteredUserName = nameInputRef.current.value;
-    const enteredDiaryTitle = titleInputRef.current.value;
-
-    const newDiaryBook = {
+  const formik = useFormik({
+    initialValues: {
       id: Math.random().toString(),
-      name: enteredUserName,
-      title: enteredDiaryTitle,
+      userName: '',
+      title: '',
       color: selectedColor,
-    };
-
-    console.log(newDiaryBook);
-  };
+    },
+    onSubmit: values => {
+      console.log(values);
+      // 색상값 초기화
+      setSelectedColor('#FF6900');
+    },
+  });
 
   return (
     <>
@@ -68,12 +67,14 @@ const AddDiaryModal = () => {
           <ModalBody>
             {/* 폼 */}
             {/* <AddDiaryForm></AddDiaryForm> */}
-            <form id="addDiaryForm" onSubmit={submitHandler}>
+            <form id="addDiaryForm" onSubmit={formik.handleSubmit}>
               <FormControl>
-                <FormLabel htmlFor="name">당신의 이름</FormLabel>
+                <FormLabel htmlFor="userName">당신의 이름</FormLabel>
                 <Input
-                  id="name"
-                  ref={nameInputRef}
+                  id="userName"
+                  // ref={nameInputRef}
+                  onChange={formik.handleChange}
+                  value={formik.values.userName}
                   type="text"
                   colorScheme={'orange'}
                 />
@@ -82,7 +83,9 @@ const AddDiaryModal = () => {
                 </FormLabel>
                 <Input
                   id="title"
-                  ref={titleInputRef}
+                  // ref={titleInputRef}
+                  onChange={formik.handleChange}
+                  value={formik.values.title}
                   type="text"
                   colorScheme={'orange'}
                 />
