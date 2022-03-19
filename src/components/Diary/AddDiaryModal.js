@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import AddDiaryForm from './AddDiaryForm';
+
+import { CirclePicker } from 'react-color';
 
 import {
   useDisclosure,
@@ -16,14 +17,24 @@ import {
   FormLabel,
   Input,
   FormHelperText,
+  useControllableState,
 } from '@chakra-ui/react';
+import ColorPicker from '../UI/ColorPicker';
 
 const AddDiaryModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const submitHandler = () => {
-    console.log();
+  const submitHandler = e => {
+    console.log('submit');
   };
+
+  // const [selectedColor, setSelectedColor] = useControllableState({
+  //   defaultValue: '#FF6900',
+  // });
+
+  // const colorChangeHandler = e => {
+  //   setSelectedColor(e.hex);
+  // };
 
   return (
     <>
@@ -39,21 +50,27 @@ const AddDiaryModal = () => {
           <ModalBody>
             {/* 폼 */}
             {/* <AddDiaryForm></AddDiaryForm> */}
-
-            <FormControl id="addDiaryForm">
-              <FormLabel htmlFor="email">
-                새 일기장의 이름을 입력하세요.
+            <FormControl id="addDiaryForm" onSubmit={submitHandler}>
+              <FormLabel htmlFor="name">당신의 이름</FormLabel>
+              <Input id="name" type="text" colorScheme={'orange'} />
+              <FormLabel mt={5} htmlFor="title">
+                새 일기장의 이름
               </FormLabel>
               <Input id="title" type="text" colorScheme={'orange'} />
-              <FormHelperText>중복 이름은 허용되지 않습니다.</FormHelperText>
+              <FormLabel mt={5}>커버 색상</FormLabel>
+              <ColorPicker></ColorPicker>
             </FormControl>
 
             <ModalFooter px={0}>
               <Button
+                mt={5}
                 type="submit"
                 form="addDiaryForm"
                 w={['100%', '100%', '100px']}
                 colorScheme="orange"
+                onClick={() => {
+                  onClose();
+                }}
               >
                 추가
               </Button>
