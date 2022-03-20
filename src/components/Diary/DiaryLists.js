@@ -15,7 +15,12 @@ const DiaryLists = props => {
       flexWrap="wrap"
     >
       {diaries.length === 0 ? (
-        <Flex h={'89vh'} w={'100%'} justifyContent={'center'} mt={40}>
+        <Flex
+          h={['252px', '82px', '102px']}
+          w={'100%'}
+          justifyContent={'center'}
+          mt={20}
+        >
           <Heading fontSize={'xl'}>컨텐츠가 없어요</Heading>
         </Flex>
       ) : (

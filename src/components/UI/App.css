@@ -6,9 +6,18 @@ body.chakra-ui-light {
 body,
 html {
   height: 100%;
-  overflow: hidden;
 }
 
 #root {
   height: 100%;
+}
+
+.chakra-offset-slide {
+  width: 100%;
+}
+
+@media (min-width: 480px) {
+  .chakra-offset-slide {
+    width: auto;
+  }
 }

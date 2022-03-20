@@ -12,13 +12,18 @@ const Diary = props => {
     display: 'flex',
     flexDir: 'column',
     m: '1.5',
-    w: ['100%', '226px', '230px'],
+    w: ['auto', '226px', '230px'],
     h: ['400px', '230px', '250px'],
   };
 
   // console.log
   return (
-    <ScaleFade in={true} initialScale={0.4} transition={0.1}>
+    <ScaleFade
+      w={['100%', 'auto', 'auto']}
+      in={true}
+      initialScale={0.4}
+      transition={0.1}
+    >
       <ListItem {...liStyles}>
         <Box bg={color.subColor} color={color.trextColor} p={2}>
           <Text fontSize={['3xl', 'xl', 'lg']}>{title}</Text>
