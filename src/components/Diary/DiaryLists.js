@@ -1,17 +1,9 @@
-import { color, Flex, Heading, UnorderedList } from '@chakra-ui/react';
+import { Flex, Heading, UnorderedList } from '@chakra-ui/react';
 import React from 'react';
 import Diary from './Diary';
 
 const DiaryLists = props => {
   const { diaries } = props;
-
-  const colorTheme = {
-    mainColor: 'green.500',
-    subColor: 'green.700',
-    trextColor: 'white',
-  };
-  const [selectedColorTheme, setSelectedColorTheme] =
-    React.useState(colorTheme);
 
   return (
     <UnorderedList
@@ -22,7 +14,7 @@ const DiaryLists = props => {
       display={'flex'}
       flexWrap="wrap"
     >
-      {diaries.length == 0 ? (
+      {diaries.length === 0 ? (
         <Flex h={'89vh'} w={'100%'} justifyContent={'center'} mt={40}>
           <Heading fontSize={'xl'}>컨텐츠가 없어요</Heading>
         </Flex>

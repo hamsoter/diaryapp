@@ -1,4 +1,4 @@
-import { Center, Editable, useControllableState } from '@chakra-ui/react';
+import { Center } from '@chakra-ui/react';
 import React from 'react';
 import { CirclePicker } from 'react-color';
 

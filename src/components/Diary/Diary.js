@@ -1,19 +1,9 @@
-import {
-  Box,
-  Button,
-  Flex,
-  isOpen,
-  useDisclosure,
-  onToggle,
-  ListItem,
-  Text,
-} from '@chakra-ui/react';
+import { Box, ListItem, Text } from '@chakra-ui/react';
 import React from 'react';
-import { useState } from 'react/cjs/react.production.min';
-import { Fade, ScaleFade, Slide, SlideFade } from '@chakra-ui/react';
+import { ScaleFade } from '@chakra-ui/react';
 
 const Diary = props => {
-  const { name, id, lastRecord, color, title } = props;
+  const { name, lastRecord, color, title } = props;
 
   const liStyles = {
     bg: color.mainColor,
@@ -26,7 +16,6 @@ const Diary = props => {
     h: ['400px', '230px', '250px'],
   };
 
-  const { isOpen, onToggle } = useDisclosure();
   // console.log
   return (
     <ScaleFade in={true} initialScale={0.4} transition={0.1}>
