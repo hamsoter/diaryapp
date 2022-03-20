@@ -5,18 +5,20 @@ import { CirclePicker } from 'react-color';
 const ColorPicker = props => {
   const colorChangeHandler = e => {
     props.onSetSelectedColor(e.hex);
+    return e.hex;
   };
 
   const colorArr = [
-    '#FF6900',
-    '#FCB900',
-    '#7BDCB5',
-    '#00D084',
-    '#8ED1FC',
-    '#0693E3',
-    '#ABB8C3',
-    '#EB144C',
-    '#F78DA7',
+    '#FF6900', // orange
+    '#FCB900', // yellow
+    '#7BDCB5', // mint
+    // '#00D084',
+    '#48BB78', // green #2F855A
+    '#8ED1FC', // skyblue #4399D0
+    '#0693E3', // blue
+    '#ABB8C3', // gray
+    '#EB144C', // hotpink
+    '#F78DA7', // pink
     '#9900EF',
   ];
 

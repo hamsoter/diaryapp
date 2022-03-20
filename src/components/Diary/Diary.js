@@ -4,18 +4,9 @@ import { useState } from 'react/cjs/react.production.min';
 
 const Diary = props => {
   const { name, id, lastRecord, color, title } = props;
-  console.log();
-  const colorTheme = {
-    mainColor: 'green.500',
-    subColor: 'green.700',
-    trextColor: 'white',
-  };
-
-  const [selectedColorTheme, setSelectedColorTheme] =
-    React.useState(colorTheme);
 
   const liStyles = {
-    bg: colorTheme.mainColor,
+    bg: color.mainColor,
     borderRightRadius: '2xl',
     justifyContent: 'center',
     display: 'flex',
@@ -25,13 +16,10 @@ const Diary = props => {
     h: ['400px', '230px', '250px'],
   };
 
+  // console.log
   return (
     <ListItem {...liStyles}>
-      <Box
-        bg={selectedColorTheme.subColor}
-        color={selectedColorTheme.trextColor}
-        p={2}
-      >
+      <Box bg={color.subColor} color={color.trextColor} p={2}>
         <Text fontSize={['3xl', 'xl', 'lg']}>{title}</Text>
         <Text fontSize={'xs'}>
           마지막 업데이트 {lastRecord.toLocaleDateString()}
@@ -40,7 +28,7 @@ const Diary = props => {
       <Text
         fontWeight={'bold'}
         fontSize={['md', 'sm', 'xs']}
-        color={selectedColorTheme.subColor}
+        color={color.subColor}
         ml={'2'}
       >
         '{name}'의 일기

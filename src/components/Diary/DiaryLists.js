@@ -1,9 +1,17 @@
-import { Flex, Heading, UnorderedList } from '@chakra-ui/react';
+import { color, Flex, Heading, UnorderedList } from '@chakra-ui/react';
 import React from 'react';
 import Diary from './Diary';
 
 const DiaryLists = props => {
   const { diaries } = props;
+
+  const colorTheme = {
+    mainColor: 'green.500',
+    subColor: 'green.700',
+    trextColor: 'white',
+  };
+  const [selectedColorTheme, setSelectedColorTheme] =
+    React.useState(colorTheme);
 
   return (
     <UnorderedList
@@ -20,6 +28,7 @@ const DiaryLists = props => {
         </Flex>
       ) : (
         diaries.map(diary => {
+          console.log(diary.color);
           return (
             <Diary
               key={diary.id}
