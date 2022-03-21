@@ -1,6 +1,6 @@
 import { Flex, Heading, UnorderedList } from '@chakra-ui/react';
 import React from 'react';
-import Diary from './Diary';
+import DiaryItem from './DiaryItem';
 
 const DiaryLists = props => {
   const { diaries } = props;
@@ -25,15 +25,16 @@ const DiaryLists = props => {
         </Flex>
       ) : (
         diaries.map(diary => {
-          // console.log(diary);
+          // console.log(diary.id);
           return (
-            <Diary
+            <DiaryItem
               key={diary.id}
+              id={diary.id}
               name={diary.userName}
               title={diary.title}
               color={diary.color}
               lastRecord={diary.lastRecord}
-            ></Diary>
+            ></DiaryItem>
           );
         })
       )}

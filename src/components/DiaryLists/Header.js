@@ -4,6 +4,7 @@ import { Flex, Spacer, Heading } from '@chakra-ui/react';
 
 const Header = props => {
   const contents = props.rightContent;
+  const title = props.title;
 
   // css style
   const styles = {
@@ -19,7 +20,7 @@ const Header = props => {
   return (
     <Flex {...styles}>
       <Heading fontSize={'xl'} isTruncated>
-        나의 책장
+        {title}
       </Heading>
       <Spacer></Spacer>
       {contents}

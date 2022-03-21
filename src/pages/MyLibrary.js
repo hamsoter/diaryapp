@@ -1,5 +1,6 @@
 import React from 'react';
 
+import '../components/UI/App.css';
 import { ChakraProvider, Box, theme } from '@chakra-ui/react';
 
 import DiaryLists from '../components/DiaryLists/DiaryLists';
@@ -21,6 +22,7 @@ const MyLibrary = () => {
     <ChakraProvider h={'100%'} theme={theme}>
       <Box h={'100%'} w={['100%', '500px', '750px']} m="auto">
         <Header
+          title={'나의 책장'}
           rightContent={<AddDiaryModal onSaveDiary={saveDiaryHandler} />}
         />
         <DiaryLists diaries={diaries}></DiaryLists>
