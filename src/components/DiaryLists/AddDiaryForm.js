@@ -8,7 +8,6 @@ import {
   FormLabel,
   Input,
   FormHelperText,
-  Text,
 } from '@chakra-ui/react';
 import ColorPicker from '../UI/ColorPicker';
 import { useFormik } from 'formik';
@@ -47,7 +46,7 @@ const AddDiaryForm = props => {
       lastRecord: new Date(),
     },
     onSubmit: (values, action) => {
-      values.id = Math.random().toString();
+      values.id = Math.random().toString(36).substring(2, 8);
       values.color = selectedColor;
       values.color = setColorTheme(values.color);
 
@@ -74,7 +73,7 @@ const AddDiaryForm = props => {
     };
 
     // orange
-    if (color == '#FF6900') {
+    if (color === '#FF6900') {
       selectedColorScheme = {
         ...selectedColorScheme,
         label: 'orange',
@@ -82,7 +81,7 @@ const AddDiaryForm = props => {
         subColor: '#ad4700',
       };
       // yellow
-    } else if (color == '#FCB900') {
+    } else if (color === '#FCB900') {
       selectedColorScheme = {
         ...selectedColorScheme,
         label: 'yellow',
@@ -90,7 +89,7 @@ const AddDiaryForm = props => {
         subColor: '#a76d00',
       };
       // mint
-    } else if (color == '#7BDCB5') {
+    } else if (color === '#7BDCB5') {
       selectedColorScheme = {
         ...selectedColorScheme,
         label: 'mint',
@@ -98,7 +97,7 @@ const AddDiaryForm = props => {
         subColor: '#1A9262',
       };
       // green
-    } else if (color == '#48BB78') {
+    } else if (color === '#48BB78') {
       selectedColorScheme = {
         ...selectedColorScheme,
         label: 'green',
@@ -106,7 +105,7 @@ const AddDiaryForm = props => {
         subColor: '#2F855A',
       };
       // skyblue
-    } else if (color == '#8ED1FC') {
+    } else if (color === '#8ED1FC') {
       selectedColorScheme = {
         ...selectedColorScheme,
         label: 'skyblue',
@@ -114,7 +113,7 @@ const AddDiaryForm = props => {
         subColor: '#4399D0',
       };
       // blue
-    } else if (color == '#0693E3') {
+    } else if (color === '#0693E3') {
       selectedColorScheme = {
         ...selectedColorScheme,
         label: 'blue',
@@ -123,7 +122,7 @@ const AddDiaryForm = props => {
         trextColor: '#003858',
       };
       // gray
-    } else if (color == '#ABB8C3') {
+    } else if (color === '#ABB8C3') {
       selectedColorScheme = {
         ...selectedColorScheme,
         label: 'gray',
@@ -131,7 +130,7 @@ const AddDiaryForm = props => {
         subColor: '#4D5358',
       };
       // hotpink
-    } else if (color == '#EB144C') {
+    } else if (color === '#EB144C') {
       selectedColorScheme = {
         ...selectedColorScheme,
         label: 'hotpink',
@@ -140,14 +139,14 @@ const AddDiaryForm = props => {
         trextColor: '#EB144C',
       };
       // pink
-    } else if (color == '#F78DA7') {
+    } else if (color === '#F78DA7') {
       selectedColorScheme = {
         ...selectedColorScheme,
         label: 'pink',
         mainColor: '#F78DA7',
         subColor: '#EB144C',
       };
-    } else if (color == '#9900EF') {
+    } else if (color === '#9900EF') {
       selectedColorScheme = {
         ...selectedColorScheme,
         label: 'purple',
@@ -158,8 +157,6 @@ const AddDiaryForm = props => {
 
     return selectedColorScheme;
   };
-
-  //css
 
   return (
     <form id="addDiaryForm" onSubmit={formik.handleSubmit}>

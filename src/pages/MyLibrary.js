@@ -1,18 +1,10 @@
 import React from 'react';
-import '../UI/App.css';
 
-import {
-  ChakraProvider,
-  Box,
-  theme,
-  Flex,
-  Spacer,
-  Heading,
-} from '@chakra-ui/react';
+import { ChakraProvider, Box, theme } from '@chakra-ui/react';
 
-import DiaryLists from './DiaryLists';
-import AddDiaryModal from './AddDiaryModal';
-import Header from './Header';
+import DiaryLists from '../components/DiaryLists/DiaryLists';
+import AddDiaryModal from '../components/DiaryLists/AddDiaryModal';
+import Header from '../components/DiaryLists/Header';
 
 const MyLibrary = () => {
   const DUMMY_DATA_ARR = [];
@@ -30,7 +22,7 @@ const MyLibrary = () => {
       <Box h={'100%'} w={['100%', '500px', '750px']} m="auto">
         <Header
           rightContent={<AddDiaryModal onSaveDiary={saveDiaryHandler} />}
-        ></Header>
+        />
         <DiaryLists diaries={diaries}></DiaryLists>
       </Box>
     </ChakraProvider>

@@ -25,7 +25,7 @@ const DiaryLists = props => {
         </Flex>
       ) : (
         diaries.map(diary => {
-          console.log(diary.color);
+          // console.log(diary);
           return (
             <Diary
               key={diary.id}
