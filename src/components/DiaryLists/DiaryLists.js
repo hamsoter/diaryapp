@@ -6,14 +6,7 @@ const DiaryLists = props => {
   const { diaries } = props;
 
   return (
-    <UnorderedList
-      m={0}
-      p={3}
-      bg={'orange.50'}
-      borderBottomRadius={'md'}
-      display={'flex'}
-      flexWrap="wrap"
-    >
+    <UnorderedList display={'flex'}>
       {diaries.length === 0 ? (
         <Flex
           h={['252px', '82px', '102px']}

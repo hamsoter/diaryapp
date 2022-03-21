@@ -29,7 +29,7 @@ const DiaryItem = props => {
       initialScale={0.4}
       transition={0.1}
     >
-      <Link to={`/diary/${id}`} w={'100%'} h={'100%'}>
+      <Link to={`/diary/${id}`} data={id} w={'100%'} h={'100%'}>
         <ListItem {...liStyles}>
           <Box bg={color.subColor} color={color.trextColor} p={2}>
             <Text fontSize={['3xl', 'xl', 'lg']}>{title}</Text>

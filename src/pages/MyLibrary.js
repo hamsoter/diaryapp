@@ -6,8 +6,9 @@ import { ChakraProvider, Box, theme } from '@chakra-ui/react';
 import DiaryLists from '../components/DiaryLists/DiaryLists';
 import AddDiaryModal from '../components/DiaryLists/AddDiaryModal';
 import Header from '../components/DiaryLists/Header';
+import MainContent from '../components/UI/MainContent';
 
-const MyLibrary = () => {
+const MyLibrary = props => {
   const DUMMY_DATA_ARR = [];
 
   const [diaries, setDiaries] = React.useState(DUMMY_DATA_ARR);
@@ -18,6 +19,8 @@ const MyLibrary = () => {
     });
   };
 
+  props.setTempDiaries(diaries);
+
   return (
     <ChakraProvider h={'100%'} theme={theme}>
       <Box h={'100%'} w={['100%', '500px', '750px']} m="auto">
@@ -25,7 +28,9 @@ const MyLibrary = () => {
           title={'나의 책장'}
           rightContent={<AddDiaryModal onSaveDiary={saveDiaryHandler} />}
         />
-        <DiaryLists diaries={diaries}></DiaryLists>
+        <MainContent>
+          <DiaryLists diaries={diaries}></DiaryLists>
+        </MainContent>
       </Box>
     </ChakraProvider>
   );
