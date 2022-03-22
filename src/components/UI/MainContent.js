@@ -1,4 +1,4 @@
-import { Container, styled, Wrap } from '@chakra-ui/react';
+import { Box, Container, styled, Wrap } from '@chakra-ui/react';
 import React from 'react';
 
 const MainContent = props => {
@@ -7,14 +7,13 @@ const MainContent = props => {
   const style = {
     m: 'auto',
     p: 3,
-    w: '100%',
     // 변동 가능성 o colorScheme ? 'colorScheme.mainColor' :
     bg: colorScheme ? colorScheme.normal100 : 'orange.100',
     borderBottomRadius: 'md',
     display: 'flex',
     flexWrap: 'wrap',
     flexDir: 'column',
-    h: '91vh',
+    h: '91.7vh',
     overflow: 'auto',
     // 스크롤바
     sx: {
@@ -29,7 +28,11 @@ const MainContent = props => {
     },
   };
 
-  return <Wrap {...style}>{props.children}</Wrap>;
+  return (
+    <Box className="main-content" {...style}>
+      {props.children}
+    </Box>
+  );
 };
 
 export default MainContent;

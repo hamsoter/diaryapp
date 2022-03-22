@@ -21,3 +21,10 @@ html {
     width: auto;
   }
 }
+
+.main-content > div {
+  width: 100%;
+}
+
+.daily {
+}
