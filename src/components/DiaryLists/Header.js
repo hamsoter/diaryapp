@@ -1,9 +1,11 @@
 import React from 'react';
 
-import { Flex, Spacer, Heading } from '@chakra-ui/react';
+import { Flex, Heading, Box, Center } from '@chakra-ui/react';
 
 const Header = props => {
-  const contents = props.rightContent;
+  console.log();
+  const leftContent = props.leftContent;
+  const rightContent = props.rightContent;
   const title = props.title;
 
   // css style
@@ -18,12 +20,16 @@ const Header = props => {
   };
 
   return (
-    <Flex {...styles}>
-      <Heading fontSize={'xl'} isTruncated>
-        {title}
+    <Flex position={'relative'} {...styles}>
+      <Heading w={'100%'} fontSize={'xl'} isTruncated>
+        <Center w>{title}</Center>
       </Heading>
-      <Spacer></Spacer>
-      {contents}
+      <Box position={'absolute'} left={3}>
+        {leftContent}
+      </Box>
+      <Box position={'absolute'} right={3}>
+        {rightContent}
+      </Box>
     </Flex>
   );
 };

@@ -70,6 +70,10 @@ const AddDiaryForm = props => {
       mainColor: '',
       subColor: '',
       trextColor: 'white',
+      // 추가됨
+      normal50: '#FFFAF0',
+      normal100: '#FEEBC8',
+      normal300: '#F6AD55',
     };
 
     // orange
@@ -79,6 +83,10 @@ const AddDiaryForm = props => {
         label: 'orange',
         mainColor: '#FF6900',
         subColor: '#ad4700',
+        // 추가됨
+        normal50: '#FFFAF0',
+        normal100: '#FEEBC8',
+        normal300: '#F6AD55',
       };
       // yellow
     } else if (color === '#FCB900') {

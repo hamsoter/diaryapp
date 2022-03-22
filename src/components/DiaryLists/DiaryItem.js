@@ -6,9 +6,9 @@ import { Link, useParams } from 'react-router-dom';
 const DiaryItem = props => {
   const { name, lastRecord, color, title, id } = props;
 
-  let params = useParams();
+  // let params = useParams();
 
-  console.log(params);
+  // console.log(params);
 
   const liStyles = {
     bg: color.mainColor,

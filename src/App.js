@@ -17,6 +17,10 @@ function App() {
         mainColor: '#FF6900',
         subColor: '#ad4700',
         trextColor: 'white',
+        // 추가됨
+        normal50: '#FFFAF0',
+        normal100: '#FEEBC8',
+        normal300: '#F6AD55',
       },
       lastRecord: '2022-03-22T09:07:54.310Z',
     },
