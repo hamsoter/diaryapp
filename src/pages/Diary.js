@@ -5,6 +5,7 @@ import {
   HamburgerIcon,
   LinkIcon,
 } from '@chakra-ui/icons';
+
 import {
   Box,
   Button,
@@ -12,6 +13,7 @@ import {
   ChakraProvider,
   Container,
   Divider,
+  extendTheme,
   Flex,
   Heading,
   IconButton,
@@ -27,7 +29,9 @@ import {
 import React, { useState, useEffect } from 'react';
 import Header from '../components/DiaryLists/Header';
 import Bubble from '../components/UI/Bubble';
+import Card from '../components/UI/Card';
 import MainContent from '../components/UI/MainContent';
+import MainContents from '../components/UI/MainContents';
 
 const Diary = props => {
   // App에서 다이어리 배열을 임시로 받아옴.
@@ -95,10 +99,11 @@ const Diary = props => {
             borderRadius={2}
             py={10}
             mb={1}
+            px={5}
           >
             <Bubble>
               <Flex flexDir={'column'} w={'100%'} alignItems={'center'}>
-                <Heading fontSize={'2xl'} color="whiteAlpha.900">
+                <Heading fontSize={['xl']} color="whiteAlpha.900">
                   안녕하세요 {thisDiary.userName}
                 </Heading>
                 <Text fontSize={'nm'} color="whiteAlpha.900">
@@ -114,19 +119,18 @@ const Diary = props => {
             ></Image>
 
             {/* 액션버튼 */}
-            <Box displat={'flex'} className="action-btns">
-              <Flex>
-                <Center flexDir={'column'}>
-                  <Button
-                    size={'lg'}
-                    variant="outline"
-                    colorScheme={'blackAlpha'}
-                    aria-label="Send email"
-                  >
-                    일기쓰기
-                    <EditIcon ml={2}></EditIcon>
-                  </Button>
-                </Center>
+            <Box displat={'flex'} width={'100%'} className="action-btns">
+              <Flex width={'100%'}>
+                <Button
+                  w={'100%'}
+                  size={'lg'}
+                  colorScheme={'blackAlpha'}
+                  aria-label="Send email"
+                  variant="solid"
+                >
+                  일기 쓰기
+                  <EditIcon ml={2}></EditIcon>
+                </Button>
               </Flex>
             </Box>
           </Box>
@@ -191,6 +195,8 @@ const Diary = props => {
                 </Box>
               </Box>
             </List>
+
+            <List>{/* Box UI Component */}</List>
           </UnorderedList>
         </Flex>
       </MainContent>
@@ -211,9 +217,13 @@ const Diary = props => {
 
   return (
     <ChakraProvider h={'100%'} theme={theme}>
-      <Box h={'100%'} w={['100%', '500px', '750px']} m="auto">
+      {/* <Box h={'100%'} w={['100%', '500px', '750px']} m="auto">
         {content}
-      </Box>
+      </Box> */}
+
+      <Header></Header>
+      <MainContents>hey</MainContents>
+      {/* <MainContent>hey</MainContent> */}
     </ChakraProvider>
   );
 };
