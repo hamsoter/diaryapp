@@ -1,5 +1,16 @@
-import { baseStyle, calc, chakra, extendTheme, Flex } from '@chakra-ui/react';
+import {
+  baseStyle,
+  calc,
+  chakra,
+  color,
+  extendTheme,
+  Flex,
+} from '@chakra-ui/react';
 import React from 'react';
+import customColorTheme from './CustomColorTheme';
+
+const { colors } = customColorTheme;
+console.log(colors);
 
 const MainContents = chakra(Flex, {
   baseStyle: {

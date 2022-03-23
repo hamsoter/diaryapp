@@ -11,7 +11,7 @@ const DiaryItem = props => {
   // console.log(params);
 
   const liStyles = {
-    bg: color.mainColor,
+    bg: color.main,
     borderRightRadius: '2xl',
     justifyContent: 'center',
     display: 'flex',
@@ -31,7 +31,7 @@ const DiaryItem = props => {
     >
       <Link to={`/diary/${id}`} data={id} w={'100%'} h={'100%'}>
         <ListItem {...liStyles}>
-          <Box bg={color.subColor} color={color.trextColor} p={2}>
+          <Box bg={color.sub} color={'white'} p={2}>
             <Text fontSize={['3xl', 'xl', 'lg']}>{title}</Text>
             <Text fontSize={'xs'}>
               마지막 업데이트 {lastRecord.toLocaleDateString()}
@@ -40,7 +40,7 @@ const DiaryItem = props => {
           <Text
             fontWeight={'bold'}
             fontSize={['md', 'sm', 'xs']}
-            color={color.subColor}
+            color={color.sub}
             ml={'2'}
           >
             '{name}'의 일기

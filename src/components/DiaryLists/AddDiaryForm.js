@@ -8,9 +8,11 @@ import {
   FormLabel,
   Input,
   FormHelperText,
+  extendTheme,
 } from '@chakra-ui/react';
 import ColorPicker from '../UI/ColorPicker';
 import { useFormik } from 'formik';
+import customColorTheme from '../UI/CustomColorTheme';
 
 const AddDiaryForm = props => {
   const { onClose, onGetData } = props;
@@ -61,6 +63,8 @@ const AddDiaryForm = props => {
     validate: validator,
   });
 
+  const { colors } = customColorTheme;
+
   // 컬러 테마 세팅... 하드코딩...
   const setColorTheme = color => {
     color = color.toUpperCase();
@@ -76,93 +80,41 @@ const AddDiaryForm = props => {
       normal300: '#F6AD55',
     };
 
-    // orange
-    if (color === '#FF6900') {
-      selectedColorScheme = {
-        ...selectedColorScheme,
-        label: 'orange',
-        mainColor: '#FF6900',
-        subColor: '#ad4700',
-        // 추가됨
-        normal50: '#FFFAF0',
-        normal100: '#FEEBC8',
-        normal300: '#F6AD55',
-      };
-      // yellow
-    } else if (color === '#FCB900') {
-      selectedColorScheme = {
-        ...selectedColorScheme,
-        label: 'yellow',
-        mainColor: '#FCB900',
-        subColor: '#a76d00',
-      };
-      // mint
-    } else if (color === '#7BDCB5') {
-      selectedColorScheme = {
-        ...selectedColorScheme,
-        label: 'mint',
-        mainColor: '#7BDCB5',
-        subColor: '#1A9262',
-      };
-      // green
-    } else if (color === '#48BB78') {
-      selectedColorScheme = {
-        ...selectedColorScheme,
-        label: 'green',
-        mainColor: '#48BB78',
-        subColor: '#2F855A',
-      };
-      // skyblue
-    } else if (color === '#8ED1FC') {
-      selectedColorScheme = {
-        ...selectedColorScheme,
-        label: 'skyblue',
-        mainColor: '#8ED1FC',
-        subColor: '#4399D0',
-      };
-      // blue
-    } else if (color === '#0693E3') {
-      selectedColorScheme = {
-        ...selectedColorScheme,
-        label: 'blue',
-        mainColor: '#0693E3',
-        subColor: '#8ED1FC',
-        trextColor: '#003858',
-      };
-      // gray
-    } else if (color === '#ABB8C3') {
-      selectedColorScheme = {
-        ...selectedColorScheme,
-        label: 'gray',
-        mainColor: '#ABB8C3',
-        subColor: '#4D5358',
-      };
-      // hotpink
-    } else if (color === '#EB144C') {
-      selectedColorScheme = {
-        ...selectedColorScheme,
-        label: 'hotpink',
-        mainColor: '#EB144C',
-        subColor: '#F78DA7',
-        trextColor: '#EB144C',
-      };
-      // pink
-    } else if (color === '#F78DA7') {
-      selectedColorScheme = {
-        ...selectedColorScheme,
-        label: 'pink',
-        mainColor: '#F78DA7',
-        subColor: '#EB144C',
-      };
-    } else if (color === '#9900EF') {
-      selectedColorScheme = {
-        ...selectedColorScheme,
-        label: 'purple',
-        mainColor: '#9900EF',
-        subColor: '#d895ff',
-      };
-    }
+    switch (color) {
+      case '#FF6900': // orange
+        selectedColorScheme = colors.brandOrange;
+        break;
+      case '#FCB900': // yellow
+        selectedColorScheme = colors.brandYellow;
+        break;
+      case '#7BDCB5': // mint
+        selectedColorScheme = colors.brandMint;
+        break;
+      case '#48BB78': // green
+        selectedColorScheme = colors.brandGreen;
+        break;
+      case '#8ED1FC': // skyblue
+        selectedColorScheme = colors.brandSkyblue;
+        break;
+      case '#0693E3': // blue
+        selectedColorScheme = colors.brandBlue;
+        break;
+      case '#ABB8C3': // gray
+        selectedColorScheme = colors.brandGray;
+        break;
+      case '#EB144C': // hotpink
+        selectedColorScheme = colors.brandHotpink;
+        break;
+      case '#F78DA7': // pink
+        selectedColorScheme = colors.brandpink;
+        break;
+      case '9900EF':
+        selectedColorScheme = colors.brandPurple;
+        break;
 
+      default:
+        selectedColorScheme = colors.brandOrange;
+    }
     return selectedColorScheme;
   };
 
