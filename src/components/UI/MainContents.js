@@ -1,40 +1,28 @@
-import {
-  baseStyle,
-  calc,
-  chakra,
-  color,
-  extendTheme,
-  Flex,
-} from '@chakra-ui/react';
+import { chakra, Flex } from '@chakra-ui/react';
 import React from 'react';
-import customColorTheme from './CustomColorTheme';
-
-const { colors } = customColorTheme;
-console.log(colors);
 
 const MainContents = chakra(Flex, {
   baseStyle: {
-    p: 3,
+    w: '100%', // auto?
+    py: 3,
+    pl: 3,
     display: 'flex',
     flexDirection: 'column',
     // background: 'white',
     alignItems: 'center',
     gap: 6,
-    bg: 'red',
-    m: 'auto',
+    bg: 'orange.100',
     h: 'calc(100vh - 64px)',
     // border: '1px solid white',
     flexWrap: 'wrap',
-    overflow: 'auto',
-    sx: {
-      '&::-webkit-scrollbar': {
-        width: '16px',
-        borderRadius: '8px',
-        backgroundColor: `rgba(0, 0, 0, 0.05)`,
-      },
-      '&::-webkit-scrollbar-thumb': {
-        backgroundColor: `rgba(0, 0, 0, 0.05)`,
-      },
+    overflowY: 'scroll',
+    '&::-webkit-scrollbar': {
+      width: '12px',
+      backgroundColor: 'rgba(0, 0, 0, 0.00)',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: `rgba(0, 0, 0, 0.09)`,
+      backgroundClip: 'padding-box',
     },
   },
   // props에서 설정 가능

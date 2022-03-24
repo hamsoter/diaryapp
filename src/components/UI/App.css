@@ -15,3 +15,9 @@ html {
 .chakra-offset-slide {
   width: 100%;
 }
+
+@media (min-width: 480px) {
+  .chakra-offset-slide {
+    width: auto;
+  }
+}

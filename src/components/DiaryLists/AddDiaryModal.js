@@ -30,7 +30,12 @@ const AddDiaryModal = props => {
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme="orange" variant="solid">
+      <Button
+        onClick={onOpen}
+        fontSize={['sm', 'sm', 'md']}
+        colorScheme="orange"
+        variant="solid"
+      >
         새 일기장 +
       </Button>
 

@@ -17,19 +17,14 @@ const DiaryItem = props => {
     display: 'flex',
     flexDir: 'column',
     m: '1.5',
-    w: ['auto', '226px', '230px'],
+    w: ['calc(100% - 12px)', '191px', '233px'],
     h: ['400px', '230px', '250px'],
   };
 
   // console.log
   return (
-    <ScaleFade
-      w={['100%', 'auto', 'auto']}
-      in={true}
-      initialScale={0.4}
-      transition={0.1}
-    >
-      <Link to={`/diary/${id}`} data={id} w={'100%'} h={'100%'}>
+    <ScaleFade w={'100%'} in={true} initialScale={0.4}>
+      <Link w={'100%'} to={`/diary/${id}`} data={id}>
         <ListItem {...liStyles}>
           <Box bg={color.sub} color={'white'} p={2}>
             <Text fontSize={['3xl', 'xl', 'lg']}>{title}</Text>

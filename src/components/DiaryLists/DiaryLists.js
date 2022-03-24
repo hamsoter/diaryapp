@@ -1,21 +1,18 @@
-import { Flex, Heading, UnorderedList } from '@chakra-ui/react';
+import { Center, Flex, Heading, UnorderedList } from '@chakra-ui/react';
 import React from 'react';
+import Ul from '../UI/Ul';
 import DiaryItem from './DiaryItem';
 
 const DiaryLists = props => {
   const { diaries } = props;
 
   return (
-    <UnorderedList display={'flex'} m={0} width={'100%'} flexWrap="wrap">
+    // <UnorderedList display={'flex'} m={0} width={'100%'} flexWrap="wrap">
+    <Ul w={'100%'}>
       {diaries.length === 0 ? (
-        <Flex
-          h={['252px', '82px', '102px']}
-          w={'100%'}
-          justifyContent={'center'}
-          mt={20}
-        >
+        <Center w="100%" mt="20">
           <Heading fontSize={'xl'}>컨텐츠가 없어요</Heading>
-        </Flex>
+        </Center>
       ) : (
         diaries.map(diary => {
           // console.log(diary.id);
@@ -27,11 +24,12 @@ const DiaryLists = props => {
               title={diary.title}
               color={diary.color}
               lastRecord={diary.lastRecord}
-            ></DiaryItem>
+            />
           );
         })
       )}
-    </UnorderedList>
+    </Ul>
+    // </UnorderedList>
   );
 };
 
