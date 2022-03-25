@@ -28,7 +28,7 @@ const MyLibrary = props => {
       {/* <Box h={'100%'} w={['100%', '400px', '750px']} m="auto"> */}
       <MainContainer>
         <Header
-          title={'나의 책장'}
+          title={'책장'}
           rightContent={<AddDiaryModal onSaveDiary={saveDiaryHandler} />}
         />
         {/* <MainContent>

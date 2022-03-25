@@ -4,6 +4,7 @@ import { Box } from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MyLibrary from './pages/MyLibrary';
 import Diary from './pages/Diary';
+import '../src/components/UI/App.css';
 
 function App() {
   let diariesArr = [

@@ -6,14 +6,14 @@ const MainContent = props => {
 
   const style = {
     m: 'auto',
-    p: 3,
+    p: [0, 0, 3],
     // 변동 가능성 o colorScheme ? 'colorScheme.mainColor' :
     bg: colorScheme ? colorScheme.normal100 : 'orange.100',
     borderBottomRadius: 'md',
     display: 'flex',
     flexWrap: 'wrap',
     flexDir: 'column',
-    h: '91.7vh',
+    h: ['91.7vh'],
     overflow: 'auto',
     // 스크롤바
     sx: {

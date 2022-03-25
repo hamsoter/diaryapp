@@ -1,12 +1,11 @@
-import { baseStyle } from '@chakra-ui/react';
-import React from 'react';
+import { Box, chakra } from '@chakra-ui/react';
 
-const Card = {
+const Card = chakra(Box, {
   baseStyle: {
     display: 'flex',
     p: 3,
     flexDirection: 'column',
-    background: 'white',
+    background: 'orange.50',
     alignItems: 'center',
     gap: 6,
   },
@@ -16,6 +15,7 @@ const Card = {
       padding: 8,
       borderRadius: 'xl',
       boxShadow: 'xl',
+      bg: 'red',
     },
     smooth: {
       padding: 6,
@@ -27,6 +27,6 @@ const Card = {
   defaultProps: {
     variant: 'smooth',
   },
-};
+});
 
 export default Card;

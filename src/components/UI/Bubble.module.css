@@ -1,6 +1,6 @@
 .speechbubble {
   position: relative;
-  background: #a39d90;
+  background: #ed8936;
   border-radius: 0.4em;
   padding: 2rem 2.5rem;
   margin-bottom: 1rem;
@@ -14,7 +14,7 @@
   width: 0;
   height: 0;
   border: 20px solid transparent;
-  border-top-color: #a39d90;
+  border-top-color: #ed8936;
   border-bottom: 0;
   border-left: 0;
   margin-left: -10px;

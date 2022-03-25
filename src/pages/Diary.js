@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/icons';
 
 import {
+  baseStyle,
   Box,
   Button,
   Center,
@@ -20,6 +21,7 @@ import {
   Image,
   Img,
   List,
+  ListItem,
   Spacer,
   Tag,
   Text,
@@ -30,17 +32,25 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/DiaryLists/Header';
 import Bubble from '../components/UI/Bubble';
 import Card from '../components/UI/Card';
+import customColorTheme from '../components/UI/CustomColorTheme';
+import MainContainer from '../components/UI/MainContainer';
 import MainContent from '../components/UI/MainContent';
 import MainContents from '../components/UI/MainContents';
+import NotFound from '../components/UI/NotFound';
 
 const Diary = props => {
+  const { colors } = customColorTheme;
   // App에서 다이어리 배열을 임시로 받아옴.
   const diaries = props.getTempDiaries();
 
   // 찾아낸 다이어리를 저장할 공간
   const [thisDiary, setThisDiary] = useState('');
 
+  // 일기장 존재 여부를 저장할 공간
   const [notFoundFlag, setNotFoundFlag] = useState('false');
+
+  // missing count
+  const [missingCount, setMissingCount] = useState(1);
 
   // 현재 url의 uuid 잘라내기
   const thisParamId = window.location.pathname.split('/')[2];
@@ -55,6 +65,7 @@ const Diary = props => {
   };
 
   // 렌더 무한루프 방지 순서 처리
+  // 주소 유효값 검사
   useEffect(() => {
     if (findById()) {
       setThisDiary(findById());
@@ -62,8 +73,11 @@ const Diary = props => {
       console.log(thisDiary.color);
     } else {
       // url의 uuid 값을 찾지 못할 경우
-      console.log('error!');
       setNotFoundFlag(false);
+    }
+    // 에러페이지 방문자수 카운트
+    if (notFoundFlag) {
+      setMissingCount(prevCount => prevCount + 1);
     }
   });
 
@@ -159,18 +173,16 @@ const Diary = props => {
                     fallbackSrc="https://via.placeholder.com/130"
                     mb={3}
                   />
-                  <Text color={'blackAlpha.700'}>
-                    <Center>
-                      <Tag
-                        colorScheme={'green'}
-                        display={'flex'}
-                        alignItems={'center'}
-                        fontSize={['xs', 'sm', 'md']}
-                      >
-                        03/22 화
-                      </Tag>
-                    </Center>
-                  </Text>
+                  <Center>
+                    <Tag
+                      colorScheme={'green'}
+                      display={'flex'}
+                      alignItems={'center'}
+                      fontSize={['xs', 'sm', 'md']}
+                    >
+                      03/22 화
+                    </Tag>
+                  </Center>
                 </Flex>
                 {/* 데일리 */}
                 <Box
@@ -207,23 +219,15 @@ const Diary = props => {
   if (!notFoundFlag) {
     content = (
       <>
-        <Header title={'（￣□￣；） ... 페이지를 찾을 수 없어요! '} />
-        <MainContent>
-          잘못된 주소로 들어오셨네요! 도움을 드리지 못해 미안해요
-        </MainContent>
+        <Header title={' 미아 발견! '} />
+        <NotFound missingCount={missingCount} />
       </>
     );
   }
 
   return (
     <ChakraProvider h={'100%'} theme={theme}>
-      {/* <Box h={'100%'} w={['100%', '500px', '750px']} m="auto">
-        {content}
-      </Box> */}
-
-      <Header></Header>
-      <MainContents>hey</MainContents>
-      {/* <MainContent>hey</MainContent> */}
+      <MainContainer>{content}</MainContainer>
     </ChakraProvider>
   );
 };
