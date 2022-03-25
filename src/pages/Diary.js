@@ -1,28 +1,15 @@
-import {
-  AddIcon,
-  ArrowBackIcon,
-  EditIcon,
-  HamburgerIcon,
-  LinkIcon,
-} from '@chakra-ui/icons';
+import { ArrowBackIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons';
 
 import {
-  baseStyle,
   Box,
   Button,
   Center,
   ChakraProvider,
-  Container,
-  Divider,
-  extendTheme,
   Flex,
   Heading,
   IconButton,
   Image,
-  Img,
   List,
-  ListItem,
-  Spacer,
   Tag,
   Text,
   theme,
@@ -31,15 +18,12 @@ import {
 import React, { useState, useEffect } from 'react';
 import Header from '../components/DiaryLists/Header';
 import Bubble from '../components/UI/Bubble';
-import Card from '../components/UI/Card';
-import customColorTheme from '../components/UI/CustomColorTheme';
+// import customColorTheme from '../components/UI/CustomColorTheme';
 import MainContainer from '../components/UI/MainContainer';
 import MainContent from '../components/UI/MainContent';
-import MainContents from '../components/UI/MainContents';
 import NotFound from '../components/UI/NotFound';
 
 const Diary = props => {
-  const { colors } = customColorTheme;
   // App에서 다이어리 배열을 임시로 받아옴.
   const diaries = props.getTempDiaries();
 
@@ -49,37 +33,35 @@ const Diary = props => {
   // 일기장 존재 여부를 저장할 공간
   const [notFoundFlag, setNotFoundFlag] = useState('false');
 
-  // missing count
+  // 길 잃은 횟수 카운트
   const [missingCount, setMissingCount] = useState(1);
 
   // 현재 url의 uuid 잘라내기
   const thisParamId = window.location.pathname.split('/')[2];
 
-  const findById = () => {
-    const result = diaries.find(item => {
-      return item.id == thisParamId;
-    });
-
-    // 찾은 객체 리턴
-    return result;
-  };
-
   // 렌더 무한루프 방지 순서 처리
   // 주소 유효값 검사
   useEffect(() => {
+    const findById = () => {
+      const result = diaries.find(item => {
+        return item.id == thisParamId;
+      });
+      // 찾은 객체 리턴
+      return result;
+    };
+
     if (findById()) {
       setThisDiary(findById());
-
-      console.log(thisDiary.color);
     } else {
       // url의 uuid 값을 찾지 못할 경우
       setNotFoundFlag(false);
     }
-    // 에러페이지 방문자수 카운트
-    if (notFoundFlag) {
+    // 404페이지 카운트
+    if (!notFoundFlag) {
+      console.log(notFoundFlag);
       setMissingCount(prevCount => prevCount + 1);
     }
-  });
+  }, [thisDiary, diaries, thisParamId, notFoundFlag]);
 
   let content = (
     <>
