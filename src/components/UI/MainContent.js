@@ -13,7 +13,7 @@ const MainContent = props => {
     display: 'flex',
     flexWrap: 'wrap',
     flexDir: 'column',
-    h: ['91.7vh'],
+    h: 'calc(100vh - 64px)',
     overflow: 'auto',
     // 스크롤바
     sx: {

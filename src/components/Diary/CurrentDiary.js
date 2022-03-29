@@ -25,16 +25,12 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
 
   // 선택된 연도로 필터된 일기
   const filteredDiaries =
-    thisDiary &&
+    thisDiary.pages &&
     thisDiary.pages.filter(item => {
       if (item.date.getFullYear() === selectedYear) {
         return item;
-      } else {
-        return;
       }
     });
-
-  console.log(filteredDiaries);
 
   return (
     <>
@@ -63,7 +59,10 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
             {filteredDiaries &&
               filteredDiaries.map(item => {
                 return (
-                  <Link key={item.id} to={`/diary/${thisParam}/${item.id}`}>
+                  <Link
+                    key={item.id}
+                    to={`/diary/${thisParam}/${item.id}/read`}
+                  >
                     <CurrentDay
                       key={item.id}
                       title={item.title}

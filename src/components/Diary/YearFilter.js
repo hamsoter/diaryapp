@@ -37,7 +37,8 @@ const YearFilter = ({ selected, data, onSelectYear }) => {
         as={Button}
         w={'240px'}
         m={'auto'}
-        mt={1.5}
+        mt={3}
+        mb={1.5}
         variant="outline"
         rightIcon={<ChevronDownIcon />}
         bg={'whiteAlpha.800'}

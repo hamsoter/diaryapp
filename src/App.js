@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MyLibrary from './pages/MyLibrary';
 import Diary from './pages/Diary';
 import '../src/components/UI/App.css';
+import ThisDay from './pages/ThisDay';
 
 function App() {
   let diariesArr = [
@@ -87,6 +88,24 @@ function App() {
           <Route
             path="/diary/:uuid"
             element={<Diary getTempDiaries={getTempDiaresHandler} />}
+          />
+          <Route
+            path="/diary/:uuid/:dayid/write"
+            element={
+              <ThisDay
+                getTempDiaries={getTempDiaresHandler}
+                setTempDiaries={setTempDiariesHandler}
+              />
+            }
+          />
+          <Route
+            path="/diary/:uuid/:dayid/read"
+            element={
+              <ThisDay
+                getTempDiaries={getTempDiaresHandler}
+                setTempDiaries={setTempDiariesHandler}
+              />
+            }
           />
         </Routes>
       </BrowserRouter>
