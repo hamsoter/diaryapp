@@ -4,14 +4,17 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import Header from '../../components/DiaryLists/Header';
 import MainContainer from '../../components/UI/MainContainer';
 import MainContent from '../../components/UI/MainContent';
-import { IconButton } from '@chakra-ui/react';
+import { Box, Container, IconButton, Text } from '@chakra-ui/react';
 
-const Read = ({ onBack }) => {
+import Card from '../UI/Card';
+
+const Read = ({ onBack, data }) => {
+  console.log(data);
   return (
     <MainContainer>
       {/* 헤더 */}
       <Header
-        title={' 일기 쓰기 '}
+        title={data.title}
         leftContent={
           <IconButton
             colorScheme={'orange'}
@@ -23,7 +26,16 @@ const Read = ({ onBack }) => {
       />
 
       {/* 메인컨텐츠 */}
-      <MainContent></MainContent>
+      <MainContent>
+        <Card>
+          <Box>
+            <Text>{data.date.toLocaleString()}</Text>
+            <Text>{data.content}</Text>
+            <Text>{data.mood}</Text>
+            <Text>{data.writer}</Text>
+          </Box>
+        </Card>
+      </MainContent>
     </MainContainer>
   );
 };

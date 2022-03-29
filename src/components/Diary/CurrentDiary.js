@@ -64,6 +64,7 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
                     to={`/diary/${thisParam}/${item.id}/read`}
                   >
                     <CurrentDay
+                      writer={thisDiary.userName}
                       key={item.id}
                       title={item.title}
                       content={item.content}
