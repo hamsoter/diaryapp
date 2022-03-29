@@ -13,14 +13,11 @@ import Card from '../UI/Card';
 
 const CurrentDay = ({ title, content, mood, date, param }) => {
   // 날짜 출력 편의를 위한 변수
-  const thisDate = new Date(date);
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
-  const year = thisDate.getFullYear();
-  const month = thisDate.getMonth() + 1;
-  const day = thisDate.getDate();
-  const week = weekArr[thisDate.getDay()];
-
-  console.log(year, month, day, week);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const week = weekArr[date.getDay()];
 
   return (
     <ListItem px={['5', '5', '0']} py={2.5}>

@@ -26,8 +26,12 @@ const HamburgerMenu = ({ li }) => {
         bg="orange.400"
       />
       <MenuList>
-        {DUMMY_DATA_ARR.map(item => {
-          return <MenuItem color={'blackAlpha.700'}>{item}</MenuItem>;
+        {DUMMY_DATA_ARR.map((item, index) => {
+          return (
+            <MenuItem key={index} color={'blackAlpha.700'}>
+              {item}
+            </MenuItem>
+          );
         })}
       </MenuList>
     </Menu>
