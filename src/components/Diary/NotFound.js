@@ -11,8 +11,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../DiaryLists/Header';
-import Card from './Card';
-import MainContents from './MainContents';
+import Card from '../UI/Card';
+import MainContents from '../UI/MainContents';
 import styles from '../UI/animation.module.css';
 
 const NotFound = ({ missingCount }) => {
@@ -25,6 +25,7 @@ const NotFound = ({ missingCount }) => {
           p={3}
           fontSize={['xl', 'lg', 'lg']}
           h={['auto', 'auto', '100%']}
+          boxShadow={'xs'}
         >
           <Box className={styles['shake-bottom']}>
             <Heading
@@ -63,7 +64,7 @@ const NotFound = ({ missingCount }) => {
             </Heading>
             <UnorderedList
               fontSize={['lg', 'lg', 'md']}
-              px={'10'}
+              px={['10', '10', '20']}
               listStyleType={'number'}
               w={'100%'}
               bg={'orange.100'}
