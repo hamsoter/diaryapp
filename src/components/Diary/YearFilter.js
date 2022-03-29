@@ -1,3 +1,4 @@
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Button,
   Menu,
@@ -32,14 +33,19 @@ const YearFilter = ({ selected, data, onSelectYear }) => {
       <MenuButton
         colorScheme={'orange'}
         _focus={{ boxShadow: 'outline' }}
+        _active={{ bg: 'whiteAlpha.800' }}
         as={Button}
-        mx={5}
+        w={'240px'}
+        m={'auto'}
         mt={1.5}
         variant="outline"
+        rightIcon={<ChevronDownIcon />}
+        bg={'whiteAlpha.800'}
+        _expanded={{ bg: 'whiteAlpha.800' }}
       >
         {selected}
       </MenuButton>
-      <MenuList minWidth="240px">
+      <MenuList minWidth={['240px']}>
         <MenuOptionGroup
           defaultValue={selected.toString()}
           title={`선택한 해의 일기를 출력합니다`}

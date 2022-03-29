@@ -22,14 +22,14 @@ const Header = props => {
   return (
     <Flex position={'relative'} {...styles}>
       <Heading w={'100%'} fontSize={'xl'} isTruncated>
-        <Center w>{title}</Center>
+        <Center ml={'40px'} w>
+          {title}
+        </Center>
       </Heading>
       <Box position={'absolute'} left={3}>
         {leftContent}
       </Box>
-      <Box position={'absolute'} right={3}>
-        {rightContent}
-      </Box>
+      <Box right={3}>{rightContent}</Box>
     </Flex>
   );
 };

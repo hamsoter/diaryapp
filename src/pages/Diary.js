@@ -1,26 +1,7 @@
-import { ArrowBackIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons';
-
-import {
-  Box,
-  Button,
-  Center,
-  ChakraProvider,
-  Flex,
-  Heading,
-  IconButton,
-  Image,
-  List,
-  Tag,
-  Text,
-  theme,
-  UnorderedList,
-} from '@chakra-ui/react';
+import { ChakraProvider, theme } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import Header from '../components/DiaryLists/Header';
-import Bubble from '../components/UI/Bubble';
-// import customColorTheme from '../components/UI/CustomColorTheme';
 import MainContainer from '../components/UI/MainContainer';
-import MainContent from '../components/UI/MainContent';
 import NotFound from '../components/Diary/NotFound';
 import CurrentDiary from '../components/Diary/CurrentDiary';
 
