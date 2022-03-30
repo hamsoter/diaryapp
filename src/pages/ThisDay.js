@@ -21,6 +21,8 @@ const ThisDay = props => {
   const navigate = useNavigate(-1);
 
   const paramId = location.pathname.split('/')[3];
+  const diaryId = location.pathname.split('/')[2];
+
   // const paramMode = location.pathname.split('/')[4];
 
   const saveData = data => {
@@ -36,7 +38,15 @@ const ThisDay = props => {
 
     console.log(diaries.pages);
     // 페이지이동
-    window.history.back();
+    // window.history.back();
+    pageChange(newData);
+
+    // navigate(`/comment/`);
+  };
+
+  const pageChange = newData => {
+    navigate(`/diary/${diaryId}/${newData.id}/read/`);
+    setMode('read');
   };
 
   const data =
@@ -46,7 +56,8 @@ const ThisDay = props => {
     })[0];
 
   const goBack = () => {
-    navigate(-1);
+    console.log('di');
+    navigate(`/diary/${diaryId}`);
   };
 
   const [mode, setMode] = useState(props.mode);
