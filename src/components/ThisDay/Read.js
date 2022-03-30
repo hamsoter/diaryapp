@@ -32,9 +32,22 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 
 //Datepicker
 import DatePick from '../UI/DatePick';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const Read = ({ onBack, data }) => {
+const Read = ({ onBack, data, changeMode }) => {
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const paramId = location.pathname.split('/')[3];
+
+  const diaryId = location.pathname.split('/')[2];
+
+  const goToupdatePage = () => {
+    navigate(`/diary/${diaryId}/${paramId}/update/`);
+    changeMode(`update`);
+  };
 
   console.log(data);
   return (
@@ -121,7 +134,7 @@ const Read = ({ onBack, data }) => {
                 form="addDiaryForm"
                 w={['100%', '100%', '100px']}
                 colorScheme="orange"
-                // onClick={formik.handleSubmit}
+                onClick={goToupdatePage}
               >
                 수정
               </Button>
