@@ -11,6 +11,9 @@ const ThisDay = props => {
   // App에서 다이어리 배열을 임시로 받아옴.
   const diaries = props.getTempDiaries()[0];
 
+  // 유저명. 차후수정
+  const writer = diaries.userName;
+
   // App에서 다이어리를 세팅하는 메서드를 기져옴
   const setDiaries = props.setTempDiaries;
 
@@ -19,6 +22,22 @@ const ThisDay = props => {
 
   const paramId = location.pathname.split('/')[3];
   // const paramMode = location.pathname.split('/')[4];
+
+  const saveData = data => {
+    const newData = data;
+
+    // 정렬?
+
+    diaries.pages = [newData, ...diaries.pages].sort(function (a, b) {
+      a = a.date;
+      b = b.date;
+      return a > b ? -1 : a < b ? 1 : 0;
+    });
+
+    console.log(diaries.pages);
+    // 페이지이동
+    window.history.back();
+  };
 
   const data =
     diaries.pages &&
@@ -35,8 +54,10 @@ const ThisDay = props => {
   return (
     <ChakraProvider h={'100%'} theme={theme}>
       {mode === 'read' && <Read onBack={goBack} data={data}></Read>}
-      {mode === 'write' && <Write onBack={goBack}></Write>}
-      {mode === 'update' && <Write onBack={goBack}></Write>}
+      {mode === 'write' && (
+        <Write onBack={goBack} writer={writer} saveData={saveData}></Write>
+      )}
+      {mode === 'update' && <Write onBack={goBack} writer={writer}></Write>}
     </ChakraProvider>
   );
 };

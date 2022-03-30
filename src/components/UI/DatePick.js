@@ -9,8 +9,7 @@ import { registerLocale } from 'react-datepicker';
 
 import '../UI/dp.css';
 
-const DatePick = ({ date }) => {
-  const [startDate, setStartDate] = useState(date);
+const DatePick = ({ startDate, setStartDate, date }) => {
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
 
   registerLocale('ko', ko);
@@ -31,7 +30,6 @@ const DatePick = ({ date }) => {
       {`${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 ${
         weekArr[date.getDay()]
       }요일`}
-      {console.log()}
     </Button>
   ));
 
@@ -40,6 +38,8 @@ const DatePick = ({ date }) => {
       selected={startDate}
       locale="ko"
       className={'dp'}
+      dateFormat="yyyy-MM-dd" // 날짜 형식 설정
+      dateFormatCalendar={'yyyy년 MM'}
       onChange={date => setStartDate(date)}
       customInput={<ExampleCustomInput date={new Date(startDate)} />}
       popperModifiers={{
