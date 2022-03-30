@@ -51,7 +51,7 @@ const Diary = props => {
   if (!notFoundFlag) {
     content = (
       <>
-        <Header title={' 미아 발견! '} rightContent={''} />
+        <Header title={''} rightContent={''} />
         <NotFound missingCount={missingCount} />
       </>
     );

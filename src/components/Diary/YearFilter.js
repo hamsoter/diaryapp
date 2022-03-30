@@ -32,10 +32,12 @@ const YearFilter = ({ selected, data, onSelectYear }) => {
     <Menu closeOnSelect={true}>
       <MenuButton
         colorScheme={'orange'}
-        _focus={{ boxShadow: 'outline' }}
-        _active={{ bg: 'whiteAlpha.800' }}
+        _focus={{ boxShadow: 'outline', bg: 'orange.200' }}
+        _hover={{ bg: 'orange.200' }}
+        _active={{ bg: 'orange.200' }}
         as={Button}
         w={'240px'}
+        border={'none'}
         m={'auto'}
         mt={3}
         mb={1.5}
@@ -49,7 +51,11 @@ const YearFilter = ({ selected, data, onSelectYear }) => {
       <MenuList minWidth={['240px']}>
         <MenuOptionGroup
           defaultValue={selected.toString()}
-          title={`선택한 해의 일기를 출력합니다`}
+          title={
+            yearArr.length === 0
+              ? `기록된 날이 없어요 @_@!`
+              : `선택한 해의 일기를 출력합니다`
+          }
           type="radio"
           onChange={yearChangeHandler}
         >

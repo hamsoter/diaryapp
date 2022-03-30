@@ -3,7 +3,6 @@ import React from 'react';
 import { Flex, Heading, Box, Center } from '@chakra-ui/react';
 
 const Header = props => {
-  console.log();
   const leftContent = props.leftContent;
   const rightContent = props.rightContent;
   const title = props.title;
@@ -21,15 +20,25 @@ const Header = props => {
 
   return (
     <Flex position={'relative'} {...styles}>
-      <Heading w={'100%'} fontSize={'xl'} isTruncated>
-        <Center>{title}</Center>
+      <Heading
+        w={'100%'}
+        fontSize={'xl'}
+        isTruncated
+        display={'flex'}
+        justifyContent="space-between"
+      >
+        <Box w={typeof props.leftContent === 'undefined' ? '100px' : 10}>
+          {leftContent}
+        </Box>
+        <Center alignSelf={'center'}>{title}</Center>
+        <Box
+          w={typeof props.rightContent === 'undefined' ? '35px' : -10}
+          fontSize="md"
+          fontWeight={'bold'}
+        >
+          {rightContent}
+        </Box>
       </Heading>
-      <Box position={'absolute'} left={3}>
-        {leftContent}
-      </Box>
-      <Box position={'absolute'} right={3}>
-        {rightContent}
-      </Box>
     </Flex>
   );
 };

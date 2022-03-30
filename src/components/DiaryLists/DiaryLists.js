@@ -1,5 +1,6 @@
-import { Center, Flex, Heading, UnorderedList } from '@chakra-ui/react';
+import { Center, Flex, Heading, Text, UnorderedList } from '@chakra-ui/react';
 import React from 'react';
+import Card from '../UI/Card';
 import Ul from '../UI/Ul';
 import DiaryItem from './DiaryItem';
 
@@ -11,7 +12,17 @@ const DiaryLists = props => {
     <Ul w={'100%'}>
       {diaries.length === 0 ? (
         <Center w="100%" mt="20">
-          <Heading fontSize={'xl'}>컨텐츠가 없어요</Heading>
+          <Card
+            fontSize={'lg'}
+            px={20}
+            py={10}
+            boxShadow={'xs'}
+            borderRadius={'md'}
+            color="blackAlpha.700"
+          >
+            <Heading>∑(O_O;)</Heading>
+            아무것도 없네요!
+          </Card>
         </Center>
       ) : (
         diaries.map(diary => {
