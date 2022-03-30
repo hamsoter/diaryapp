@@ -7,6 +7,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale } from 'react-datepicker';
 
+import '../UI/dp.css';
+
 const DatePick = ({ date }) => {
   const [startDate, setStartDate] = useState(date);
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
@@ -37,6 +39,7 @@ const DatePick = ({ date }) => {
     <DatePicker
       selected={startDate}
       locale="ko"
+      className={'dp'}
       onChange={date => setStartDate(date)}
       customInput={<ExampleCustomInput date={new Date(startDate)} />}
       popperModifiers={{
