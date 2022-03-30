@@ -18,7 +18,7 @@ const ThisDay = props => {
   const navigate = useNavigate(-1);
 
   const paramId = location.pathname.split('/')[3];
-  const paramMode = location.pathname.split('/')[4];
+  // const paramMode = location.pathname.split('/')[4];
 
   const data =
     diaries.pages &&
@@ -30,17 +30,13 @@ const ThisDay = props => {
     navigate(-1);
   };
 
-  const [mode, setMode] = useState(paramMode);
-
-  // console.log(props);
+  const [mode, setMode] = useState(props.mode);
 
   return (
     <ChakraProvider h={'100%'} theme={theme}>
-      {mode === 'read' ? (
-        <Read onBack={goBack} data={data}></Read>
-      ) : (
-        <Write></Write>
-      )}
+      {mode === 'read' && <Read onBack={goBack} data={data}></Read>}
+      {mode === 'write' && <Write onBack={goBack}></Write>}
+      {mode === 'update' && <Write onBack={goBack}></Write>}
     </ChakraProvider>
   );
 };

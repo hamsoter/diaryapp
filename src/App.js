@@ -100,6 +100,17 @@ function App() {
               <ThisDay
                 getTempDiaries={getTempDiaresHandler}
                 setTempDiaries={setTempDiariesHandler}
+                mode={'update'}
+              />
+            }
+          />
+          <Route
+            path="/diary/:uuid/write"
+            element={
+              <ThisDay
+                getTempDiaries={getTempDiaresHandler}
+                setTempDiaries={setTempDiariesHandler}
+                mode={'write'}
               />
             }
           />
@@ -109,6 +120,7 @@ function App() {
               <ThisDay
                 getTempDiaries={getTempDiaresHandler}
                 setTempDiaries={setTempDiariesHandler}
+                mode={'read'}
               />
             }
           />

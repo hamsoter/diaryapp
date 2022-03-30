@@ -5,6 +5,7 @@ import Header from '../../components/DiaryLists/Header';
 import MainContainer from '../../components/UI/MainContainer';
 import MainContent from '../../components/UI/MainContent';
 import { Box, Container, IconButton, Text } from '@chakra-ui/react';
+import { useFormik } from 'formik';
 
 import Card from '../UI/Card';
 
@@ -29,10 +30,10 @@ const Read = ({ onBack, data }) => {
       <MainContent>
         <Card>
           <Box>
-            <Text>{data.date.toLocaleString()}</Text>
-            <Text>{data.content}</Text>
-            <Text>{data.mood}</Text>
-            <Text>{data.writer}</Text>
+            <Text className={`date read`}>{data.date.toLocaleString()}</Text>
+            <Text className="content read">{data.content}</Text>
+            <Text className="mood read">{data.mood}</Text>
+            <Text className="writer read">{data.writer}</Text>
           </Box>
         </Card>
       </MainContent>
