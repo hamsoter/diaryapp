@@ -46,6 +46,8 @@ const AddDiaryForm = props => {
       color: selectedColor,
       // 임시 날짜
       lastRecord: new Date(),
+
+      pages: [],
     },
     onSubmit: (values, action) => {
       values.id = Math.random().toString(36).substring(2, 8);

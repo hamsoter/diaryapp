@@ -8,8 +8,15 @@ import MainContainer from '../components/UI/MainContainer';
 import MainContent from '../components/UI/MainContent';
 
 const ThisDay = props => {
+  const location = useLocation();
+  const navigate = useNavigate(-1);
+
+  const paramId = location.pathname.split('/')[3];
+
+  const diaryId = location.pathname.split('/')[2];
+
   // App에서 다이어리 배열을 임시로 받아옴.
-  const diaries = props.getTempDiaries()[0];
+  const diaries = props.getTempDiaries().filter(item => item.id === diaryId)[0];
 
   // 유저명. 차후수정
   const writer = diaries.userName;
@@ -17,26 +24,18 @@ const ThisDay = props => {
   // App에서 다이어리를 세팅하는 메서드를 기져옴
   const setDiaries = props.setTempDiaries;
 
-  const location = useLocation();
-  const navigate = useNavigate(-1);
-
-  const paramId = location.pathname.split('/')[3];
-  const diaryId = location.pathname.split('/')[2];
-
   // const paramMode = location.pathname.split('/')[4];
 
   const saveData = data => {
     const newData = data;
 
-    // 정렬?
-
+    // 날짜순 정렬
     diaries.pages = [newData, ...diaries.pages].sort(function (a, b) {
       a = a.date;
       b = b.date;
       return a > b ? -1 : a < b ? 1 : 0;
     });
 
-    console.log(diaries.pages);
     // 페이지이동
     // window.history.back();
     pageChange(newData);
@@ -47,8 +46,10 @@ const ThisDay = props => {
   const pageChange = newData => {
     navigate(`/diary/${diaryId}/${newData.id}/read/`);
     setMode('read');
+    console.log(mode);
   };
 
+  // url으로 읽어낼 데이터 찾아내기
   const data =
     diaries.pages &&
     diaries.pages.filter(item => {

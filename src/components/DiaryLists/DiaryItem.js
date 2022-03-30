@@ -21,6 +21,8 @@ const DiaryItem = props => {
     h: ['400px', '230px', '250px'],
   };
 
+  console.log(lastRecord.toLocaleDateString());
+
   // console.log
   return (
     <ScaleFade w={'100%'} in={true} initialScale={0.4}>
@@ -29,7 +31,7 @@ const DiaryItem = props => {
           <Box bg={color.sub} color={'white'} p={2}>
             <Text fontSize={['3xl', 'xl', 'lg']}>{title}</Text>
             <Text fontSize={'xs'}>
-              마지막 업데이트 {lastRecord.toLocaleDateString()}
+              마지막 업데이트: {lastRecord.toLocaleDateString()}
             </Text>
           </Box>
           <Text

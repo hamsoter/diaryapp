@@ -41,7 +41,6 @@ const Diary = props => {
     }
     // 404페이지 카운트
     if (!notFoundFlag) {
-      console.log(notFoundFlag);
       setMissingCount(prevCount => prevCount + 1);
     }
   }, [thisDiary, diaries, thisParamId, notFoundFlag]);

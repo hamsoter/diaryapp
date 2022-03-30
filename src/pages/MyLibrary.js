@@ -11,9 +11,11 @@ import MainContents from '../components/UI/MainContents';
 import MainContainer from '../components/UI/MainContainer';
 
 const MyLibrary = props => {
-  const DUMMY_DATA_ARR = [];
+  let DUMMY_DATA_ARR = props.getTempDiaries();
 
   const [diaries, setDiaries] = React.useState(DUMMY_DATA_ARR);
+
+  console.log(diaries);
 
   const saveDiaryHandler = newDiary => {
     setDiaries(prevState => {

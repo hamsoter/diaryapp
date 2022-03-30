@@ -17,6 +17,8 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
     navigate('/');
   };
 
+  // console.log(thisDiary);
+
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   const yearChangeHandler = year => {
