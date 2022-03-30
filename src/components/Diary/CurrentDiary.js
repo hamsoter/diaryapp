@@ -70,7 +70,7 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
             <Center>
               <Box
                 bg={'orange.50'}
-                borderRadius={'xl'}
+                borderRadius={'md'}
                 color={'blackAlpha.700'}
                 mt={6}
                 py={3}

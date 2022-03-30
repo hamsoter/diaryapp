@@ -74,6 +74,7 @@ const Write = ({ onBack, writer, saveData }) => {
     onSubmit: (values, action) => {
       values.id = Math.random().toString(36).substring(2, 8);
       values.date = startDate;
+
       console.log(values);
 
       saveData(values);
@@ -112,46 +113,46 @@ const Write = ({ onBack, writer, saveData }) => {
             onSubmit={formik.handleSubmit}
             // isInvalid={formik.errors.title || formik.errors.content}
           >
-            <Center textAlign={'center'}>
+            <Center textAlign={'center'} flexDir={'column'}>
               <DatePick
                 date={new Date()}
                 setStartDate={setStartDate}
                 startDate={startDate}
               ></DatePick>
-            </Center>
-            <Input
-              id="title"
-              onChange={formik.handleChange}
-              value={formik.values.title}
-              type="text"
-              size={'lg'}
-              bg={'white'}
-              placeholder={'일기 제목'}
-              mb={3}
-            />
-            <Textarea
-              className="content"
-              id="content"
-              onChange={formik.handleChange}
-              value={formik.values.content}
-              type="text"
-              bg={'white'}
-              p={3}
-              placeholder="무슨 일이 있었나요?"
-              h={`calc(100vh - 276px)`}
-              resize={'none'}
-            />
+              <Input
+                id="title"
+                onChange={formik.handleChange}
+                value={formik.values.title}
+                type="text"
+                size={'lg'}
+                bg={'white'}
+                placeholder={'일기 제목'}
+                mb={3}
+              />
+              <Textarea
+                className="content"
+                id="content"
+                onChange={formik.handleChange}
+                value={formik.values.content}
+                type="text"
+                bg={'white'}
+                p={3}
+                placeholder="무슨 일이 있었나요?"
+                h={`calc(100vh - 276px)`}
+                resize={'none'}
+              />
 
-            <Button
-              mt={['6', '6', '3']}
-              type="submit"
-              form="addDiaryForm"
-              w={['100%', '100%', '100px']}
-              colorScheme="orange"
-              onClick={formik.handleSubmit}
-            >
-              완료
-            </Button>
+              <Button
+                mt={['6', '6', '3']}
+                type="submit"
+                form="addDiaryForm"
+                w={['100%', '100%', '100px']}
+                colorScheme="orange"
+                onClick={formik.handleSubmit}
+              >
+                완료
+              </Button>
+            </Center>
           </FormControl>
         </Card>
         <ErrorModal
