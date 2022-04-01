@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../components/DiaryLists/Header';
 import Read from '../components/ThisDay/Read';
-import Update from '../components/ThisDay/Update';
+// import Update from '../components/ThisDay/Update';
 import Write from '../components/ThisDay/Write';
 import MainContainer from '../components/UI/MainContainer';
 import MainContent from '../components/UI/MainContent';
@@ -66,6 +66,8 @@ const ThisDay = props => {
 
   const [mode, setMode] = useState(paramMode ? paramMode : props.mode);
 
+  console.log('thisdaymode: ' + mode);
+
   return (
     <ChakraProvider h={'100%'} theme={theme}>
       {mode === 'read' && (
@@ -75,7 +77,15 @@ const ThisDay = props => {
         <Write onBack={goBack} writer={writer} saveData={saveData}></Write>
       )}
 
-      {mode === 'update' && <Update onBack={goBack} writer={writer}></Update>}
+      {mode === 'update' && (
+        <Write
+          mode={mode}
+          onBack={goBack}
+          writer={writer}
+          data={data}
+          saveData={saveData}
+        ></Write>
+      )}
     </ChakraProvider>
   );
 };

@@ -23,7 +23,7 @@ import {
   useStyles,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../DiaryLists/Header';
 import Card from '../UI/Card';
 import MainContainer from '../UI/MainContainer';
@@ -33,8 +33,10 @@ import MainContent from '../UI/MainContent';
 import DatePick from '../UI/DatePick';
 import ErrorModal from '../UI/ErrorModal';
 
-const Write = ({ onBack, writer, saveData }) => {
+const Write = ({ onBack, writer, saveData, data, mode }) => {
   const [startDate, setStartDate] = useState(new Date());
+
+  // const [updateData, setUpdateData] = useState(data);
 
   // 모달 상태 관리
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -90,6 +92,15 @@ const Write = ({ onBack, writer, saveData }) => {
     props();
   };
 
+  useEffect(() => {
+    if (data != undefined) {
+      formik.values.content = data.content;
+      formik.values.title = data.title;
+
+      setStartDate(data.date);
+    }
+  }, []);
+
   return (
     <MainContainer>
       {/* 헤더 */}
@@ -115,7 +126,6 @@ const Write = ({ onBack, writer, saveData }) => {
           >
             <Center textAlign={'center'} flexDir={'column'}>
               <DatePick
-                date={new Date()}
                 setStartDate={setStartDate}
                 startDate={startDate}
               ></DatePick>

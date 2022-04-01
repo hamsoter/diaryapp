@@ -42,9 +42,6 @@ const DatePick = ({ startDate, setStartDate, date }) => {
       dateFormatCalendar={'yyyy년 MM'}
       onChange={date => setStartDate(date)}
       customInput={<ExampleCustomInput date={new Date(startDate)} />}
-      popperModifiers={{
-        preventOverflow: { enabled: true },
-      }}
       popperPlacement="auto"
     />
   );

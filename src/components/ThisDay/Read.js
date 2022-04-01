@@ -49,7 +49,10 @@ const Read = ({ onBack, data, changeMode }) => {
     changeMode(`update`);
   };
 
-  console.log(data);
+  const sendData = () => {
+    return data;
+  };
+
   return (
     <MainContainer>
       {/* 헤더 */}
