@@ -29,6 +29,13 @@ const ThisDay = props => {
 
   // const paramMode = location.pathname.split('/')[4];
 
+  // url으로 읽어낼 데이터 찾아내기
+  const data =
+    diaries.pages &&
+    diaries.pages.filter(item => {
+      return item.id === paramId;
+    })[0];
+
   const saveData = data => {
     const newData = data;
 
@@ -40,10 +47,21 @@ const ThisDay = props => {
     });
 
     // 페이지이동
-    // window.history.back();
     pageChange(newData);
+  };
 
-    // navigate(`/comment/`);
+  const updateData = newData => {
+    // 수정시 데이터 아이디 자동부여 취소 (좋은 방법이 아닌 거 같음)
+    newData.id = data.id;
+
+    // 배열에서 바꿔줘야 할 index 찾기
+    const changeIndex = diaries.pages.findIndex(item => item.id == data.id);
+
+    // 바꾸기
+    diaries.pages.splice(changeIndex, 1, newData);
+
+    //페이지 변경
+    pageChange(newData);
   };
 
   const pageChange = newData => {
@@ -51,13 +69,6 @@ const ThisDay = props => {
     setMode('read');
     console.log(mode);
   };
-
-  // url으로 읽어낼 데이터 찾아내기
-  const data =
-    diaries.pages &&
-    diaries.pages.filter(item => {
-      return item.id === paramId;
-    })[0];
 
   const goBack = () => {
     console.log('di');
@@ -83,7 +94,7 @@ const ThisDay = props => {
           onBack={goBack}
           writer={writer}
           data={data}
-          saveData={saveData}
+          saveData={updateData}
         ></Write>
       )}
     </ChakraProvider>

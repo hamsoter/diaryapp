@@ -77,7 +77,7 @@ const Write = ({ onBack, writer, saveData, data, mode }) => {
       values.id = Math.random().toString(36).substring(2, 8);
       values.date = startDate;
 
-      console.log(values);
+      // console.log(values);
 
       saveData(values);
     },
