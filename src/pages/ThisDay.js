@@ -64,10 +64,17 @@ const ThisDay = props => {
     pageChange(newData);
   };
 
+  const deleteData = () => {
+    const deleteIndex = diaries.pages.findIndex(item => item.id == data.id);
+
+    console.log('삭제할인덱스는 ', deleteIndex);
+    diaries.pages.splice(deleteIndex, 1);
+    goBack();
+  };
+
   const pageChange = newData => {
     navigate(`/diary/${diaryId}/${newData.id}/read/`);
     setMode('read');
-    console.log(mode);
   };
 
   const goBack = () => {
@@ -82,7 +89,12 @@ const ThisDay = props => {
   return (
     <ChakraProvider h={'100%'} theme={theme}>
       {mode === 'read' && (
-        <Read onBack={goBack} changeMode={setMode} data={data}></Read>
+        <Read
+          onBack={goBack}
+          changeMode={setMode}
+          data={data}
+          deleteData={deleteData}
+        ></Read>
       )}
       {mode === 'write' && (
         <Write onBack={goBack} writer={writer} saveData={saveData}></Write>

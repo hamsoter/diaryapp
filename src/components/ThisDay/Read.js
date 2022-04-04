@@ -4,6 +4,7 @@ import {
   Button,
   Center,
   Divider,
+  Flex,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -34,7 +35,7 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import DatePick from '../UI/DatePick';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Read = ({ onBack, data, changeMode }) => {
+const Read = ({ onBack, data, changeMode, deleteData }) => {
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
 
   const location = useLocation();
@@ -47,10 +48,6 @@ const Read = ({ onBack, data, changeMode }) => {
   const goToupdatePage = () => {
     navigate(`/diary/${diaryId}/${paramId}/update/`);
     changeMode(`update`);
-  };
-
-  const sendData = () => {
-    return data;
   };
 
   return (
@@ -131,16 +128,30 @@ const Read = ({ onBack, data, changeMode }) => {
                 {data.content}
               </Box>
 
-              <Button
-                mt={['6', '6', '3']}
-                type="submit"
-                form="addDiaryForm"
-                w={['100%', '100%', '100px']}
-                colorScheme="orange"
-                onClick={goToupdatePage}
-              >
-                수정
-              </Button>
+              <Flex>
+                <Button
+                  mt={['6', '6', '3']}
+                  type="submit"
+                  form="addDiaryForm"
+                  w={['100%', '100%', '100px']}
+                  colorScheme="orange"
+                  onClick={goToupdatePage}
+                  m={3}
+                >
+                  수정
+                </Button>
+
+                <Button
+                  mt={['6', '6', '3']}
+                  type="submit"
+                  form="addDiaryForm"
+                  w={['100%', '100%', '100px']}
+                  colorScheme="orange"
+                  onClick={deleteData}
+                >
+                  삭제
+                </Button>
+              </Flex>
             </Center>
           </Box>
         </Card>
