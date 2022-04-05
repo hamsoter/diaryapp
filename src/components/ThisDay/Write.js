@@ -1,26 +1,13 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
+
 import {
-  Box,
   Button,
   Center,
-  Divider,
   FormControl,
-  FormHelperText,
-  FormLabel,
   IconButton,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
   Textarea,
   useDisclosure,
-  useMenuState,
-  useStyles,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import React, { useState, useEffect } from 'react';
@@ -31,9 +18,9 @@ import MainContent from '../UI/MainContent';
 
 //Datepicker
 import DatePick from '../UI/DatePick';
-import ErrorModal from '../UI/ErrorModal';
+import MessageModal from '../UI/MessageModal';
 
-const Write = ({ onBack, writer, saveData, data, mode }) => {
+const Write = ({ onBack, writer, saveData, data }) => {
   const [startDate, setStartDate] = useState(new Date());
 
   // const [updateData, setUpdateData] = useState(data);
@@ -165,13 +152,13 @@ const Write = ({ onBack, writer, saveData, data, mode }) => {
             </Center>
           </FormControl>
         </Card>
-        <ErrorModal
+        <MessageModal
           title={'잠시만요 Σ(°ロ°)'}
           content={'제목과 내용을 제대로 기입해주세요.'}
           isOpen={isOpen}
           onOpen={onOpen}
           onClose={onClose}
-        ></ErrorModal>
+        ></MessageModal>
       </MainContent>
     </MainContainer>
   );

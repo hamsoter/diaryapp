@@ -7,6 +7,7 @@ import Read from '../components/ThisDay/Read';
 import Write from '../components/ThisDay/Write';
 import MainContainer from '../components/UI/MainContainer';
 import MainContent from '../components/UI/MainContent';
+import MessageModal from '../components/UI/MessageModal';
 
 const ThisDay = props => {
   const location = useLocation();
@@ -46,6 +47,9 @@ const ThisDay = props => {
       return a > b ? -1 : a < b ? 1 : 0;
     });
 
+    // 마지막 업데이트일 갱신
+    diaries.lastRecord = diaries.pages[0].date;
+
     // 페이지이동
     pageChange(newData);
   };
@@ -59,6 +63,9 @@ const ThisDay = props => {
 
     // 바꾸기
     diaries.pages.splice(changeIndex, 1, newData);
+
+    // 마지막 업데이트일 갱신
+    diaries.lastRecord = diaries.pages[0].date;
 
     //페이지 변경
     pageChange(newData);

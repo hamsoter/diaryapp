@@ -1,5 +1,12 @@
 import React from 'react';
+
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
   Center,
@@ -31,12 +38,12 @@ import MainContainer from '../UI/MainContainer';
 import MainContent from '../UI/MainContent';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 
-//Datepicker
-import DatePick from '../UI/DatePick';
 import { useLocation, useNavigate } from 'react-router-dom';
+import MessageModal from '../UI/MessageModal';
 
 const Read = ({ onBack, data, changeMode, deleteData }) => {
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
+  const cancelRef = React.useRef();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -49,6 +56,9 @@ const Read = ({ onBack, data, changeMode, deleteData }) => {
     navigate(`/diary/${diaryId}/${paramId}/update/`);
     changeMode(`update`);
   };
+
+  // 모달 상태 관리
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <MainContainer>
@@ -147,7 +157,8 @@ const Read = ({ onBack, data, changeMode, deleteData }) => {
                   form="addDiaryForm"
                   w={['100%', '100%', '100px']}
                   colorScheme="orange"
-                  onClick={deleteData}
+                  // onClick={deleteData}
+                  onClick={onOpen}
                 >
                   삭제
                 </Button>
@@ -155,6 +166,33 @@ const Read = ({ onBack, data, changeMode, deleteData }) => {
             </Center>
           </Box>
         </Card>
+
+        <>
+          <AlertDialog
+            isOpen={isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onClose}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent>
+                <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                  정말 일기를 지울까요?
+                </AlertDialogHeader>
+
+                <AlertDialogBody>지운 일기는 복구되지 않아요</AlertDialogBody>
+
+                <AlertDialogFooter>
+                  <Button ref={cancelRef} onClick={onClose}>
+                    역시 그만두기
+                  </Button>
+                  <Button colorScheme="red" onClick={deleteData} ml={3}>
+                    지우기
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
+        </>
       </MainContent>
     </MainContainer>
   );

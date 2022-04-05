@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-const ErrorModal = ({ title, content, btnText, onClose, isOpen, onOpen }) => {
+const MessageModal = ({ title, content, btnText, onClose, isOpen, onOpen }) => {
   return (
     <Modal size={'xs'} onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />
@@ -32,4 +32,4 @@ const ErrorModal = ({ title, content, btnText, onClose, isOpen, onOpen }) => {
   );
 };
 
-export default ErrorModal;
+export default MessageModal;
