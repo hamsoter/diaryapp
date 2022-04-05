@@ -76,6 +76,10 @@ function App() {
               />
             }
           />
+          <Route
+            path="/*"
+            element={<Diary getTempDiaries={getTempDiaresHandler} />}
+          />
         </Routes>
       </BrowserRouter>
     </Box>
