@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^10.4.9",
     "@testing-library/user-event": "^12.8.3",
+    "firebase": "^9.6.10",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "global": "^4.4.0",

@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Diary = ({ notFoundFlag, getTempDiaries, setMissingCount }) => {
   // App에서 다이어리 배열을 임시로 받아옴.
   const diaries = getTempDiaries();
+
   const navigate = useNavigate();
 
   // 찾아낸 다이어리를 저장할 공간

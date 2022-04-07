@@ -50,9 +50,9 @@ const AddDiaryForm = props => {
       pages: [],
     },
     onSubmit: (values, action) => {
+      // console.log(values);
       values.id = Math.random().toString(36).substring(2, 8);
-      values.color = selectedColor;
-      values.color = setColorTheme(values.color);
+      values.color = setColorTheme(selectedColor);
 
       onGetData(values);
       action.resetForm();

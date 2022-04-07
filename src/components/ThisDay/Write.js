@@ -21,7 +21,6 @@ import DatePick from '../UI/DatePick';
 import MessageModal from '../UI/MessageModal';
 
 const Write = ({ onBack, writer, saveData, data, diaries }) => {
-  console.log(data);
   const [startDate, setStartDate] = useState(new Date());
 
   // 모달 상태 관리
