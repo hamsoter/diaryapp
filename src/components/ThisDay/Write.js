@@ -20,10 +20,9 @@ import MainContent from '../UI/MainContent';
 import DatePick from '../UI/DatePick';
 import MessageModal from '../UI/MessageModal';
 
-const Write = ({ onBack, writer, saveData, data }) => {
+const Write = ({ onBack, writer, saveData, data, diaries }) => {
+  console.log(data);
   const [startDate, setStartDate] = useState(new Date());
-
-  // const [updateData, setUpdateData] = useState(data);
 
   // 모달 상태 관리
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -66,7 +65,7 @@ const Write = ({ onBack, writer, saveData, data }) => {
 
       // console.log(values);
 
-      saveData(values);
+      saveData(values, diaries);
     },
     // 값 변경시마다 유효성체크
     validateOnChange: false,
@@ -74,10 +73,6 @@ const Write = ({ onBack, writer, saveData, data }) => {
     validateOnBlur: true,
     validate: validator,
   });
-
-  const openHandler = props => {
-    props();
-  };
 
   useEffect(() => {
     if (data != undefined) {
