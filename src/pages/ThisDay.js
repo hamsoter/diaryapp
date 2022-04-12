@@ -14,15 +14,15 @@ import {
   getDatabase,
 } from 'firebase/database';
 
-const dbref = ref(getDatabase());
-
 const ThisDay = ({
   getTempDiaries,
   mode,
   setMissingCount,
   getDiariesArr,
+  loadDiaries,
   db,
 }) => {
+  const dbref = ref(getDatabase());
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -57,7 +57,7 @@ const ThisDay = ({
     // url으로 읽어낼 데이터 찾아내기
     data =
       diaries.pages &&
-      diaries.pages.filter(item => {
+      Object.values(diaries.pages).filter(item => {
         return item.id === paramId;
       })[0];
 
@@ -100,6 +100,7 @@ const ThisDay = ({
       updates['diaries/' + diaryId + '/pages/' + newDiary.id + '/'] = postData;
 
       console.log(updates);
+
       return update(dbref, updates);
     };
 

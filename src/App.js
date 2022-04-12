@@ -75,7 +75,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<MyLibrary getDiaries={getDiariesHandler} db={db} />}
+            element={<MyLibrary loadDiaries={getDiariesHandler} db={db} />}
           />
           <Route
             path="/diary/:uuid"
@@ -84,6 +84,7 @@ function App() {
                 // getTempDiaries={getTempDiaresHandler}
                 db={db}
                 getDiariesArr={getDiariesArr}
+                loadDiaries={getDiariesHandler}
                 notFoundFlag={notFoundFlag}
                 setNotFoundFlag={setNotFoundFlag}
                 missingCount={missingCount}
@@ -107,6 +108,7 @@ function App() {
               <ThisDay
                 // getTempDiaries={getTempDiaresHandler}
 
+                loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}
                 notFoundFlag={notFoundFlag}
                 setNotFoundFlag={setNotFoundFlag}
@@ -120,6 +122,7 @@ function App() {
             path="/diary/:uuid/:dayid/read"
             element={
               <ThisDay
+                loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}
                 setTempDiaries={setTempDiariesHandler}
                 setMissingCount={setMissingCount}
@@ -132,6 +135,7 @@ function App() {
             path="/diary/:uuid/:dayid/update"
             element={
               <ThisDay
+                loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}
                 setTempDiaries={setTempDiariesHandler}
                 mode={'update'}

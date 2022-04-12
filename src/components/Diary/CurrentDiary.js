@@ -9,7 +9,7 @@ import {
   Text,
   UnorderedList,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/DiaryLists/Header';
 import MainContent from '../../components/UI/MainContent';
@@ -20,6 +20,10 @@ import CurrnetMain from './CurrentMain';
 import YearFilter from './YearFilter';
 
 const CurrentDiary = ({ thisDiary, thisParam }) => {
+  const thisDiaryArr = Object.values(thisDiary);
+  const thisDiaryPagesArr = thisDiary && Object.values(thisDiary.pages);
+
+  console.log(thisDiary.pages, thisDiaryPagesArr);
   const navigate = useNavigate();
 
   const goBack = () => {
@@ -36,13 +40,22 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
 
   // 선택된 연도로 필터된 일기
   const filteredDiaries =
-    thisDiary.pages &&
-    thisDiary.pages.filter(item => {
-      console.log(item);
-      if (item.date.getFullYear() === selectedYear) {
-        return item;
-      }
-    });
+    thisDiary &&
+    thisDiaryPagesArr
+      .filter(item => {
+        console.log(item.date);
+        const date = new Date(item.date);
+        console.log(date.getFullYear());
+        if (date.getFullYear() === selectedYear) {
+          return item;
+        }
+      })
+      .sort(function (a, b) {
+        const aDate = a.date;
+        const bDate = b.date;
+
+        return new Date(bDate) - new Date(aDate);
+      });
 
   return (
     <>
@@ -62,12 +75,12 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
         <Flex w={'auto'} flexDir={'column'}>
           <CurrnetMain thisDiary={thisDiary}></CurrnetMain>
           <YearFilter
-            data={thisDiary.pages}
+            data={thisDiaryPagesArr}
             selected={selectedYear}
             onSelectYear={yearChangeHandler}
           ></YearFilter>
 
-          {thisDiary.pages == 0 && (
+          {thisDiaryArr.pages == 0 && (
             <Center>
               <Box
                 bg={'orange.50'}
@@ -104,7 +117,7 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
                       title={item.title}
                       content={item.content}
                       mood={item.mood}
-                      date={item.date}
+                      date={new Date(item.date)}
                     ></CurrentDay>
                   </Link>
                 );

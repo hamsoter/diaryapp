@@ -13,13 +13,13 @@ import MainContainer from '../components/UI/MainContainer';
 // firebase
 import { ref, set, get } from 'firebase/database';
 
-const MyLibrary = ({ db, getDiaries }) => {
+const MyLibrary = ({ db, loadDiaries }) => {
   // let DUMMY_DATA_ARR = getTempDiaries();
 
   const [diaries, setDiaries] = React.useState([]);
 
   useEffect(async () => {
-    const data = await getDiaries();
+    const data = await loadDiaries();
 
     setDiaries(data);
 

@@ -13,10 +13,14 @@ import React from 'react';
 
 const YearFilter = ({ selected, data, onSelectYear }) => {
   // 일기를 작성한 년도만 골라서 불러옴
+
+  console.log(data);
+
   let yearArr = [];
   data &&
     data.map(item => {
-      yearArr.push(item.date.getFullYear());
+      const date = new Date(item.date);
+      yearArr.push(date.getFullYear());
     });
 
   // 중복 없애기

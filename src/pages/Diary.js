@@ -6,10 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { NotAllowedIcon } from '@chakra-ui/icons';
 
-const Diary = ({ notFoundFlag, getDiariesArr, setMissingCount, db }) => {
-  // App에서 다이어리 배열을 임시로 받아옴.
-  const diaries = getDiariesArr();
-
+const Diary = ({
+  notFoundFlag,
+  getDiariesArr,
+  setMissingCount,
+  db,
+  loadDiaries,
+}) => {
   const navigate = useNavigate();
 
   // 찾아낸 다이어리를 저장할 공간
@@ -21,8 +24,10 @@ const Diary = ({ notFoundFlag, getDiariesArr, setMissingCount, db }) => {
   // 렌더 무한루프 방지 순서 처리
   // 주소 유효값 검사
 
-  useEffect(() => {
-    console.log(diaries);
+  useEffect(async () => {
+    // App에서 다이어리 배열을 임시로 받아옴.
+    const diaries = await loadDiaries();
+
     const findById = () => {
       const result = diaries.find(item => {
         return item.id == thisParamId;
@@ -34,13 +39,12 @@ const Diary = ({ notFoundFlag, getDiariesArr, setMissingCount, db }) => {
     const result = findById();
 
     if (findById()) {
-      console.log(result);
       setThisDiary(result);
     } else {
       setMissingCount(prevCount => prevCount + 1);
       navigate('/error');
     }
-  }, [thisDiary, diaries, thisParamId, notFoundFlag]);
+  }, []);
 
   let content = <CurrentDiary thisDiary={thisDiary} thisParam={thisParamId} />;
 
