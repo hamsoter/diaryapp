@@ -13,29 +13,15 @@ import MainContainer from '../components/UI/MainContainer';
 // firebase
 import { ref, set, get } from 'firebase/database';
 
-const MyLibrary = ({ getTempDiaries, setTempDiaries, db }) => {
+const MyLibrary = ({ db, getDiaries }) => {
   // let DUMMY_DATA_ARR = getTempDiaries();
 
   const [diaries, setDiaries] = React.useState([]);
 
   useEffect(async () => {
-    const data = await get(ref(db, `diaries`));
+    const data = await getDiaries();
 
-    const dataArr = Object.values(data.val());
-    console.log(dataArr);
-
-    const solved = dataArr.map(item => {
-      item.lastRecord = new Date(item.lastRecord);
-      item.pages = item.pages ? item.pages : [];
-
-      return item;
-    });
-
-    setDiaries(solved);
-
-    // setDiaries(()=> {
-    //   data.val()
-    // });
+    setDiaries(data);
 
     // 최초 한번만 실행
   }, []);
@@ -49,7 +35,6 @@ const MyLibrary = ({ getTempDiaries, setTempDiaries, db }) => {
       title: newDiary.title,
 
       lastRecord: newDiary.lastRecord.toString(),
-      // pages: ['야호야호'],
     });
     setDiaries(prevState => {
       return [newDiary, ...prevState];

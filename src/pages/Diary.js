@@ -4,9 +4,11 @@ import MainContainer from '../components/UI/MainContainer';
 import CurrentDiary from '../components/Diary/CurrentDiary';
 import { useNavigate } from 'react-router-dom';
 
-const Diary = ({ notFoundFlag, getTempDiaries, setMissingCount }) => {
+import { NotAllowedIcon } from '@chakra-ui/icons';
+
+const Diary = ({ notFoundFlag, getDiariesArr, setMissingCount, db }) => {
   // App에서 다이어리 배열을 임시로 받아옴.
-  const diaries = getTempDiaries();
+  const diaries = getDiariesArr();
 
   const navigate = useNavigate();
 
@@ -20,6 +22,7 @@ const Diary = ({ notFoundFlag, getTempDiaries, setMissingCount }) => {
   // 주소 유효값 검사
 
   useEffect(() => {
+    console.log(diaries);
     const findById = () => {
       const result = diaries.find(item => {
         return item.id == thisParamId;

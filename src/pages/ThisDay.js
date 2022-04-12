@@ -3,8 +3,26 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Read from '../components/ThisDay/Read';
 import Write from '../components/ThisDay/Write';
+// firebase
+import {
+  ref,
+  set,
+  get,
+  child,
+  push,
+  update,
+  getDatabase,
+} from 'firebase/database';
 
-const ThisDay = ({ getTempDiaries, mode, setMissingCount }) => {
+const dbref = ref(getDatabase());
+
+const ThisDay = ({
+  getTempDiaries,
+  mode,
+  setMissingCount,
+  getDiariesArr,
+  db,
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -21,7 +39,7 @@ const ThisDay = ({ getTempDiaries, mode, setMissingCount }) => {
   const [thisMode, setThisMode] = useState(paramMode ? paramMode : mode);
 
   // App에서 다이어리 배열을 임시로 받아옴.
-  const diaries = getTempDiaries().find(item => item.id === diaryId);
+  const diaries = getDiariesArr().find(item => item.id === diaryId);
 
   useEffect(() => {
     if (diaries === undefined) {
@@ -46,6 +64,8 @@ const ThisDay = ({ getTempDiaries, mode, setMissingCount }) => {
     const saveData = data => {
       const newData = data;
 
+      console.log(newData);
+
       // 날짜순 정렬
       diaries.pages = [newData, ...diaries.pages].sort(function (a, b) {
         a = a.date;
@@ -58,6 +78,29 @@ const ThisDay = ({ getTempDiaries, mode, setMissingCount }) => {
 
       // 페이지이동
       pageChange(newData);
+    };
+
+    const saveDayHandler = newDiary => {
+      console.log(newDiary);
+
+      const postData = {
+        title: newDiary.title,
+        writer: newDiary.writer,
+        content: newDiary.content,
+        id: newDiary.id,
+        mood: 0,
+        title: newDiary.title,
+
+        date: newDiary.date.toString(),
+      };
+
+      // const newPostKey = push(child(ref(db), 'diaries')).key;
+
+      const updates = {};
+      updates['diaries/' + diaryId + '/pages/' + newDiary.id + '/'] = postData;
+
+      console.log(updates);
+      return update(dbref, updates);
     };
 
     const updateData = newData => {
@@ -107,7 +150,11 @@ const ThisDay = ({ getTempDiaries, mode, setMissingCount }) => {
           ></Read>
         )}
         {thisMode === 'write' && (
-          <Write onBack={goBack} writer={writer} saveData={saveData}></Write>
+          <Write
+            onBack={goBack}
+            writer={writer}
+            saveData={saveDayHandler}
+          ></Write>
         )}
 
         {thisMode === 'update' && (

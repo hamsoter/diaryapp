@@ -12,6 +12,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getDatabase } from 'firebase/database';
+import { ref, set, get } from 'firebase/database';
 
 function App() {
   // firebase
@@ -32,8 +33,27 @@ function App() {
 
   let diariesArr = [];
 
+  const getDiariesHandler = async () => {
+    const data = await get(ref(db, `diaries`));
+
+    const dataArr = Object.values(data.val());
+    console.log(dataArr);
+
+    const solved = dataArr.map(item => {
+      item.lastRecord = new Date(item.lastRecord);
+      item.pages = item.pages ? item.pages : [];
+
+      return item;
+    });
+
+    diariesArr = solved;
+
+    return solved;
+  };
+
+  const getDiariesArr = () => diariesArr;
+
   const setTempDiariesHandler = diaries => {
-    console.log(diaries);
     diariesArr = diaries;
   };
 
@@ -55,19 +75,15 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={
-              <MyLibrary
-                getTempDiaries={getTempDiaresHandler}
-                setTempDiaries={setTempDiariesHandler}
-                db={db}
-              />
-            }
+            element={<MyLibrary getDiaries={getDiariesHandler} db={db} />}
           />
           <Route
             path="/diary/:uuid"
             element={
               <Diary
-                getTempDiaries={getTempDiaresHandler}
+                // getTempDiaries={getTempDiaresHandler}
+                db={db}
+                getDiariesArr={getDiariesArr}
                 notFoundFlag={notFoundFlag}
                 setNotFoundFlag={setNotFoundFlag}
                 missingCount={missingCount}
@@ -89,7 +105,9 @@ function App() {
             path="/diary/:uuid/write"
             element={
               <ThisDay
-                getTempDiaries={getTempDiaresHandler}
+                // getTempDiaries={getTempDiaresHandler}
+
+                getDiariesArr={getDiariesArr}
                 notFoundFlag={notFoundFlag}
                 setNotFoundFlag={setNotFoundFlag}
                 missingCount={missingCount}
@@ -102,7 +120,7 @@ function App() {
             path="/diary/:uuid/:dayid/read"
             element={
               <ThisDay
-                getTempDiaries={getTempDiaresHandler}
+                getDiariesArr={getDiariesArr}
                 setTempDiaries={setTempDiariesHandler}
                 setMissingCount={setMissingCount}
                 mode={'read'}
@@ -114,7 +132,7 @@ function App() {
             path="/diary/:uuid/:dayid/update"
             element={
               <ThisDay
-                getTempDiaries={getTempDiaresHandler}
+                getDiariesArr={getDiariesArr}
                 setTempDiaries={setTempDiariesHandler}
                 mode={'update'}
               />

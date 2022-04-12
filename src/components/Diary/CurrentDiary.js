@@ -38,6 +38,7 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
   const filteredDiaries =
     thisDiary.pages &&
     thisDiary.pages.filter(item => {
+      console.log(item);
       if (item.date.getFullYear() === selectedYear) {
         return item;
       }
