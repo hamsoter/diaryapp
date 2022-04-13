@@ -23,6 +23,8 @@ import MessageModal from '../UI/MessageModal';
 const Write = ({ onBack, writer, saveData, data, diaries }) => {
   const [startDate, setStartDate] = useState(new Date());
 
+  console.log(data);
+
   // 모달 상태 관리
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -78,7 +80,7 @@ const Write = ({ onBack, writer, saveData, data, diaries }) => {
       formik.values.content = data.content;
       formik.values.title = data.title;
 
-      setStartDate(data.date);
+      setStartDate(new Date(data.date));
     }
   }, []);
 

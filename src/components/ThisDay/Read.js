@@ -48,6 +48,8 @@ const Read = ({ onBack, data, changeMode, deleteData }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const date = new Date(data.date);
+
   const paramId = location.pathname.split('/')[3];
 
   const diaryId = location.pathname.split('/')[2];
@@ -91,11 +93,9 @@ const Read = ({ onBack, data, changeMode, deleteData }) => {
                 }}
               >
                 {' '}
-                {`${data.date.getFullYear()}년 ${
-                  data.date.getMonth() + 1
-                }월 ${data.date.getDate()}일 ${
-                  weekArr[data.date.getDay()]
-                }요일`}
+                {`${date.getFullYear()}년 ${
+                  date.getMonth() + 1
+                }월 ${date.getDate()}일 ${weekArr[date.getDay()]}요일`}
               </Button>
               {/* 타이틀 */}
               <Heading

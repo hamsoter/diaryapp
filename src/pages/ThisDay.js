@@ -81,7 +81,7 @@ const ThisDay = ({
     };
 
     const saveDayHandler = newDiary => {
-      console.log(newDiary);
+      const data = newDiary;
 
       const postData = {
         title: newDiary.title,
@@ -99,26 +99,35 @@ const ThisDay = ({
       const updates = {};
       updates['diaries/' + diaryId + '/pages/' + newDiary.id + '/'] = postData;
 
-      console.log(updates);
-
+      console.log(newDiary);
       return update(dbref, updates);
     };
 
-    const updateData = newData => {
+    const updateData = newDiary => {
       // 수정시 데이터 아이디 자동부여 취소 (좋은 방법이 아닌 거 같음)
-      newData.id = data.id;
+      newDiary.id = data.id;
 
-      // 배열에서 바꿔줘야 할 index 찾기
-      const changeIndex = diaries.pages.findIndex(item => item.id == data.id);
+      const postData = {
+        title: newDiary.title,
+        writer: newDiary.writer,
+        content: newDiary.content,
+        id: data.id,
+        mood: 0,
+        title: newDiary.title,
 
-      // 바꾸기
-      diaries.pages.splice(changeIndex, 1, newData);
+        date: newDiary.date.toString(),
+      };
 
-      // 마지막 업데이트일 갱신
-      diaries.lastRecord = diaries.pages[0].date;
+      // const newPostKey = push(child(ref(db), 'diaries')).key;
 
-      //페이지 변경
-      pageChange(newData);
+      const updates = {};
+      updates['diaries/' + diaryId + '/pages/' + data.id + '/'] = postData;
+
+      console.log(newDiary);
+      return update(dbref, updates);
+
+      // //페이지 변경
+      // pageChange(newData);
     };
 
     const deleteData = () => {
