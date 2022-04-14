@@ -9,11 +9,10 @@ import {
   Text,
   UnorderedList,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/DiaryLists/Header';
 import MainContent from '../../components/UI/MainContent';
-import Card from '../UI/Card';
 import HamburgerMenu from '../UI/HamburgerMenu';
 import CurrentDay from './CurrentDay';
 import CurrnetMain from './CurrentMain';

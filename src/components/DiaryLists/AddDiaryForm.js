@@ -110,7 +110,7 @@ const AddDiaryForm = props => {
       case '#F78DA7': // pink
         selectedColorScheme = colors.brandpink;
         break;
-      case '9900EF':
+      case '#9900EF':
         selectedColorScheme = colors.brandPurple;
         break;
 

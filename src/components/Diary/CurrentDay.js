@@ -11,10 +11,9 @@ import {
 } from '@chakra-ui/react';
 import Card from '../UI/Card';
 
-const CurrentDay = ({ title, content, mood, date, param, writer }) => {
+const CurrentDay = ({ title, content, date }) => {
   // 날짜 출력 편의를 위한 변수
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
-  const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
   const week = weekArr[date.getDay()];

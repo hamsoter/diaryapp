@@ -1,27 +1,12 @@
-import { ChakraProvider, IconButton, theme } from '@chakra-ui/react';
+import { ChakraProvider, theme } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Read from '../components/ThisDay/Read';
 import Write from '../components/ThisDay/Write';
 // firebase
-import {
-  ref,
-  set,
-  get,
-  child,
-  push,
-  update,
-  getDatabase,
-} from 'firebase/database';
+import { ref, update, getDatabase } from 'firebase/database';
 
-const ThisDay = ({
-  getTempDiaries,
-  mode,
-  setMissingCount,
-  getDiariesArr,
-  loadDiaries,
-  db,
-}) => {
+const ThisDay = ({ mode, setMissingCount, getDiariesArr, loadDiaries }) => {
   const dbref = ref(getDatabase());
   const location = useLocation();
   const navigate = useNavigate();
@@ -49,9 +34,9 @@ const ThisDay = ({
   }, [setMissingCount]);
 
   if (diaries === undefined) {
-    return <></>;
+    return null;
   } else {
-    // 유저명. 차후수정
+    // 유저명주입. 차후수정
     writer = diaries.userName;
 
     // url으로 읽어낼 데이터 찾아내기
@@ -60,23 +45,6 @@ const ThisDay = ({
       Object.values(diaries.pages).filter(item => {
         return item.id === paramId;
       })[0];
-
-    const saveData = data => {
-      const newData = data;
-
-      // 날짜순 정렬
-      diaries.pages = [newData, ...diaries.pages].sort(function (a, b) {
-        a = a.date;
-        b = b.date;
-        return a > b ? -1 : a < b ? 1 : 0;
-      });
-
-      // 마지막 업데이트일 갱신
-      diaries.lastRecord = diaries.pages[0].date;
-
-      // 페이지이동
-      pageChange(newData);
-    };
 
     const saveDay = newDiary => {
       const postData = {
@@ -139,15 +107,19 @@ const ThisDay = ({
       updates['diaries/' + diaryId + '/pages/' + data.id + '/'] = postData;
 
       // //페이지 변경
-      pageChange(newDiary);
       return update(dbref, updates);
     };
 
     const deleteData = () => {
-      const deleteIndex = diaries.pages.findIndex(item => item.id == data.id);
+      // const deleteIndex = diaries.pages.find(item => item.id == data.id);
 
-      console.log('삭제할인덱스는 ', deleteIndex);
-      diaries.pages.splice(deleteIndex, 1);
+      console.log(data.id);
+
+      const updates = {};
+      updates['diaries/' + diaryId + '/pages/' + data.id + '/'] = null;
+
+      update(dbref, updates);
+
       goBack();
     };
 
@@ -161,7 +133,7 @@ const ThisDay = ({
       navigate(`/diary/${diaryId}`);
     };
 
-    console.log('thisdaymode: ' + thisMode);
+    // console.log('thisdaymode: ' + thisMode);
 
     return (
       <ChakraProvider h={'100%'} theme={theme}>

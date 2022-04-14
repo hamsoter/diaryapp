@@ -87,8 +87,8 @@ const customColorTheme = extendTheme({
       sub: '#D895FF',
     },
     brandGray: {
-      mainColor: '#ABB8C3',
-      subColor: '#4D5358',
+      main: '#ABB8C3',
+      sub: '#4D5358',
     },
   },
 });

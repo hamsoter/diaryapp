@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 
 import '../components/UI/App.css';
-import { ChakraProvider, Box, theme, chakra } from '@chakra-ui/react';
+import { ChakraProvider, theme } from '@chakra-ui/react';
 
 import DiaryLists from '../components/DiaryLists/DiaryLists';
 import AddDiaryModal from '../components/DiaryLists/AddDiaryModal';
 import Header from '../components/DiaryLists/Header';
-import MainContent from '../components/UI/MainContent';
 import MainContents from '../components/UI/MainContents';
 import MainContainer from '../components/UI/MainContainer';
 
@@ -27,7 +26,6 @@ const MyLibrary = ({ db, loadDiaries }) => {
   }, []);
 
   const saveDiaryHandler = newDiary => {
-    console.log(newDiary);
     set(ref(db, 'diaries/' + newDiary.id), {
       id: newDiary.id,
       userName: newDiary.userName,

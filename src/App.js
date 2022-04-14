@@ -12,7 +12,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getDatabase } from 'firebase/database';
-import { ref, set, get } from 'firebase/database';
+import { ref, get } from 'firebase/database';
 
 function App() {
   // firebase
@@ -54,10 +54,6 @@ function App() {
   };
 
   const getDiariesArr = () => diariesArr;
-
-  const setTempDiariesHandler = diaries => {
-    diariesArr = diaries;
-  };
 
   const getTempDiaresHandler = () => {
     return diariesArr;
@@ -108,13 +104,8 @@ function App() {
             path="/diary/:uuid/write"
             element={
               <ThisDay
-                // getTempDiaries={getTempDiaresHandler}
-
                 loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}
-                notFoundFlag={notFoundFlag}
-                setNotFoundFlag={setNotFoundFlag}
-                missingCount={missingCount}
                 setMissingCount={setMissingCount}
                 mode={'write'}
               />
@@ -126,7 +117,6 @@ function App() {
               <ThisDay
                 loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}
-                setTempDiaries={setTempDiariesHandler}
                 setMissingCount={setMissingCount}
                 mode={'read'}
               />
@@ -139,7 +129,7 @@ function App() {
               <ThisDay
                 loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}
-                setTempDiaries={setTempDiariesHandler}
+                setMissingCount={setMissingCount}
                 mode={'update'}
               />
             }

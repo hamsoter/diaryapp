@@ -8,7 +8,7 @@ const DiaryItem = props => {
 
   // let params = useParams();
 
-  // console.log(params);
+  console.log(color, name);
 
   const liStyles = {
     bg: color.main,
