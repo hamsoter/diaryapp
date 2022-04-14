@@ -64,8 +64,6 @@ const ThisDay = ({
     const saveData = data => {
       const newData = data;
 
-      console.log(newData);
-
       // 날짜순 정렬
       diaries.pages = [newData, ...diaries.pages].sort(function (a, b) {
         a = a.date;
@@ -80,9 +78,7 @@ const ThisDay = ({
       pageChange(newData);
     };
 
-    const saveDayHandler = newDiary => {
-      const data = newDiary;
-
+    const saveDay = newDiary => {
       const postData = {
         title: newDiary.title,
         writer: newDiary.writer,
@@ -99,8 +95,27 @@ const ThisDay = ({
       const updates = {};
       updates['diaries/' + diaryId + '/pages/' + newDiary.id + '/'] = postData;
 
-      console.log(newDiary);
-      return update(dbref, updates);
+      update(dbref, updates);
+
+      return newDiary;
+    };
+
+    const saveDayHandler = async newDiary => {
+      saveDay(newDiary);
+
+      // 저장된 데이터 다시 불러오기
+      await loadDiaries();
+
+      pageChange(newDiary);
+    };
+
+    const updateDataHandler = async newDiary => {
+      updateData(newDiary);
+
+      // 저장된 데이터 다시 불러오기
+      await loadDiaries();
+
+      pageChange(newDiary);
     };
 
     const updateData = newDiary => {
@@ -123,11 +138,9 @@ const ThisDay = ({
       const updates = {};
       updates['diaries/' + diaryId + '/pages/' + data.id + '/'] = postData;
 
-      console.log(newDiary);
-      return update(dbref, updates);
-
       // //페이지 변경
-      // pageChange(newData);
+      pageChange(newDiary);
+      return update(dbref, updates);
     };
 
     const deleteData = () => {
@@ -140,6 +153,7 @@ const ThisDay = ({
 
     const pageChange = newData => {
       navigate(`/diary/${diaryId}/${newData.id}/read/`);
+
       setThisMode('read');
     };
 
@@ -174,7 +188,7 @@ const ThisDay = ({
             diaries={diaries}
             writer={writer}
             data={data}
-            saveData={updateData}
+            saveData={updateDataHandler}
           ></Write>
         )}
       </ChakraProvider>

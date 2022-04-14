@@ -48,6 +48,8 @@ function App() {
 
     diariesArr = solved;
 
+    console.log('db에서 데이터 불러옴');
+
     return solved;
   };
 
