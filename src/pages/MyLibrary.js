@@ -10,7 +10,7 @@ import MainContents from '../components/UI/MainContents';
 import MainContainer from '../components/UI/MainContainer';
 
 // firebase
-import { ref, set, get } from 'firebase/database';
+import { ref, set, get } from '@firebase/database';
 
 const MyLibrary = ({ db, loadDiaries }) => {
   // let DUMMY_DATA_ARR = getTempDiaries();

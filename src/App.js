@@ -9,10 +9,12 @@ import ThisDay from './pages/ThisDay';
 import NotFoundPage from './pages/NotFoundPage';
 
 // firebase
-import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
-import { getDatabase } from 'firebase/database';
-import { ref, get } from 'firebase/database';
+import { initializeApp } from '@firebase/app';
+import { getAnalytics } from '@firebase/analytics';
+import { getDatabase } from '@firebase/database';
+import { ref, get } from '@firebase/database';
+import Login from './pages/Login';
+import firebase from 'firebase/compat/app';
 
 function App() {
   // firebase
@@ -28,6 +30,7 @@ function App() {
   };
 
   const fbApp = initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 
   const analytics = getAnalytics(fbApp);
 
@@ -51,6 +54,14 @@ function App() {
     console.log('db에서 데이터 불러옴');
 
     return solved;
+  };
+
+  // 로그인정보
+  const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
+
+  // 로그인시 유저의 정보를 가져옴
+  const loginUserInfo = data => {
+    console.log(data.currentUser.displayName);
   };
 
   const getDiariesArr = () => diariesArr;
@@ -132,6 +143,19 @@ function App() {
                 setMissingCount={setMissingCount}
                 mode={'update'}
               />
+            }
+          />
+
+          <Route
+            path="/login"
+            element={
+              <Login
+                loginUserInfo={loginUserInfo}
+                config={firebaseConfig}
+                fbApp={fbApp}
+                isSignedIn={isSignedIn}
+                setIsSignedIn={setIsSignedIn}
+              ></Login>
             }
           />
           <Route

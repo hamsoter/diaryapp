@@ -18,7 +18,7 @@ import CurrentDay from './CurrentDay';
 import CurrnetMain from './CurrentMain';
 import YearFilter from './YearFilter';
 
-import { ref, update, getDatabase } from 'firebase/database';
+import { ref, update, getDatabase } from '@firebase/database';
 
 const CurrentDiary = ({ thisDiary, thisParam }) => {
   const dbref = ref(getDatabase());

@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Read from '../components/ThisDay/Read';
 import Write from '../components/ThisDay/Write';
 // firebase
-import { ref, update, getDatabase } from 'firebase/database';
+import { ref, update, getDatabase } from '@firebase/database';
 
 const ThisDay = ({ mode, setMissingCount, getDiariesArr, loadDiaries }) => {
   const dbref = ref(getDatabase());
