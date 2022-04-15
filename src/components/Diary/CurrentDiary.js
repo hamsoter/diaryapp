@@ -18,7 +18,11 @@ import CurrentDay from './CurrentDay';
 import CurrnetMain from './CurrentMain';
 import YearFilter from './YearFilter';
 
+import { ref, update, getDatabase } from 'firebase/database';
+
 const CurrentDiary = ({ thisDiary, thisParam }) => {
+  const dbref = ref(getDatabase());
+
   const thisDiaryArr = Object.values(thisDiary);
   const thisDiaryPagesArr = thisDiary && Object.values(thisDiary.pages);
 
@@ -35,6 +39,16 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
 
   const yearChangeHandler = year => {
     setSelectedYear(year);
+  };
+
+  const deleteThisDiary = () => {
+    console.log(thisDiary.id, '를 삭제?');
+
+    const updates = {};
+    updates['diaries/' + thisDiary.id + '/'] = null;
+
+    update(dbref, updates);
+    goBack();
   };
 
   // 선택된 연도로 필터된 일기
@@ -68,7 +82,7 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
             icon={<ArrowBackIcon boxSize="5" onClick={goBack} />}
           />
         }
-        rightContent={<HamburgerMenu />}
+        rightContent={<HamburgerMenu deleteThisDiary={deleteThisDiary} />}
       />
       <MainContent w={'100%'}>
         <Flex w={'auto'} flexDir={'column'}>
