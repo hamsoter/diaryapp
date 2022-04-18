@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Box } from '@chakra-ui/react';
+import { Box, useControllableState } from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MyLibrary from './pages/MyLibrary';
 import Diary from './pages/Diary';
@@ -16,6 +16,8 @@ import { ref, get } from '@firebase/database';
 import Login from './pages/Login';
 import firebase from 'firebase/compat/app';
 
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 function App() {
   // firebase
   const firebaseConfig = {
@@ -29,18 +31,39 @@ function App() {
     measurementId: 'G-QNQ1GQW7P3',
   };
 
-  const fbApp = initializeApp(firebaseConfig);
   firebase.initializeApp(firebaseConfig);
+
+  const fbApp = initializeApp(firebaseConfig);
 
   const analytics = getAnalytics(fbApp);
 
   let diariesArr = [];
 
+  // const auth = getAuth();
+  // const user = auth.currentUser;
+
+  // const [loginUser, setLoginUser] = useState();
+
+  // // const loginCheck = async () => {
+  // //   auth.onAuthStateChanged(user => {
+  // //     if (user) {
+  // //       console.log('로그인됨', user);
+  // //     } else {
+  // //       console.log('로그인안됨');
+  // //     }
+  // //   });
+  // // };
+
+  useEffect(async () => {
+    // if (user !== null) {
+    // } else {
+    // }
+  }, []);
+
   const getDiariesHandler = async () => {
-    const data = await get(ref(db, `diaries`));
+    const data = await get(ref(db, 'diaries'));
 
     const dataArr = Object.values(data.val());
-    console.log(dataArr);
 
     const solved = dataArr.map(item => {
       item.lastRecord = new Date(item.lastRecord);
@@ -51,24 +74,17 @@ function App() {
 
     diariesArr = solved;
 
-    console.log('db에서 데이터 불러옴');
+    // console.log('db에서 데이터 불러옴');
 
     return solved;
   };
 
-  // 로그인정보
-  const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
-
   // 로그인시 유저의 정보를 가져옴
   const loginUserInfo = data => {
-    console.log(data.currentUser.displayName);
+    // loginUser = data;
   };
 
   const getDiariesArr = () => diariesArr;
-
-  const getTempDiaresHandler = () => {
-    return diariesArr;
-  };
 
   const db = getDatabase(fbApp);
 
@@ -84,7 +100,13 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<MyLibrary loadDiaries={getDiariesHandler} db={db} />}
+            element={
+              <MyLibrary
+                // loginCheck={loginCheck}
+                loadDiaries={getDiariesHandler}
+                db={db}
+              />
+            }
           />
           <Route
             path="/diary/:uuid"
@@ -153,8 +175,8 @@ function App() {
                 loginUserInfo={loginUserInfo}
                 config={firebaseConfig}
                 fbApp={fbApp}
-                isSignedIn={isSignedIn}
-                setIsSignedIn={setIsSignedIn}
+                // isSignedIn={isSignedIn}
+                // setIsSignedIn={setIsSignedIn}
               ></Login>
             }
           />

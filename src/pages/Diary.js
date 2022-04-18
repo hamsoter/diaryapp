@@ -5,7 +5,9 @@ import CurrentDiary from '../components/Diary/CurrentDiary';
 import { useNavigate } from 'react-router-dom';
 
 import { NotAllowedIcon } from '@chakra-ui/icons';
+import { getAuth } from 'firebase/auth';
 
+// http://localhost:3000/diary/8ug8bk
 const Diary = ({
   notFoundFlag,
   getDiariesArr,
@@ -24,26 +26,38 @@ const Diary = ({
   // 렌더 무한루프 방지 순서 처리
   // 주소 유효값 검사
 
-  useEffect(async () => {
-    // App에서 다이어리 배열을 임시로 받아옴.
-    const diaries = await loadDiaries();
+  const auth = getAuth();
 
-    const findById = () => {
-      const result = diaries.find(item => {
-        return item.id == thisParamId;
-      });
-      // 찾은 객체 리턴
-      return result;
-    };
+  useEffect(() => {
+    // 로그인 체크
+    auth.onAuthStateChanged(async user => {
+      if (user) {
+        console.log('로그인됨', user);
 
-    const result = findById();
+        // App에서 다이어리 배열을 임시로 받아옴.
+        const diaries = await loadDiaries();
 
-    if (findById()) {
-      setThisDiary(result);
-    } else {
-      setMissingCount(prevCount => prevCount + 1);
-      navigate('/error');
-    }
+        const findById = () => {
+          const result = diaries.find(item => {
+            return item.id == thisParamId;
+          });
+          // 찾은 객체 리턴
+          return result;
+        };
+
+        if (findById()) {
+          setThisDiary(findById());
+        } else {
+          setMissingCount(prevCount => prevCount + 1);
+          navigate('/error');
+        }
+      } else {
+        console.log('로그인안됨');
+        navigate('/login');
+        return;
+      }
+    });
+    return () => setThisDiary(false);
   }, []);
 
   let content = <CurrentDiary thisDiary={thisDiary} thisParam={thisParamId} />;

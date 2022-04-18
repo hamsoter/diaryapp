@@ -8,9 +8,10 @@ import Header from '../components/DiaryLists/Header';
 import MainContent from '../components/UI/MainContent';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({ fbApp, config, loginUserInfo, isSignedIn, setIsSignedIn }) => {
-  firebase.initializeApp(config);
+const Login = ({ fbApp, config }) => {
+  // firebase.initializeApp(config);
   const navigate = useNavigate();
+
   const uiConfig = {
     // Popup signin flow rather than redirect flow.
     signInFlow: 'popup',
@@ -24,11 +25,19 @@ const Login = ({ fbApp, config, loginUserInfo, isSignedIn, setIsSignedIn }) => {
     },
   };
 
+  // 로그인정보
+  const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
+
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
       setIsSignedIn(!!user);
+
+      if (!!user) {
+        navigate('/');
+      }
     });
+
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
 
@@ -46,9 +55,6 @@ const Login = ({ fbApp, config, loginUserInfo, isSignedIn, setIsSignedIn }) => {
         </MainContainer>
       </ChakraProvider>
     );
-  } else {
-    loginUserInfo(firebase.auth());
-    navigate('/');
   }
 
   return (

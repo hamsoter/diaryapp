@@ -5,6 +5,7 @@ import Read from '../components/ThisDay/Read';
 import Write from '../components/ThisDay/Write';
 // firebase
 import { ref, update, getDatabase } from '@firebase/database';
+import { getAuth } from 'firebase/auth';
 
 const ThisDay = ({ mode, setMissingCount, getDiariesArr, loadDiaries }) => {
   const dbref = ref(getDatabase());
@@ -26,7 +27,19 @@ const ThisDay = ({ mode, setMissingCount, getDiariesArr, loadDiaries }) => {
   // App에서 다이어리 배열을 임시로 받아옴.
   const diaries = getDiariesArr().find(item => item.id === diaryId);
 
+  const auth = getAuth();
+
   useEffect(() => {
+    // 로그인 체크
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        console.log('로그인됨', user);
+      } else {
+        console.log('로그인안됨');
+        navigate('/login');
+      }
+    });
+
     if (diaries === undefined) {
       setMissingCount(prevCount => prevCount + 1);
       navigate('/error');
