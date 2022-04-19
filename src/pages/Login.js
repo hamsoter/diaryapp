@@ -8,7 +8,10 @@ import Header from '../components/DiaryLists/Header';
 import MainContent from '../components/UI/MainContent';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({ fbApp, config }) => {
+// firebase
+import { ref, set, get } from '@firebase/database';
+
+const Login = ({ fbApp, config, db, setLoginUser }) => {
   // firebase.initializeApp(config);
   const navigate = useNavigate();
 
@@ -32,6 +35,16 @@ const Login = ({ fbApp, config }) => {
   useEffect(() => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
       setIsSignedIn(!!user);
+
+      console.log(user._delegate);
+
+      // db에 유저데이터 저장
+      set(ref(db, 'users/' + user.uid), {
+        id: user.uid,
+        name: user._delegate.displayName,
+        email: user._delegate.email,
+        indexOn: [],
+      });
 
       if (!!user) {
         navigate('/');

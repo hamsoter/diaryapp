@@ -14,18 +14,17 @@ import ColorPicker from '../UI/ColorPicker';
 import { useFormik } from 'formik';
 import customColorTheme from '../UI/CustomColorTheme';
 
-const AddDiaryForm = props => {
-  const { onClose, onGetData } = props;
-
+const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
   // form의 validation을 확인하는 메서드
+
   const validator = values => {
     let error = {};
 
     const { userName, title } = values;
 
-    if (userName.length < 1) {
-      error.userName = '이름을 입력하세요';
-    }
+    // if (userName.length < 1) {
+    //   error.userName = '이름을 입력하세요';
+    // }
     if (title.length < 1) {
       error.title = '일기장 이름을 입력하세요';
     }
@@ -41,7 +40,7 @@ const AddDiaryForm = props => {
     // 초기값 설정
     initialValues: {
       id: '',
-      userName: '',
+      userName: loginUser.name,
       title: '',
       color: selectedColor,
       // 임시 날짜
@@ -125,6 +124,7 @@ const AddDiaryForm = props => {
       <FormControl>
         <FormLabel htmlFor="userName">당신의 이름</FormLabel>
         <Input
+          isDisabled
           id="userName"
           onChange={formik.handleChange}
           value={formik.values.userName}

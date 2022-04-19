@@ -15,48 +15,46 @@ import { ref, set, get } from '@firebase/database';
 import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 
-const MyLibrary = ({ db, loadDiaries }) => {
+const MyLibrary = ({ db, loadDiaries, loginUser }) => {
   const auth = getAuth();
 
   const navigate = useNavigate();
 
   const [diaries, setDiaries] = React.useState([]);
 
-  const [userInfo, setUserInfo] = useState();
-
   useEffect(async () => {
     // 로그인 체크
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged(async user => {
       if (user) {
         console.log('로그인됨', user.uid);
-        setUserInfo(user);
 
-        console.log(userInfo);
+        const data = await loadDiaries(user.uid);
+
+        setDiaries(data);
       } else {
         console.log('로그인안됨');
         navigate('/login');
       }
     });
 
-    const data = await loadDiaries();
-
-    setDiaries(data);
-
     // 최초 한번만 실행
   }, []);
 
   const saveDiaryHandler = newDiary => {
-    console.log(userInfo);
+    newDiary.owner = loginUser;
 
-    set(ref(db, userInfo.uid + '/diaries/' + newDiary.id), {
+    set(ref(db, '/diaries/' + newDiary.id), {
       id: newDiary.id,
-      userUid: userInfo.uid,
-      userName: newDiary.userName,
+      owner: loginUser,
+      // userUid: loginUser.id,
+      // userName: newDiary.userName,
       color: newDiary.color,
       title: newDiary.title,
 
       lastRecord: newDiary.lastRecord.toString(),
     });
+
+    loadDiaries(loginUser.id);
 
     setDiaries(prevState => {
       return [newDiary, ...prevState];
@@ -71,11 +69,13 @@ const MyLibrary = ({ db, loadDiaries }) => {
       <MainContainer>
         <Header
           title={'책장'}
-          rightContent={<AddDiaryModal onSaveDiary={saveDiaryHandler} />}
+          rightContent={
+            <AddDiaryModal
+              loginUser={loginUser}
+              onSaveDiary={saveDiaryHandler}
+            />
+          }
         />
-        {/* <MainContent>
-          <DiaryLists diaries={diaries}></DiaryLists>
-        </MainContent> */}
 
         <MainContents>
           <DiaryLists diaries={diaries}></DiaryLists>

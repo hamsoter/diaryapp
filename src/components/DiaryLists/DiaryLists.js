@@ -4,9 +4,7 @@ import Card from '../UI/Card';
 import Ul from '../UI/Ul';
 import DiaryItem from './DiaryItem';
 
-const DiaryLists = props => {
-  const { diaries } = props;
-
+const DiaryLists = ({ diaries }) => {
   return (
     // <UnorderedList display={'flex'} m={0} width={'100%'} flexWrap="wrap">
     <Ul w={'100%'}>
@@ -26,12 +24,11 @@ const DiaryLists = props => {
         </Center>
       ) : (
         diaries.map(diary => {
-          // console.log(diary.id);
           return (
             <DiaryItem
               key={diary.id}
               id={diary.id}
-              name={diary.userName}
+              name={diary.owner.name}
               title={diary.title}
               color={diary.color}
               lastRecord={diary.lastRecord}

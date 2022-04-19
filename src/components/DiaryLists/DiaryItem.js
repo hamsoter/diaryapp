@@ -3,9 +3,7 @@ import React from 'react';
 import { ScaleFade } from '@chakra-ui/react';
 import { Link, useParams } from 'react-router-dom';
 
-const DiaryItem = props => {
-  const { name, lastRecord, color, title, id } = props;
-
+const DiaryItem = ({ name, lastRecord, color, title, id }) => {
   // let params = useParams();
 
   console.log(color, name);

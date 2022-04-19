@@ -12,7 +12,14 @@ import NotFoundPage from './pages/NotFoundPage';
 import { initializeApp } from '@firebase/app';
 import { getAnalytics } from '@firebase/analytics';
 import { getDatabase } from '@firebase/database';
-import { ref, get } from '@firebase/database';
+import {
+  ref,
+  get,
+  child,
+  query,
+  orderByChild,
+  equalTo,
+} from '@firebase/database';
 import Login from './pages/Login';
 import firebase from 'firebase/compat/app';
 
@@ -39,49 +46,52 @@ function App() {
 
   let diariesArr = [];
 
-  // const auth = getAuth();
-  // const user = auth.currentUser;
-
-  // const [loginUser, setLoginUser] = useState();
-
-  // // const loginCheck = async () => {
-  // //   auth.onAuthStateChanged(user => {
-  // //     if (user) {
-  // //       console.log('로그인됨', user);
-  // //     } else {
-  // //       console.log('로그인안됨');
-  // //     }
-  // //   });
-  // // };
+  const [loginUser, setLoginUser] = useState();
 
   useEffect(async () => {
-    // if (user !== null) {
-    // } else {
-    // }
+    const auth = getAuth();
+    // 로그인 체크 + 로그인유저 세팅
+    auth.onAuthStateChanged(async user => {
+      if (user) {
+        setLoginUser({
+          id: user.uid,
+          name: user.displayName,
+          email: user.email,
+        });
+      }
+    });
   }, []);
 
-  const getDiariesHandler = async () => {
-    const data = await get(ref(db, 'diaries'));
+  const getDiariesHandler = async uid => {
+    // const data = await get(ref(db, '/diaries'));
+
+    // 로그인한 유저의 일기를 가져오는 쿼리문
+    const data = await get(
+      query(ref(db, 'diaries'), orderByChild('owner/id'), equalTo(uid))
+    );
 
     const dataArr = Object.values(data.val());
 
-    const solved = dataArr.map(item => {
-      item.lastRecord = new Date(item.lastRecord);
-      item.pages = item.pages ? item.pages : [];
+    const solved = dataArr
+      .map(item => {
+        item.lastRecord = new Date(item.lastRecord);
+        item.pages = item.pages ? item.pages : []; //
 
-      return item;
-    });
+        return item;
+      })
+      // 날짜순 정렬
+      .sort(function (a, b) {
+        const aDate = a.lastRecord;
+        const bDate = b.lastRecord;
+
+        return new Date(bDate) - new Date(aDate);
+      });
 
     diariesArr = solved;
 
     // console.log('db에서 데이터 불러옴');
 
     return solved;
-  };
-
-  // 로그인시 유저의 정보를 가져옴
-  const loginUserInfo = data => {
-    // loginUser = data;
   };
 
   const getDiariesArr = () => diariesArr;
@@ -103,6 +113,7 @@ function App() {
             element={
               <MyLibrary
                 // loginCheck={loginCheck}
+                loginUser={loginUser}
                 loadDiaries={getDiariesHandler}
                 db={db}
               />
@@ -172,9 +183,10 @@ function App() {
             path="/login"
             element={
               <Login
-                loginUserInfo={loginUserInfo}
                 config={firebaseConfig}
                 fbApp={fbApp}
+                db={db}
+                setLoginUser={setLoginUser}
                 // isSignedIn={isSignedIn}
                 // setIsSignedIn={setIsSignedIn}
               ></Login>

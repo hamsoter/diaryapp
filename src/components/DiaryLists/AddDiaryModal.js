@@ -21,11 +21,11 @@ import ColorPicker from '../UI/ColorPicker';
 import { useFormik } from 'formik';
 import AddDiaryForm from './AddDiaryForm';
 
-const AddDiaryModal = props => {
+const AddDiaryModal = ({ loginUser, onSaveDiary }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const getSaveData = data => {
-    props.onSaveDiary(data);
+    onSaveDiary(data);
   };
 
   return (
@@ -47,6 +47,7 @@ const AddDiaryModal = props => {
           <ModalBody>
             <AddDiaryForm
               onClose={onClose}
+              loginUser={loginUser}
               onGetData={getSaveData}
             ></AddDiaryForm>
           </ModalBody>
