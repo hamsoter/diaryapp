@@ -124,6 +124,7 @@ function App() {
             element={
               <Diary
                 // getTempDiaries={getTempDiaresHandler}
+                loginUser={loginUser}
                 db={db}
                 getDiariesArr={getDiariesArr}
                 loadDiaries={getDiariesHandler}
@@ -148,6 +149,7 @@ function App() {
             path="/diary/:uuid/write"
             element={
               <ThisDay
+                loginUser={loginUser}
                 loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}
                 setMissingCount={setMissingCount}
@@ -159,6 +161,7 @@ function App() {
             path="/diary/:uuid/:dayid/read"
             element={
               <ThisDay
+                loginUser={loginUser}
                 loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}
                 setMissingCount={setMissingCount}
@@ -171,6 +174,7 @@ function App() {
             path="/diary/:uuid/:dayid/update"
             element={
               <ThisDay
+                loginUser={loginUser}
                 loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}
                 setMissingCount={setMissingCount}

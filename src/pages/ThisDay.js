@@ -7,7 +7,13 @@ import Write from '../components/ThisDay/Write';
 import { ref, update, getDatabase } from '@firebase/database';
 import { getAuth } from 'firebase/auth';
 
-const ThisDay = ({ mode, setMissingCount, getDiariesArr, loadDiaries }) => {
+const ThisDay = ({
+  mode,
+  setMissingCount,
+  getDiariesArr,
+  loadDiaries,
+  loginUser,
+}) => {
   const dbref = ref(getDatabase());
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,6 +40,9 @@ const ThisDay = ({ mode, setMissingCount, getDiariesArr, loadDiaries }) => {
     auth.onAuthStateChanged(user => {
       if (user) {
         console.log('로그인됨', user);
+        if (diaries.owner.id !== user.uid) {
+          navigate('/login');
+        }
       } else {
         console.log('로그인안됨');
         navigate('/login');

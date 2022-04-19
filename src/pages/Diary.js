@@ -14,6 +14,7 @@ const Diary = ({
   setMissingCount,
   db,
   loadDiaries,
+  loginUser,
 }) => {
   const navigate = useNavigate();
 
@@ -35,7 +36,9 @@ const Diary = ({
         console.log('로그인됨', user);
 
         // App에서 다이어리 배열을 임시로 받아옴.
-        const diaries = await loadDiaries();
+        const diaries = await loadDiaries(user.uid);
+
+        console.log(diaries);
 
         const findById = () => {
           const result = diaries.find(item => {
@@ -45,7 +48,7 @@ const Diary = ({
           return result;
         };
 
-        if (findById()) {
+        if (findById() && loginUser.id === findById().owner.id) {
           setThisDiary(findById());
         } else {
           setMissingCount(prevCount => prevCount + 1);
