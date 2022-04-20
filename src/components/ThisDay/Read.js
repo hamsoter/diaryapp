@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   AlertDialog,
@@ -31,7 +31,6 @@ import {
   useMenuState,
   useStyles,
 } from '@chakra-ui/react';
-import { useFormik } from 'formik';
 import Header from '../DiaryLists/Header';
 import Card from '../UI/Card';
 import MainContainer from '../UI/MainContainer';
@@ -41,32 +40,71 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MessageModal from '../UI/MessageModal';
 
-const Read = ({ onBack, data, changeMode, deleteData }) => {
+// firebase
+import {
+  ref,
+  update,
+  getDatabase,
+  set,
+  get,
+  query,
+  orderByChild,
+  equalTo,
+} from '@firebase/database';
+
+const Read = ({
+  onBack,
+  data,
+  changeMode,
+  deleteData,
+  db,
+  setMissingCount,
+}) => {
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
   const cancelRef = React.useRef();
+
+  // console.log(data);
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const date = new Date(data.date);
+  const date = new Date();
 
-  const paramId = location.pathname.split('/')[3];
+  const pageId = location.pathname.split('/')[3];
 
   const diaryId = location.pathname.split('/')[2];
 
   const goToupdatePage = () => {
-    navigate(`/diary/${diaryId}/${paramId}/update/`);
+    navigate(`/diary/${diaryId}/${pageId}/update/`);
     changeMode(`update`);
   };
 
   // 모달 상태 관리
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [thisPage, setThisPage] = useState();
+
+  useEffect(async () => {
+    // 파라미터의 pageId를 기반으로 표기할 데이터를 찾음
+    const findById = await get(
+      query(ref(db, 'pages'), orderByChild('id'), equalTo(pageId))
+    );
+    // db에 존재하는 패이지인지 확인
+    // 없을시 404
+    if (findById.val() === null) {
+      setMissingCount(prevCount => prevCount + 1);
+      navigate('/error');
+      return;
+    } else {
+      setThisPage(Object.values(findById.val())[0]);
+    }
+  }, []);
+
   return (
     <MainContainer>
       {/* 헤더 */}
       <Header
-        title={data.title}
+        title={thisPage && thisPage.title}
         leftContent={
           <IconButton
             colorScheme={'orange'}
@@ -109,7 +147,7 @@ const Read = ({ onBack, data, changeMode, deleteData }) => {
                 justifyContent={'center'}
                 mb={3}
               >
-                {data.title}
+                {thisPage && thisPage.title}
               </Heading>
 
               {/* 내용 */}
@@ -135,7 +173,7 @@ const Read = ({ onBack, data, changeMode, deleteData }) => {
                   },
                 }}
               >
-                {data.content}
+                {thisPage && thisPage.content}
               </Box>
 
               <Flex>

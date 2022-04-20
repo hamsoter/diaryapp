@@ -162,6 +162,7 @@ function App() {
             path="/diary/:uuid/:dayid/read"
             element={
               <ThisDay
+                db={db}
                 loginUser={loginUser}
                 loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}
