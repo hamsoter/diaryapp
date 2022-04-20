@@ -9,7 +9,7 @@ import {
   Text,
   UnorderedList,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/DiaryLists/Header';
 import MainContent from '../../components/UI/MainContent';
@@ -20,14 +20,39 @@ import YearFilter from './YearFilter';
 
 import { ref, update, getDatabase } from '@firebase/database';
 
-const CurrentDiary = ({ thisDiary, thisParam }) => {
+const CurrentDiary = ({ thisDiary, thisParam, getPages, setMissingCount }) => {
   const dbref = ref(getDatabase());
-
-  const thisDiaryArr = Object.values(thisDiary);
-  const thisDiaryPagesArr = thisDiary && Object.values(thisDiary.pages);
-
-  console.log(thisDiary.pages, thisDiaryPagesArr);
   const navigate = useNavigate();
+
+  let pagesArr;
+
+  const [filteredPages, setFilteredPages] = useState();
+
+  useEffect(async () => {
+    console.log(await getPages());
+    if (await getPages()) {
+      pagesArr = Object.values(await getPages());
+
+      // 연도별 필터 + 최신순 정렬
+      setFilteredPages(
+        pagesArr
+          .filter(item => {
+            if (new Date(item.date).getFullYear() === selectedYear) {
+              return item;
+            }
+          })
+          .sort(function (a, b) {
+            const aDate = a.date;
+            const bDate = b.date;
+
+            return new Date(bDate) - new Date(aDate);
+          })
+      );
+    }
+  }, []);
+
+  // const thisDiaryArr = Object.values(thisDiary);
+  // const thisDiaryPagesArr = thisDiary && Object.values(thisDiary.pages);
 
   const goBack = () => {
     navigate('/');
@@ -51,24 +76,25 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
     goBack();
   };
 
+  console.log(pagesArr);
   // 선택된 연도로 필터된 일기
-  const filteredDiaries =
-    thisDiary &&
-    thisDiaryPagesArr
-      .filter(item => {
-        console.log(item.date);
-        const date = new Date(item.date);
-        console.log(date.getFullYear());
-        if (date.getFullYear() === selectedYear) {
-          return item;
-        }
-      })
-      .sort(function (a, b) {
-        const aDate = a.date;
-        const bDate = b.date;
+  // const filteredDiaries =
+  //   pagesArr &&
+  //   pagesArr
+  //     .filter(item => {
+  //       console.log(item.date);
+  //       const date = new Date(item.date);
+  //       console.log(date.getFullYear());
+  //       if (date.getFullYear() === selectedYear) {
+  //         return item;
+  //       }
+  //     })
+  //     .sort(function (a, b) {
+  //       const aDate = a.date;
+  //       const bDate = b.date;
 
-        return new Date(bDate) - new Date(aDate);
-      });
+  //       return new Date(bDate) - new Date(aDate);
+  //     });
 
   return (
     <>
@@ -88,12 +114,12 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
         <Flex w={'auto'} flexDir={'column'}>
           <CurrnetMain thisDiary={thisDiary}></CurrnetMain>
           <YearFilter
-            data={thisDiaryPagesArr}
+            data={pagesArr}
             selected={selectedYear}
             onSelectYear={yearChangeHandler}
           ></YearFilter>
 
-          {thisDiaryArr.pages == 0 && (
+          {!filteredPages && (
             <Center>
               <Box
                 bg={'orange.50'}
@@ -109,16 +135,15 @@ const CurrentDiary = ({ thisDiary, thisParam }) => {
               >
                 <Heading fontSize={'xl'}>텅 비었어요!</Heading>
                 <Text mt={6} fontSize="lg">
-                  너무 춥고 쓸쓸해요...🍃<br></br> 뭐라고 써보는 건 어떨까요?
+                  너무 춥고 쓸쓸해요...🍃<br></br> 뭐라도 써보는 건 어떨까요?
                 </Text>
               </Box>
             </Center>
           )}
           <UnorderedList ml={0} className={'daily-lists'}>
             {/* list */}
-
-            {filteredDiaries &&
-              filteredDiaries.map(item => {
+            {filteredPages &&
+              filteredPages.map(item => {
                 return (
                   <Link
                     key={item.id}

@@ -2,20 +2,21 @@ import { ChakraProvider, theme } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import MainContainer from '../components/UI/MainContainer';
 import CurrentDiary from '../components/Diary/CurrentDiary';
-import { useNavigate } from 'react-router-dom';
+import { useInRouterContext, useNavigate } from 'react-router-dom';
 
 import { NotAllowedIcon } from '@chakra-ui/icons';
+import {
+  ref,
+  get,
+  child,
+  query,
+  orderByChild,
+  equalTo,
+} from '@firebase/database';
 import { getAuth } from 'firebase/auth';
 
 // http://localhost:3000/diary/8ug8bk
-const Diary = ({
-  notFoundFlag,
-  getDiariesArr,
-  setMissingCount,
-  db,
-  loadDiaries,
-  loginUser,
-}) => {
+const Diary = ({ setMissingCount, db }) => {
   const navigate = useNavigate();
 
   // 찾아낸 다이어리를 저장할 공간
@@ -29,30 +30,55 @@ const Diary = ({
 
   const auth = getAuth();
 
+  const getPages = async () => {
+    // 일기 페이지를 가져옴
+    const thisPages = await get(
+      query(ref(db, 'pages'), orderByChild('diary/id'), equalTo(thisParamId))
+    );
+
+    if (thisPages.val()) {
+      return thisPages.val();
+    } else {
+      console.log('없ㅇ므');
+      return false;
+    }
+  };
+
   useEffect(() => {
     // 로그인 체크
     auth.onAuthStateChanged(async user => {
       if (user) {
         console.log('로그인됨', user);
 
-        // App에서 다이어리 배열을 임시로 받아옴.
-        const diaries = await loadDiaries(user.uid);
+        // const findById = () => {
+        //   const result = diaries.find(item => {
+        //     return item.id == thisParamId;
+        //   });
+        //   // 찾은 객체 리턴
+        //   return result;
+        // };
 
-        console.log(diaries);
+        // findById
+        const findById = await get(
+          query(ref(db, 'diaries'), orderByChild('id'), equalTo(thisParamId))
+        );
 
-        const findById = () => {
-          const result = diaries.find(item => {
-            return item.id == thisParamId;
-          });
-          // 찾은 객체 리턴
-          return result;
-        };
+        // db에 존재하는 다이어리인지 확인
+        if (findById.val() === null) {
+          setMissingCount(prevCount => prevCount + 1);
+          navigate('/error');
+          return;
+        }
 
-        if (findById() && loginUser.id === findById().owner.id) {
-          setThisDiary(findById());
+        const result = Object.values(findById.val())[0];
+
+        // 로그인한 유저의 다이어리인지 확인
+        if (user.uid === result.owner.id) {
+          setThisDiary(result);
         } else {
           setMissingCount(prevCount => prevCount + 1);
           navigate('/error');
+          return;
         }
       } else {
         console.log('로그인안됨');
@@ -63,7 +89,14 @@ const Diary = ({
     return () => setThisDiary(false);
   }, []);
 
-  let content = <CurrentDiary thisDiary={thisDiary} thisParam={thisParamId} />;
+  let content = (
+    <CurrentDiary
+      thisDiary={thisDiary}
+      thisParam={thisParamId}
+      getPages={getPages}
+      setMissingCount={setMissingCount}
+    />
+  );
 
   return (
     <ChakraProvider h={'100%'} theme={theme}>

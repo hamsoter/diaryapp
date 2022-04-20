@@ -149,6 +149,7 @@ function App() {
             path="/diary/:uuid/write"
             element={
               <ThisDay
+                db={db}
                 loginUser={loginUser}
                 loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}
@@ -174,6 +175,7 @@ function App() {
             path="/diary/:uuid/:dayid/update"
             element={
               <ThisDay
+                db={db}
                 loginUser={loginUser}
                 loadDiaries={getDiariesHandler}
                 getDiariesArr={getDiariesArr}

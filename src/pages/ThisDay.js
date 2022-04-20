@@ -4,22 +4,22 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Read from '../components/ThisDay/Read';
 import Write from '../components/ThisDay/Write';
 // firebase
-import { ref, update, getDatabase } from '@firebase/database';
+import {
+  ref,
+  update,
+  getDatabase,
+  set,
+  get,
+  query,
+  orderByChild,
+  equalTo,
+} from '@firebase/database';
 import { getAuth } from 'firebase/auth';
 
-const ThisDay = ({
-  mode,
-  setMissingCount,
-  getDiariesArr,
-  loadDiaries,
-  loginUser,
-}) => {
+const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
   const dbref = ref(getDatabase());
   const location = useLocation();
   const navigate = useNavigate();
-
-  // mode
-  const paramId = location.pathname.split('/')[3];
 
   const diaryId = location.pathname.split('/')[2];
 
@@ -29,63 +29,104 @@ const ThisDay = ({
   let data;
 
   const [thisMode, setThisMode] = useState(paramMode ? paramMode : mode);
+  // 찾아낸 다이어리를 저장할 공간
+  const [thisDiary, setThisDiary] = useState('');
 
-  // App에서 다이어리 배열을 임시로 받아옴.
-  const diaries = getDiariesArr().find(item => item.id === diaryId);
+  // // App에서 다이어리 배열을 임시로 받아옴.
+  // const diaries = getDiariesArr().find(item => item.id === diaryId);
 
   const auth = getAuth();
 
   useEffect(() => {
     // 로그인 체크
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged(async user => {
       if (user) {
         console.log('로그인됨', user);
-        if (diaries.owner.id !== user.uid) {
-          navigate('/login');
+
+        // findById
+        const findById = await get(
+          query(ref(db, 'diaries'), orderByChild('id'), equalTo(diaryId))
+        );
+
+        const result = Object.values(findById.val())[0];
+
+        console.log(result);
+
+        // 로그인한 유저의 다이어리인지 확인
+        if (user.uid === result.owner.id) {
+          console.log(true);
+          setThisDiary(result);
+        } else {
+          setMissingCount(prevCount => prevCount + 1);
+          navigate('/error');
         }
+
+        // data = await get(
+        //   query(ref(db, 'pages'), orderByChild('diary/id'), equalTo(diaryId))
+        // );
       } else {
         console.log('로그인안됨');
         navigate('/login');
       }
     });
 
-    if (diaries === undefined) {
-      setMissingCount(prevCount => prevCount + 1);
-      navigate('/error');
-    }
+    // 해당 다이어리가 없는 경우
+    // if (diaries === undefined) {
+    //   setMissingCount(prevCount => prevCount + 1);
+    //   navigate('/error');
+    // }
   }, [setMissingCount]);
 
-  if (diaries === undefined) {
+  if (thisDiary === undefined) {
     return null;
   } else {
     // 유저명주입. 차후수정
-    writer = diaries.userName;
+    console.log(thisDiary);
+    // writer = thisDiary.owner.name;
 
     // url으로 읽어낼 데이터 찾아내기
-    data =
-      diaries.pages &&
-      Object.values(diaries.pages).filter(item => {
-        return item.id === paramId;
-      })[0];
+    // data =
+    //   diaries.pages &&
+    //   Object.values(diaries.pages).filter(item => {
+    //     return item.id === paramId;
+    //   })[0];
 
     const saveDay = newDiary => {
-      const postData = {
-        title: newDiary.title,
-        writer: newDiary.writer,
-        content: newDiary.content,
+      console.log(newDiary);
+      set(ref(db, '/pages/' + newDiary.id), {
         id: newDiary.id,
-        mood: 0,
+        owner: loginUser,
+        diary: thisDiary,
+        writer: loginUser.name,
         title: newDiary.title,
-
+        content: newDiary.content,
+        mood: 0,
         date: newDiary.date.toString(),
-      };
+      });
+
+      loadDiaries(loginUser.id);
+
+      // setDiaries(prevState => {
+      //   return [newDiary, ...prevState];
+      // });
+
+      // const postData = {
+      //   title: newDiary.title,
+      //   writer: newDiary.writer,
+      //   content: newDiary.content,
+      //   id: newDiary.id,
+      //   mood: 0,
+      //   title: newDiary.title,
+
+      //   date: newDiary.date.toString(),
+      // };
 
       // const newPostKey = push(child(ref(db), 'diaries')).key;
 
-      const updates = {};
-      updates['diaries/' + diaryId + '/pages/' + newDiary.id + '/'] = postData;
+      // const updates = {};
+      // updates['diaries/' + diaryId + '/pages/' + newDiary.id + '/'] = postData;
 
-      update(dbref, updates);
+      // update(dbref, updates);
 
       return newDiary;
     };
@@ -94,9 +135,9 @@ const ThisDay = ({
       saveDay(newDiary);
 
       // 저장된 데이터 다시 불러오기
-      await loadDiaries();
+      await loadDiaries(loginUser.id);
 
-      pageChange(newDiary);
+      // pageChange(newDiary);
     };
 
     const updateDataHandler = async newDiary => {
@@ -169,6 +210,7 @@ const ThisDay = ({
         )}
         {thisMode === 'write' && (
           <Write
+            data={data}
             onBack={goBack}
             writer={writer}
             saveData={saveDayHandler}
@@ -179,7 +221,7 @@ const ThisDay = ({
           <Write
             mode={thisMode}
             onBack={goBack}
-            diaries={diaries}
+            diaries={thisDiary}
             writer={writer}
             data={data}
             saveData={updateDataHandler}
