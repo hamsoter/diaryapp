@@ -68,8 +68,6 @@ const Read = ({
   const location = useLocation();
   const navigate = useNavigate();
 
-  const date = new Date();
-
   const pageId = location.pathname.split('/')[3];
 
   const diaryId = location.pathname.split('/')[2];
@@ -99,6 +97,8 @@ const Read = ({
       setThisPage(Object.values(findById.val())[0]);
     }
   }, []);
+
+  const date = thisPage ? new Date(thisPage.date) : new Date();
 
   return (
     <MainContainer>

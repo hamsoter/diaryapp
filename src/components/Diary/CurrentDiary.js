@@ -24,30 +24,33 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setMissingCount }) => {
   const dbref = ref(getDatabase());
   const navigate = useNavigate();
 
-  let pagesArr;
+  const [pagesArr, setPagesArr] = useState();
 
   const [filteredPages, setFilteredPages] = useState();
 
+  // 연도별 필터 + 최신순 정렬
+  const filterYear = async year => {
+    const arr = Object.values(await getPages());
+    return arr
+      .filter(item => {
+        if (new Date(item.date).getFullYear() === year) {
+          return item;
+        }
+      })
+      .sort(function (a, b) {
+        const aDate = a.date;
+        const bDate = b.date;
+
+        return new Date(bDate) - new Date(aDate);
+      });
+  };
+
   useEffect(async () => {
-    console.log(await getPages());
     if (await getPages()) {
-      pagesArr = Object.values(await getPages());
+      setPagesArr(Object.values(await getPages()));
 
-      // 연도별 필터 + 최신순 정렬
-      setFilteredPages(
-        pagesArr
-          .filter(item => {
-            if (new Date(item.date).getFullYear() === selectedYear) {
-              return item;
-            }
-          })
-          .sort(function (a, b) {
-            const aDate = a.date;
-            const bDate = b.date;
-
-            return new Date(bDate) - new Date(aDate);
-          })
-      );
+      // 화면에 그려진 필터된 다이어리
+      setFilteredPages(await filterYear(selectedYear));
     }
   }, []);
 
@@ -62,8 +65,9 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setMissingCount }) => {
 
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
-  const yearChangeHandler = year => {
+  const yearChangeHandler = async year => {
     setSelectedYear(year);
+    setFilteredPages(await filterYear(year));
   };
 
   const deleteThisDiary = () => {
@@ -75,26 +79,6 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setMissingCount }) => {
     update(dbref, updates);
     goBack();
   };
-
-  console.log(pagesArr);
-  // 선택된 연도로 필터된 일기
-  // const filteredDiaries =
-  //   pagesArr &&
-  //   pagesArr
-  //     .filter(item => {
-  //       console.log(item.date);
-  //       const date = new Date(item.date);
-  //       console.log(date.getFullYear());
-  //       if (date.getFullYear() === selectedYear) {
-  //         return item;
-  //       }
-  //     })
-  //     .sort(function (a, b) {
-  //       const aDate = a.date;
-  //       const bDate = b.date;
-
-  //       return new Date(bDate) - new Date(aDate);
-  //     });
 
   return (
     <>
