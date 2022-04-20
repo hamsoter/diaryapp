@@ -73,6 +73,7 @@ const Read = ({
   const diaryId = location.pathname.split('/')[2];
 
   const goToupdatePage = () => {
+    console.log('슈슈슝');
     navigate(`/diary/${diaryId}/${pageId}/update/`);
     changeMode(`update`);
   };

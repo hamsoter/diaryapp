@@ -148,33 +148,38 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
       updateData(newDiary);
 
       // 저장된 데이터 다시 불러오기
-      await loadDiaries();
+      // await loadDiaries();
 
       pageChange(newDiary);
     };
 
     const updateData = newDiary => {
       // 수정시 데이터 아이디 자동부여 취소 (좋은 방법이 아닌 거 같음)
-      newDiary.id = data.id;
+      // newDiary.id = data.id;
+      const pageId = location.pathname.split('/')[3];
+      newDiary.id = pageId;
+      console.log(newDiary.id);
 
-      const postData = {
+      set(ref(db, '/pages/' + newDiary.id), {
+        id: newDiary.id,
+        owner: loginUser,
+        diary: thisDiary,
+        writer: loginUser.name,
         title: newDiary.title,
-        writer: newDiary.writer,
         content: newDiary.content,
-        id: data.id,
         mood: 0,
-        title: newDiary.title,
-
         date: newDiary.date.toString(),
-      };
+      });
 
-      // const newPostKey = push(child(ref(db), 'diaries')).key;
+      loadDiaries(loginUser.id);
 
-      const updates = {};
-      updates['diaries/' + diaryId + '/pages/' + data.id + '/'] = postData;
+      // // const newPostKey = push(child(ref(db), 'diaries')).key;
 
-      // //페이지 변경
-      return update(dbref, updates);
+      // const updates = {};
+      // updates['diaries/' + diaryId + '/pages/' + data.id + '/'] = postData;
+
+      // // //페이지 변경
+      // return update(dbref, updates);
     };
 
     const deleteData = () => {
@@ -200,7 +205,7 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
       navigate(`/diary/${diaryId}`);
     };
 
-    console.log(thisDiary);
+    console.log(thisMode);
 
     return (
       <ChakraProvider h={'100%'} theme={theme}>
@@ -210,6 +215,7 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
             data={thisDiary}
             setMissingCount={setMissingCount}
             onBack={goBack}
+            changeMode={setThisMode}
           ></Read>
         )}
         {thisMode === 'write' && (
@@ -217,6 +223,7 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
             mode={thisMode}
             onBack={goBack}
             writer={writer}
+            db={db}
             saveData={saveDayHandler}
           ></Write>
         )}
@@ -227,7 +234,8 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
             onBack={goBack}
             diaries={thisDiary}
             writer={writer}
-            data={thisDiary}
+            diary={thisDiary}
+            db={db}
             saveData={updateDataHandler}
           ></Write>
         )}

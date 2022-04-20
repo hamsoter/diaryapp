@@ -20,8 +20,65 @@ import MainContent from '../UI/MainContent';
 import DatePick from '../UI/DatePick';
 import MessageModal from '../UI/MessageModal';
 
-const Write = ({ onBack, writer, saveData, data, diaries }) => {
+// firebase
+import { ref, get, query, orderByChild, equalTo } from '@firebase/database';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+const Write = ({
+  onBack,
+  writer,
+  saveData,
+  diaries,
+  mode,
+  db,
+  setMissingCount,
+}) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [startDate, setStartDate] = useState(new Date());
+
+  const pageId = location.pathname.split('/')[3];
+
+  const [thisPage, setThisPage] = useState();
+
+  const setValue = async () => {
+    const findById = await get(
+      query(ref(db, 'pages'), orderByChild('id'), equalTo(pageId))
+    );
+
+    const data = Object.values(findById.val())[0];
+
+    console.log(data);
+
+    formik.values.content = data.content;
+    formik.values.title = data.title;
+    // setStartDate(new Date(findById.date));
+  };
+
+  useEffect(async () => {
+    if (mode === 'update') {
+      const findById = await get(
+        query(ref(db, 'pages'), orderByChild('id'), equalTo(pageId))
+      );
+
+      // db에 존재하는 패이지인지 확인
+      // 없을시 404
+      if (findById.val() === null) {
+        setMissingCount(prevCount => prevCount + 1);
+        navigate('/error');
+        return;
+      } else {
+        setThisPage(Object.values(await findById.val())[0]);
+
+        const valData = Object.values(await findById.val())[0];
+        formik.values.content = valData.content;
+        formik.values.title = valData.title;
+        setStartDate(new Date(valData.date));
+        // await setValue();
+      }
+    }
+  }, []);
 
   // 모달 상태 관리
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -64,7 +121,7 @@ const Write = ({ onBack, writer, saveData, data, diaries }) => {
 
       // console.log(values);
 
-      saveData(values, diaries);
+      saveData(values, pageId);
     },
     // 값 변경시마다 유효성체크
     validateOnChange: false,
@@ -72,15 +129,6 @@ const Write = ({ onBack, writer, saveData, data, diaries }) => {
     validateOnBlur: true,
     validate: validator,
   });
-
-  useEffect(() => {
-    if (data != undefined) {
-      formik.values.content = data.content;
-      formik.values.title = data.title;
-
-      setStartDate(new Date(data.date));
-    }
-  }, []);
 
   return (
     <MainContainer>
