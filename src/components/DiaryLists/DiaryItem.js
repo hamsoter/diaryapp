@@ -4,10 +4,6 @@ import { ScaleFade } from '@chakra-ui/react';
 import { Link, useParams } from 'react-router-dom';
 
 const DiaryItem = ({ name, lastRecord, color, title, id }) => {
-  // let params = useParams();
-
-  console.log(color, name);
-
   const liStyles = {
     bg: color.main,
     borderRightRadius: '2xl',
@@ -19,9 +15,6 @@ const DiaryItem = ({ name, lastRecord, color, title, id }) => {
     h: ['400px', '230px', '250px'],
   };
 
-  console.log(lastRecord.toLocaleDateString());
-
-  // console.log
   return (
     <ScaleFade w={'100%'} in={true} initialScale={0.4}>
       <Link w={'100%'} to={`/diary/${id}`} data={id}>

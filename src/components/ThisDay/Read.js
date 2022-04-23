@@ -101,6 +101,10 @@ const Read = ({
 
   const date = thisPage ? new Date(thisPage.date) : new Date();
 
+  const deletePage = () => {
+    deleteData(thisPage);
+  };
+
   return (
     <MainContainer>
       {/* 헤더 */}
@@ -224,7 +228,7 @@ const Read = ({
                   <Button ref={cancelRef} onClick={onClose}>
                     역시 그만두기
                   </Button>
-                  <Button colorScheme="red" onClick={deleteData} ml={3}>
+                  <Button colorScheme="red" onClick={deletePage} ml={3}>
                     지우기
                   </Button>
                 </AlertDialogFooter>

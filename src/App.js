@@ -24,6 +24,7 @@ import Login from './pages/Login';
 import firebase from 'firebase/compat/app';
 
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { object } from 'yup';
 
 function App() {
   // firebase
@@ -44,8 +45,6 @@ function App() {
 
   const analytics = getAnalytics(fbApp);
 
-  let diariesArr = [];
-
   const [loginUser, setLoginUser] = useState();
 
   useEffect(async () => {
@@ -63,38 +62,41 @@ function App() {
   }, []);
 
   const getDiariesHandler = async uid => {
-    // const data = await get(ref(db, '/diaries'));
-
     // 로그인한 유저의 일기를 가져오는 쿼리문
     const data = await get(
       query(ref(db, 'diaries'), orderByChild('owner/id'), equalTo(uid))
     );
 
-    const dataArr = Object.values(data.val());
+    // 작성된 일기가 있을시
+    if (data.val() !== null) {
+      const dataArr = Object.values(data.val());
 
-    const solved = dataArr
-      .map(item => {
-        item.lastRecord = new Date(item.lastRecord);
-        item.pages = item.pages ? item.pages : []; //
+      const solved = dataArr
+        .map(item => {
+          item.lastRecord = new Date(item.lastRecord);
+          item.pages = item.pages ? item.pages : []; //
 
-        return item;
-      })
-      // 날짜순 정렬
-      .sort(function (a, b) {
-        const aDate = a.lastRecord;
-        const bDate = b.lastRecord;
+          return item;
+        })
+        // 날짜순 정렬
+        .sort(function (a, b) {
+          const aDate = a.lastRecord;
+          const bDate = b.lastRecord;
 
-        return new Date(bDate) - new Date(aDate);
-      });
+          return new Date(bDate) - new Date(aDate);
+        });
 
-    diariesArr = solved;
-
-    // console.log('db에서 데이터 불러옴');
-
-    return solved;
+      return solved;
+    } else {
+      return [];
+    }
   };
 
-  const getDiariesArr = () => diariesArr;
+  const updateLastRecord = async (diaryId, newDate) => {
+    // 로그인한 유저의 일기를 가져오는 쿼리문
+
+    console.log(diaryId);
+  };
 
   const db = getDatabase(fbApp);
 
@@ -112,7 +114,6 @@ function App() {
             path="/"
             element={
               <MyLibrary
-                // loginCheck={loginCheck}
                 loginUser={loginUser}
                 loadDiaries={getDiariesHandler}
                 db={db}
@@ -126,8 +127,8 @@ function App() {
                 // getTempDiaries={getTempDiaresHandler}
                 loginUser={loginUser}
                 db={db}
-                getDiariesArr={getDiariesArr}
-                loadDiaries={getDiariesHandler}
+                // getDiariesArr={getDiariesArr}
+                // loadDiaries={getDiariesHandler}
                 notFoundFlag={notFoundFlag}
                 setNotFoundFlag={setNotFoundFlag}
                 missingCount={missingCount}
@@ -135,24 +136,15 @@ function App() {
               />
             }
           />
-          {/* <Route
-            path="/diary/:uuid/:dayid/write"
-            element={
-              <ThisDay
-                getTempDiaries={getTempDiaresHandler}
-                setTempDiaries={setTempDiariesHandler}
-                mode={'write'}
-              />
-            }
-          /> */}
           <Route
             path="/diary/:uuid/write"
             element={
               <ThisDay
                 db={db}
                 loginUser={loginUser}
-                loadDiaries={getDiariesHandler}
-                getDiariesArr={getDiariesArr}
+                updateLastRecord={updateLastRecord}
+                // loadDiaries={getDiariesHandler}
+                // getDiariesArr={getDiariesArr}
                 setMissingCount={setMissingCount}
                 mode={'write'}
               />
@@ -164,8 +156,9 @@ function App() {
               <ThisDay
                 db={db}
                 loginUser={loginUser}
-                loadDiaries={getDiariesHandler}
-                getDiariesArr={getDiariesArr}
+                updateLastRecord={updateLastRecord}
+                // loadDiaries={getDiariesHandler}
+                // getDiariesArr={getDiariesArr}
                 setMissingCount={setMissingCount}
                 mode={'read'}
               />
@@ -178,8 +171,9 @@ function App() {
               <ThisDay
                 db={db}
                 loginUser={loginUser}
-                loadDiaries={getDiariesHandler}
-                getDiariesArr={getDiariesArr}
+                updateLastRecord={updateLastRecord}
+                // loadDiaries={getDiariesHandler}
+                // getDiariesArr={getDiariesArr}
                 setMissingCount={setMissingCount}
                 mode={'update'}
               />

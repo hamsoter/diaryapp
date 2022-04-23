@@ -36,17 +36,15 @@ const Login = ({ fbApp, config, db, setLoginUser }) => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
       setIsSignedIn(!!user);
 
-      console.log(user._delegate);
-
-      // db에 유저데이터 저장
-      set(ref(db, 'users/' + user.uid), {
-        id: user.uid,
-        name: user._delegate.displayName,
-        email: user._delegate.email,
-        indexOn: [],
-      });
-
       if (!!user) {
+        // db에 유저데이터 저장
+        set(ref(db, 'users/' + user.uid), {
+          id: user.uid,
+          name: user._delegate.displayName,
+          email: user._delegate.email,
+          indexOn: [],
+        });
+
         navigate('/');
       }
     });

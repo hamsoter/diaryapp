@@ -16,7 +16,13 @@ import {
 } from '@firebase/database';
 import { getAuth } from 'firebase/auth';
 
-const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
+const ThisDay = ({
+  mode,
+  setMissingCount,
+  loginUser,
+  db,
+  updateLastRecord,
+}) => {
   const dbref = ref(getDatabase());
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,14 +32,10 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
   const paramMode = location.pathname.split('/')[4];
 
   let writer;
-  let data;
 
   const [thisMode, setThisMode] = useState(paramMode ? paramMode : mode);
   // 찾아낸 다이어리를 저장할 공간
   const [thisDiary, setThisDiary] = useState('');
-
-  // // App에서 다이어리 배열을 임시로 받아옴.
-  // const diaries = getDiariesArr().find(item => item.id === diaryId);
 
   const auth = getAuth();
 
@@ -66,37 +68,16 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
             navigate('/error');
           }
         }
-
-        // data = await get(
-        //   query(ref(db, 'pages'), orderByChild('diary/id'), equalTo(diaryId))
-        // );
       } else {
-        console.log('로그인안됨');
         navigate('/login');
       }
     });
-
-    // 해당 다이어리가 없는 경우
-    // if (diaries === undefined) {
-    //   setMissingCount(prevCount => prevCount + 1);
-    //   navigate('/error');
-    // }
-  }, [setMissingCount]);
+  }, []);
 
   if (thisDiary === undefined) {
     return null;
   } else {
-    // writer = thisDiary.owner.name;
-
-    // url으로 읽어낼 데이터 찾아내기
-    // data =
-    //   diaries.pages &&
-    //   Object.values(diaries.pages).filter(item => {
-    //     return item.id === paramId;
-    //   })[0];
-
     const saveDay = newDiary => {
-      console.log(newDiary);
       set(ref(db, '/pages/' + newDiary.id), {
         id: newDiary.id,
         owner: loginUser,
@@ -108,29 +89,9 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
         date: newDiary.date.toString(),
       });
 
-      loadDiaries(loginUser.id);
-
-      // setDiaries(prevState => {
-      //   return [newDiary, ...prevState];
-      // });
-
-      // const postData = {
-      //   title: newDiary.title,
-      //   writer: newDiary.writer,
-      //   content: newDiary.content,
-      //   id: newDiary.id,
-      //   mood: 0,
-      //   title: newDiary.title,
-
-      //   date: newDiary.date.toString(),
-      // };
-
-      // const newPostKey = push(child(ref(db), 'diaries')).key;
-
-      // const updates = {};
-      // updates['diaries/' + diaryId + '/pages/' + newDiary.id + '/'] = postData;
-
-      // update(dbref, updates);
+      set(ref(db, '/diaries/' + diaryId), {
+        lastRecord: newDiary.date.toString(),
+      });
 
       return newDiary;
     };
@@ -138,27 +99,17 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
     const saveDayHandler = async newDiary => {
       saveDay(newDiary);
 
-      // 저장된 데이터 다시 불러오기
-      await loadDiaries(loginUser.id);
-
       pageChange(newDiary);
     };
 
     const updateDataHandler = async newDiary => {
       updateData(newDiary);
-
-      // 저장된 데이터 다시 불러오기
-      // await loadDiaries();
-
       pageChange(newDiary);
     };
 
     const updateData = newDiary => {
-      // 수정시 데이터 아이디 자동부여 취소 (좋은 방법이 아닌 거 같음)
-      // newDiary.id = data.id;
       const pageId = location.pathname.split('/')[3];
       newDiary.id = pageId;
-      console.log(newDiary.id);
 
       set(ref(db, '/pages/' + newDiary.id), {
         id: newDiary.id,
@@ -170,25 +121,11 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
         mood: 0,
         date: newDiary.date.toString(),
       });
-
-      loadDiaries(loginUser.id);
-
-      // // const newPostKey = push(child(ref(db), 'diaries')).key;
-
-      // const updates = {};
-      // updates['diaries/' + diaryId + '/pages/' + data.id + '/'] = postData;
-
-      // // //페이지 변경
-      // return update(dbref, updates);
     };
 
-    const deleteData = () => {
-      // const deleteIndex = diaries.pages.find(item => item.id == data.id);
-
-      console.log(data.id);
-
+    const deleteData = thisPage => {
       const updates = {};
-      updates['diaries/' + diaryId + '/pages/' + data.id + '/'] = null;
+      updates['/pages/' + thisPage.id + '/'] = null;
 
       update(dbref, updates);
 
@@ -197,15 +134,12 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
 
     const pageChange = newData => {
       navigate(`/diary/${diaryId}/${newData.id}/read/`);
-
       setThisMode('read');
     };
 
     const goBack = () => {
       navigate(`/diary/${diaryId}`);
     };
-
-    console.log(thisMode);
 
     return (
       <ChakraProvider h={'100%'} theme={theme}>
@@ -216,6 +150,7 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
             setMissingCount={setMissingCount}
             onBack={goBack}
             changeMode={setThisMode}
+            deleteData={deleteData}
           ></Read>
         )}
         {thisMode === 'write' && (
@@ -227,7 +162,6 @@ const ThisDay = ({ mode, setMissingCount, loadDiaries, loginUser, db }) => {
             saveData={saveDayHandler}
           ></Write>
         )}
-
         {thisMode === 'update' && (
           <Write
             mode={thisMode}
