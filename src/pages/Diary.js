@@ -2,17 +2,9 @@ import { ChakraProvider, theme } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import MainContainer from '../components/UI/MainContainer';
 import CurrentDiary from '../components/Diary/CurrentDiary';
-import { useInRouterContext, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { NotAllowedIcon } from '@chakra-ui/icons';
-import {
-  ref,
-  get,
-  child,
-  query,
-  orderByChild,
-  equalTo,
-} from '@firebase/database';
+import { ref, get, query, orderByChild, equalTo } from '@firebase/database';
 import { getAuth } from 'firebase/auth';
 
 // http://localhost:3000/diary/8ug8bk
@@ -20,7 +12,7 @@ const Diary = ({ setMissingCount, db }) => {
   const navigate = useNavigate();
 
   // 찾아낸 다이어리를 저장할 공간
-  const [thisDiary, setThisDiary] = useState('');
+  const [thisDiary, setThisDiary] = useState({ owner: { name: '' } });
 
   // 현재 url의 uuid 잘라내기
   const thisParamId = window.location.pathname.split('/')[2];

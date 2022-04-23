@@ -18,9 +18,8 @@ const MainContent = props => {
     // 스크롤바
     sx: {
       '&::-webkit-scrollbar': {
-        width: '16px',
-        borderRadius: '8px',
-        backgroundColor: `rgba(0, 0, 0, 0.05)`,
+        width: '12px',
+        backgroundColor: `rgba(0, 0, 0, 0.0)`,
       },
       '&::-webkit-scrollbar-thumb': {
         backgroundColor: `rgba(0, 0, 0, 0.05)`,

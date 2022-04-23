@@ -1,15 +1,24 @@
-import React from 'react';
-
 import { EditIcon } from '@chakra-ui/icons';
 
-import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Skeleton,
+  SkeletonCircle,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import { Link, useLocation } from 'react-router-dom';
 import Bubble from '../../components/UI/Bubble';
 import Card from '../UI/Card';
 
-const CurrnetMain = ({ thisDiary }) => {
+const CurrnetMain = ({ thisDiary, isLoading }) => {
   let location = useLocation();
   const path = `${location.pathname}`;
+  console.log(thisDiary);
 
   return (
     <Card
@@ -17,28 +26,44 @@ const CurrnetMain = ({ thisDiary }) => {
       alignItems={'center'}
       flexDir={'column'}
       bg={'#fffaf0a6'}
-      borderRadius={2}
-      py={10}
-      mb={1}
+      borderRadius={5}
+      pb={5}
       px={5}
-      boxShadow={'xs'}
+      gap={0}
     >
       <Bubble>
         <Flex flexDir={'column'} w={'100%'} alignItems={'center'}>
-          <Heading fontSize={['xl']} color="whiteAlpha.900">
-            안녕하세요 {thisDiary.userName}
-          </Heading>
-          <Text fontSize={'nm'} color="whiteAlpha.900">
-            일기 쓰기 좋은 날이네요!
-          </Text>
+          <Stack>
+            <Skeleton
+              startColor={'whiteAlpha.300'}
+              endColor="orange.500"
+              isLoaded={!isLoading}
+            >
+              <Heading fontSize={['xl']} color="whiteAlpha.900">
+                안녕, {thisDiary.owner.name}
+              </Heading>
+            </Skeleton>
+            <Skeleton
+              startColor={'whiteAlpha.300'}
+              endColor="orange.500"
+              isLoaded={!isLoading}
+            >
+              <Text fontSize={'normal'} color="whiteAlpha.900">
+                일기 쓰기 좋은 날이네요!
+              </Text>
+            </Skeleton>
+          </Stack>
         </Flex>
       </Bubble>
-      <Image
-        w={'150px'}
-        src="https://user-images.githubusercontent.com/100299692/159457218-7faee460-a25a-4170-bfc9-54bd613abf0d.png"
-        fallbackSrc="https://via.placeholder.com/150"
-        m={'5'}
-      ></Image>
+      <Box>
+        <SkeletonCircle isLoaded={!isLoading} size={'145px'} m={5}>
+          <Image
+            w={'100%'}
+            src="https://user-images.githubusercontent.com/100299692/164914118-9de82616-bb29-40e3-89eb-220f5a76fd84.png"
+            fallbackSrc="https://via.placeholder.com/145"
+          ></Image>
+        </SkeletonCircle>
+      </Box>
 
       {/* 액션버튼 */}
       <Box displat={'flex'} width={'100%'} className="action-btns">
@@ -53,8 +78,17 @@ const CurrnetMain = ({ thisDiary }) => {
             aria-label="Send email"
             variant="solid"
           >
-            일기 쓰기
-            <EditIcon ml={2}></EditIcon>
+            <Skeleton
+              display={'flex'}
+              startColor={'whiteAlpha.300'}
+              endColor="orange.500"
+              isLoaded={!isLoading}
+            >
+              <Text fontSize={'normal'} color="whiteAlpha.900">
+                일기 쓰기
+                <EditIcon ml={2}></EditIcon>
+              </Text>
+            </Skeleton>
           </Button>
         </Link>
       </Box>

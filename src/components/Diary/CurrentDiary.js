@@ -6,6 +6,9 @@ import {
   Flex,
   Heading,
   IconButton,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
   Text,
   UnorderedList,
 } from '@chakra-ui/react';
@@ -20,13 +23,15 @@ import YearFilter from './YearFilter';
 
 import { ref, update, getDatabase } from '@firebase/database';
 
-const CurrentDiary = ({ thisDiary, thisParam, getPages, setMissingCount }) => {
+const CurrentDiary = ({ thisDiary, thisParam, getPages }) => {
   const dbref = ref(getDatabase());
   const navigate = useNavigate();
 
   const [pagesArr, setPagesArr] = useState();
 
   const [filteredPages, setFilteredPages] = useState();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   // 연도별 필터 + 최신순 정렬
   const filterYear = async year => {
@@ -53,16 +58,12 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setMissingCount }) => {
       // 화면에 그려진 필터된 다이어리
       setFilteredPages(await filterYear(selectedYear));
     }
+    setIsLoading(false);
   }, []);
-
-  // const thisDiaryArr = Object.values(thisDiary);
-  // const thisDiaryPagesArr = thisDiary && Object.values(thisDiary.pages);
 
   const goBack = () => {
     navigate('/');
   };
-
-  // console.log(thisDiary);
 
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
@@ -84,7 +85,15 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setMissingCount }) => {
   return (
     <>
       <Header
-        title={thisDiary.title}
+        title={
+          <Skeleton
+            isLoaded={!isLoading}
+            startColor={'whiteAlpha.300'}
+            endColor="orange.500"
+          >
+            {thisDiary.title}
+          </Skeleton>
+        }
         leftContent={
           <IconButton
             colorScheme={'orange'}
@@ -97,14 +106,57 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setMissingCount }) => {
       />
       <MainContent w={'100%'}>
         <Flex w={'auto'} flexDir={'column'}>
-          <CurrnetMain thisDiary={thisDiary}></CurrnetMain>
+          <CurrnetMain
+            isLoading={isLoading}
+            thisDiary={thisDiary}
+          ></CurrnetMain>
           <YearFilter
+            isLoading={isLoading}
             data={pagesArr}
             selected={selectedYear}
             onSelectYear={yearChangeHandler}
           ></YearFilter>
 
-          {!filteredPages && (
+          <UnorderedList ml={0} className={'daily-lists'}>
+            {isLoading ? (
+              <>
+                <Box padding="6" mb={3} boxShadow="lg" bg="orange.50">
+                  <SkeletonCircle size="20" />
+                  <SkeletonText
+                    mt={['21px', '17px', '6']}
+                    noOfLines={[1, 2, 3]}
+                    spacing={['5']}
+                  />
+                </Box>
+                <Box padding="6" boxShadow="lg" bg="orange.50">
+                  <SkeletonCircle size="20" />
+                  <SkeletonText h={'72px'} mt="4" noOfLines={3} spacing="4" />
+                </Box>
+              </>
+            ) : (
+              filteredPages &&
+              filteredPages.map(item => {
+                return (
+                  <Link
+                    key={item.id}
+                    to={`/diary/${thisParam}/${item.id}/read`}
+                  >
+                    <CurrentDay
+                      key={item.id}
+                      title={item.title}
+                      content={item.content}
+                      mood={item.mood}
+                      date={new Date(item.date)}
+                    ></CurrentDay>
+                  </Link>
+                );
+              })
+            )}
+            {/* list */}
+            {}
+          </UnorderedList>
+
+          {!filteredPages && !isLoading && (
             <Center>
               <Box
                 bg={'orange.50'}
@@ -125,27 +177,6 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setMissingCount }) => {
               </Box>
             </Center>
           )}
-          <UnorderedList ml={0} className={'daily-lists'}>
-            {/* list */}
-            {filteredPages &&
-              filteredPages.map(item => {
-                return (
-                  <Link
-                    key={item.id}
-                    to={`/diary/${thisParam}/${item.id}/read`}
-                  >
-                    <CurrentDay
-                      writer={thisDiary.userName}
-                      key={item.id}
-                      title={item.title}
-                      content={item.content}
-                      mood={item.mood}
-                      date={new Date(item.date)}
-                    ></CurrentDay>
-                  </Link>
-                );
-              })}
-          </UnorderedList>
         </Flex>
       </MainContent>
     </>

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import '../components/UI/App.css';
-import { ChakraProvider, theme } from '@chakra-ui/react';
+import { Center, ChakraProvider, Flex, Spinner, theme } from '@chakra-ui/react';
 
 import DiaryLists from '../components/DiaryLists/DiaryLists';
 import AddDiaryModal from '../components/DiaryLists/AddDiaryModal';
@@ -21,6 +21,7 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
   const navigate = useNavigate();
 
   const [diaries, setDiaries] = React.useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(async () => {
     // 로그인 체크
@@ -31,12 +32,12 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
         const data = await loadDiaries(user.uid);
 
         setDiaries(data);
+        setIsLoading(false);
       } else {
         console.log('로그인안됨');
         navigate('/login');
       }
     });
-
     // 최초 한번만 실행
   }, []);
 
@@ -73,7 +74,18 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
         />
 
         <MainContents>
-          <DiaryLists diaries={diaries}></DiaryLists>
+          {isLoading ? (
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor={'whiteAlpha.500'}
+              color="orange.200"
+              size="xl"
+              mt={10}
+            />
+          ) : (
+            <DiaryLists diaries={diaries}></DiaryLists>
+          )}
         </MainContents>
       </MainContainer>
     </ChakraProvider>

@@ -6,10 +6,11 @@ import {
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
+  Skeleton,
 } from '@chakra-ui/react';
 import React from 'react';
 
-const YearFilter = ({ selected, data, onSelectYear }) => {
+const YearFilter = ({ selected, data, onSelectYear, isLoading }) => {
   // 일기를 작성한 년도만 골라서 불러옴
 
   let yearArr = [];
@@ -30,44 +31,46 @@ const YearFilter = ({ selected, data, onSelectYear }) => {
 
   return (
     <Menu closeOnSelect={true}>
-      <MenuButton
-        colorScheme={'orange'}
-        _focus={{ boxShadow: 'outline', bg: 'orange.200' }}
-        _hover={{ bg: 'orange.200' }}
-        _active={{ bg: 'orange.200' }}
-        as={Button}
-        w={'240px'}
-        border={'none'}
-        m={'auto'}
-        mt={3}
-        mb={1.5}
-        variant="outline"
-        rightIcon={<ChevronDownIcon />}
-        bg={'whiteAlpha.800'}
-        _expanded={{ bg: 'whiteAlpha.800' }}
-      >
-        {selected}
-      </MenuButton>
-      <MenuList minWidth={['240px']}>
-        <MenuOptionGroup
-          defaultValue={selected.toString()}
-          title={
-            yearArr.length === 0
-              ? `기록된 날이 없어요 @_@!`
-              : `선택한 해의 일기를 출력합니다`
-          }
-          type="radio"
-          onChange={yearChangeHandler}
+      <Skeleton isLoaded={!isLoading} display={'flex'}>
+        <MenuButton
+          colorScheme={'orange'}
+          _focus={{ boxShadow: 'outline', bg: 'orange.200' }}
+          _hover={{ bg: 'orange.200' }}
+          _active={{ bg: 'orange.200' }}
+          as={Button}
+          w={'240px'}
+          border={'none'}
+          m={'auto'}
+          mt={2.5}
+          mb={2.5}
+          variant="outline"
+          rightIcon={<ChevronDownIcon />}
+          bg={'whiteAlpha.800'}
+          _expanded={{ bg: 'whiteAlpha.800' }}
         >
-          {yearArr.map(item => {
-            return (
-              <MenuItemOption key={item} value={item.toString()}>
-                {item}
-              </MenuItemOption>
-            );
-          })}
-        </MenuOptionGroup>
-      </MenuList>
+          {selected}
+        </MenuButton>
+        <MenuList minWidth={['240px']}>
+          <MenuOptionGroup
+            defaultValue={selected.toString()}
+            title={
+              yearArr.length === 0
+                ? `기록된 날이 없어요 @_@!`
+                : `선택한 해의 일기를 출력합니다`
+            }
+            type="radio"
+            onChange={yearChangeHandler}
+          >
+            {yearArr.map(item => {
+              return (
+                <MenuItemOption key={item} value={item.toString()}>
+                  {item}
+                </MenuItemOption>
+              );
+            })}
+          </MenuOptionGroup>
+        </MenuList>
+      </Skeleton>
     </Menu>
   );
 };

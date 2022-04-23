@@ -16,13 +16,7 @@ import {
 } from '@firebase/database';
 import { getAuth } from 'firebase/auth';
 
-const ThisDay = ({
-  mode,
-  setMissingCount,
-  loginUser,
-  db,
-  updateLastRecord,
-}) => {
+const ThisDay = ({ mode, setMissingCount, loginUser, db }) => {
   const dbref = ref(getDatabase());
   const location = useLocation();
   const navigate = useNavigate();

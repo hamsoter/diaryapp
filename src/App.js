@@ -93,12 +93,6 @@ function App() {
     }
   };
 
-  const updateLastRecord = async (diaryId, newDate) => {
-    // 로그인한 유저의 일기를 가져오는 쿼리문
-
-    console.log(diaryId);
-  };
-
   const db = getDatabase(fbApp);
 
   // 일기장 존재 여부를 저장할 공간
@@ -109,6 +103,11 @@ function App() {
 
   return (
     <Box>
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="http://csshake.surge.sh/csshake-slow.min.css"
+      ></link>
       <BrowserRouter>
         <Routes>
           <Route
@@ -143,9 +142,6 @@ function App() {
               <ThisDay
                 db={db}
                 loginUser={loginUser}
-                updateLastRecord={updateLastRecord}
-                // loadDiaries={getDiariesHandler}
-                // getDiariesArr={getDiariesArr}
                 setMissingCount={setMissingCount}
                 mode={'write'}
               />
@@ -157,9 +153,6 @@ function App() {
               <ThisDay
                 db={db}
                 loginUser={loginUser}
-                updateLastRecord={updateLastRecord}
-                // loadDiaries={getDiariesHandler}
-                // getDiariesArr={getDiariesArr}
                 setMissingCount={setMissingCount}
                 mode={'read'}
               />
@@ -172,9 +165,6 @@ function App() {
               <ThisDay
                 db={db}
                 loginUser={loginUser}
-                updateLastRecord={updateLastRecord}
-                // loadDiaries={getDiariesHandler}
-                // getDiariesArr={getDiariesArr}
                 setMissingCount={setMissingCount}
                 mode={'update'}
               />
@@ -189,11 +179,10 @@ function App() {
                 fbApp={fbApp}
                 db={db}
                 setLoginUser={setLoginUser}
-                // isSignedIn={isSignedIn}
-                // setIsSignedIn={setIsSignedIn}
               ></Login>
             }
           />
+
           <Route
             path="/*"
             element={<NotFoundPage missingCount={missingCount} />}
