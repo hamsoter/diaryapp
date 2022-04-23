@@ -47,6 +47,7 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setMissingCount }) => {
 
   useEffect(async () => {
     if (await getPages()) {
+      console.log(await getPages());
       setPagesArr(Object.values(await getPages()));
 
       // 화면에 그려진 필터된 다이어리

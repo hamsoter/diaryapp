@@ -23,8 +23,7 @@ import {
 import Login from './pages/Login';
 import firebase from 'firebase/compat/app';
 
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { object } from 'yup';
+import { getAuth } from 'firebase/auth';
 
 function App() {
   // firebase
@@ -70,6 +69,7 @@ function App() {
     // 작성된 일기가 있을시
     if (data.val() !== null) {
       const dataArr = Object.values(data.val());
+      console.log(dataArr);
 
       const solved = dataArr
         .map(item => {
@@ -88,6 +88,7 @@ function App() {
 
       return solved;
     } else {
+      // 생성된 일기장이 없을 시, 빈 배열 반환
       return [];
     }
   };

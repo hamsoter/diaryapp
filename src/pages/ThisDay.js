@@ -89,10 +89,12 @@ const ThisDay = ({
         date: newDiary.date.toString(),
       });
 
-      set(ref(db, '/diaries/' + diaryId), {
-        lastRecord: newDiary.date.toString(),
-      });
-
+      // 다이어리 마지막 갱신일 수정
+      if (new Date(thisDiary.lastRecord) < newDiary.date) {
+        update(ref(db, '/diaries/' + diaryId), {
+          lastRecord: newDiary.date.toString(),
+        });
+      }
       return newDiary;
     };
 
@@ -121,6 +123,13 @@ const ThisDay = ({
         mood: 0,
         date: newDiary.date.toString(),
       });
+
+      // 다이어리 마지막 갱신일 수정
+      if (new Date(thisDiary.lastRecord) < newDiary.date) {
+        update(ref(db, '/diaries/' + diaryId), {
+          lastRecord: newDiary.date.toString(),
+        });
+      }
     };
 
     const deleteData = thisPage => {
