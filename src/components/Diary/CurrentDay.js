@@ -19,14 +19,8 @@ const CurrentDay = ({ title, content, date }) => {
   const week = weekArr[date.getDay()];
 
   return (
-    <ListItem pb={3}>
-      <Card
-        gap={3}
-        shadow={'lg'}
-        flexDir={'column'}
-        p={6}
-        color={'blackAlpha.700'}
-      >
+    <ListItem pb={3} listStyleType={'none'}>
+      <Card gap={3} flexDir={'column'} p={6} color={'blackAlpha.700'}>
         <Flex flexDir={'row'} alignItems={'center'} w={'100%'}>
           <Box display={'flex'} className="thisday-mood mood0" w={'100px'}>
             <Image

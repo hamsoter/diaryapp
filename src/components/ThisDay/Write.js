@@ -1,11 +1,14 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 
 import {
+  Box,
   Button,
   Center,
   FormControl,
   IconButton,
   Input,
+  Skeleton,
+  SkeletonText,
   Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -23,6 +26,7 @@ import MessageModal from '../UI/MessageModal';
 // firebase
 import { ref, get, query, orderByChild, equalTo } from '@firebase/database';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { bool } from 'yup';
 
 const Write = ({
   onBack,
@@ -35,6 +39,8 @@ const Write = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const [startDate, setStartDate] = useState(new Date());
 
@@ -78,6 +84,7 @@ const Write = ({
         // await setValue();
       }
     }
+    setIsLoading(false);
   }, []);
 
   // 모달 상태 관리
@@ -154,33 +161,38 @@ const Write = ({
             // isInvalid={formik.errors.title || formik.errors.content}
           >
             <Center textAlign={'center'} flexDir={'column'}>
-              <DatePick
-                setStartDate={setStartDate}
-                startDate={startDate}
-              ></DatePick>
-              <Input
-                id="title"
-                onChange={formik.handleChange}
-                value={formik.values.title}
-                type="text"
-                size={'lg'}
-                bg={'white'}
-                placeholder={'일기 제목'}
-                mb={3}
-              />
-              <Textarea
-                className="content"
-                id="content"
-                onChange={formik.handleChange}
-                value={formik.values.content}
-                type="text"
-                bg={'white'}
-                p={3}
-                placeholder="무슨 일이 있었나요?"
-                h={`calc(100vh - 276px)`}
-                resize={'none'}
-              />
-
+              <Skeleton isLoaded={!isLoading}>
+                <DatePick setStartDate={setStartDate} startDate={startDate} />
+              </Skeleton>
+              <Skeleton w={'100%'} h={'48px'} m={3} isLoaded={!isLoading}>
+                <Input
+                  id="title"
+                  onChange={formik.handleChange}
+                  value={formik.values.title}
+                  type="text"
+                  size={'lg'}
+                  bg={'white'}
+                  placeholder={'일기 제목'}
+                />
+              </Skeleton>
+              {isLoading ? (
+                <Box w={'100%'} h={`calc(100vh - 276px)`} overflow={'hidden'}>
+                  <SkeletonText h={'100%'} noOfLines={5} spacing="4" />
+                </Box>
+              ) : (
+                <Textarea
+                  className="content"
+                  id="content"
+                  onChange={formik.handleChange}
+                  value={formik.values.content}
+                  type="text"
+                  bg={'white'}
+                  p={3}
+                  placeholder="무슨 일이 있었나요?"
+                  h={`calc(100vh - 276px)`}
+                  resize={'none'}
+                />
+              )}
               <Button
                 mt={['6', '6', '3']}
                 type="submit"

@@ -31,6 +31,8 @@ const ThisDay = ({ mode, setMissingCount, loginUser, db }) => {
   // 찾아낸 다이어리를 저장할 공간
   const [thisDiary, setThisDiary] = useState('');
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const auth = getAuth();
 
   useEffect(() => {
@@ -65,6 +67,8 @@ const ThisDay = ({ mode, setMissingCount, loginUser, db }) => {
       } else {
         navigate('/login');
       }
+
+      setIsLoading(false);
     });
   }, []);
 
@@ -148,6 +152,7 @@ const ThisDay = ({ mode, setMissingCount, loginUser, db }) => {
       <ChakraProvider h={'100%'} theme={theme}>
         {thisMode === 'read' && (
           <Read
+            isLoading={isLoading}
             db={db}
             data={thisDiary}
             setMissingCount={setMissingCount}
@@ -167,6 +172,7 @@ const ThisDay = ({ mode, setMissingCount, loginUser, db }) => {
         )}
         {thisMode === 'update' && (
           <Write
+            isLoading={isLoading}
             mode={thisMode}
             onBack={goBack}
             diaries={thisDiary}

@@ -19,7 +19,11 @@ const Header = props => {
   };
 
   return (
-    <Flex position={'relative'} {...styles}>
+    <Flex
+      position={'relative'}
+      {...styles}
+      pr={typeof props.rightContent === 'undefined' ? '40px' : 'auto'}
+    >
       <Heading
         w={'100%'}
         fontSize={'xl'}

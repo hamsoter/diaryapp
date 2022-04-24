@@ -25,6 +25,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
   Text,
   Textarea,
   useDisclosure,
@@ -52,14 +55,7 @@ import {
   equalTo,
 } from '@firebase/database';
 
-const Read = ({
-  onBack,
-  data,
-  changeMode,
-  deleteData,
-  db,
-  setMissingCount,
-}) => {
+const Read = ({ onBack, changeMode, deleteData, db, setMissingCount }) => {
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
   const cancelRef = React.useRef();
 
@@ -78,10 +74,11 @@ const Read = ({
     changeMode(`update`);
   };
 
-  // 모달 상태 관리
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [thisPage, setThisPage] = useState();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(async () => {
     // 파라미터의 pageId를 기반으로 표기할 데이터를 찾음
@@ -97,6 +94,7 @@ const Read = ({
     } else {
       setThisPage(Object.values(findById.val())[0]);
     }
+    setIsLoading(false);
   }, []);
 
   const date = thisPage ? new Date(thisPage.date) : new Date();
@@ -109,7 +107,15 @@ const Read = ({
     <MainContainer>
       {/* 헤더 */}
       <Header
-        title={thisPage && thisPage.title}
+        title={
+          <Skeleton
+            isLoaded={!isLoading}
+            startColor={'whiteAlpha.300'}
+            endColor="orange.500"
+          >
+            {thisPage && thisPage.title}
+          </Skeleton>
+        }
         leftContent={
           <IconButton
             colorScheme={'orange'}
@@ -125,61 +131,69 @@ const Read = ({
         <Card w={'100%'} h={'100%'}>
           <Box w={'100%'}>
             <Center textAlign={'center'} flexDir={'column'}>
-              <Button
-                colorScheme={'white'}
-                bg={'transparent'}
-                color={'orange.700'}
-                className="example-custom-input"
-                mb={3}
-                _hover={{
-                  bg: 'orange.100',
-                }}
-              >
-                {' '}
-                {`${date.getFullYear()}년 ${
-                  date.getMonth() + 1
-                }월 ${date.getDate()}일 ${weekArr[date.getDay()]}요일`}
-              </Button>
-              {/* 타이틀 */}
-              <Heading
-                id="title"
-                fontSize={'lg'}
-                // bg={'red'}
-                w={'100%'}
-                h={'48px'}
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                mb={3}
-              >
-                {thisPage && thisPage.title}
-              </Heading>
+              <Skeleton isLoaded={!isLoading}>
+                <Button
+                  colorScheme={'white'}
+                  bg={'transparent'}
+                  color={'orange.700'}
+                  className="example-custom-input"
+                  _hover={{
+                    bg: 'orange.100',
+                  }}
+                >
+                  {' '}
+                  {`${date.getFullYear()}년 ${
+                    date.getMonth() + 1
+                  }월 ${date.getDate()}일 ${weekArr[date.getDay()]}요일`}
+                </Button>
+              </Skeleton>
 
+              {/* 타이틀 */}
+              <Skeleton isLoaded={!isLoading} m={3}>
+                <Heading
+                  id="title"
+                  fontSize={'lg'}
+                  w={'100%'}
+                  h={'48px'}
+                  display={'flex'}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                >
+                  {thisPage && thisPage.title}
+                </Heading>
+              </Skeleton>
               {/* 내용 */}
-              <Box
-                w={'100%'}
-                className="content"
-                id="content"
-                type="text"
-                // bg={'white'}
-                p={3}
-                h={`calc(100vh - 276px)`}
-                whiteSpace="pre"
-                textAlign={'left'}
-                overflowY={'scroll'}
-                sx={{
-                  '&::-webkit-scrollbar': {
-                    width: '8px',
-                    backgroundColor: `rgba(0, 0, 0, 0.05)`,
-                    overflow: 'hidden',
-                  },
-                  '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: `rgba(0, 0, 0, 0.05)`,
-                  },
-                }}
-              >
-                {thisPage && thisPage.content}
-              </Box>
+
+              {isLoading ? (
+                <Box w={'100%'} p={3} h={`calc(100vh - 276px)`} bg="orange.50">
+                  <SkeletonText h={'100%'} noOfLines={5} spacing="4" />
+                </Box>
+              ) : (
+                <Box
+                  w={'100%'}
+                  className="content"
+                  id="content"
+                  type="text"
+                  // bg={'white'}
+                  p={3}
+                  h={`calc(100vh - 276px)`}
+                  whiteSpace="pre-wrap"
+                  textAlign={'left'}
+                  overflowY={'scroll'}
+                  sx={{
+                    '&::-webkit-scrollbar': {
+                      width: '8px',
+                      backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                      overflow: 'hidden',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                    },
+                  }}
+                >
+                  {thisPage && thisPage.content}
+                </Box>
+              )}
 
               <Flex>
                 <Button
@@ -189,7 +203,7 @@ const Read = ({
                   w={['100%', '100%', '100px']}
                   colorScheme="orange"
                   onClick={goToupdatePage}
-                  m={3}
+                  mr={3}
                 >
                   수정
                 </Button>
