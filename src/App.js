@@ -98,9 +98,6 @@ function App() {
   // 일기장 존재 여부를 저장할 공간
   const [notFoundFlag, setNotFoundFlag] = useState('false');
 
-  // 길 잃은 횟수 카운트
-  const [missingCount, setMissingCount] = useState(1);
-
   return (
     <Box>
       <link
@@ -131,44 +128,21 @@ function App() {
                 // loadDiaries={getDiariesHandler}
                 notFoundFlag={notFoundFlag}
                 setNotFoundFlag={setNotFoundFlag}
-                missingCount={missingCount}
-                setMissingCount={setMissingCount}
               />
             }
           />
           <Route
             path="/diary/:uuid/write"
-            element={
-              <ThisDay
-                db={db}
-                loginUser={loginUser}
-                setMissingCount={setMissingCount}
-                mode={'write'}
-              />
-            }
+            element={<ThisDay db={db} loginUser={loginUser} mode={'write'} />}
           />
           <Route
             path="/diary/:uuid/:dayid/read"
-            element={
-              <ThisDay
-                db={db}
-                loginUser={loginUser}
-                setMissingCount={setMissingCount}
-                mode={'read'}
-              />
-            }
+            element={<ThisDay db={db} loginUser={loginUser} mode={'read'} />}
           />
 
           <Route
             path="/diary/:uuid/:dayid/update"
-            element={
-              <ThisDay
-                db={db}
-                loginUser={loginUser}
-                setMissingCount={setMissingCount}
-                mode={'update'}
-              />
-            }
+            element={<ThisDay db={db} loginUser={loginUser} mode={'update'} />}
           />
 
           <Route
@@ -183,10 +157,7 @@ function App() {
             }
           />
 
-          <Route
-            path="/*"
-            element={<NotFoundPage missingCount={missingCount} />}
-          />
+          <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </Box>

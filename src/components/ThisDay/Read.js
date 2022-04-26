@@ -55,7 +55,7 @@ import {
   equalTo,
 } from '@firebase/database';
 
-const Read = ({ onBack, changeMode, deleteData, db, setMissingCount }) => {
+const Read = ({ onBack, changeMode, deleteData, db }) => {
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
   const cancelRef = React.useRef();
 
@@ -88,7 +88,6 @@ const Read = ({ onBack, changeMode, deleteData, db, setMissingCount }) => {
     // db에 존재하는 패이지인지 확인
     // 없을시 404
     if (findById.val() === null) {
-      setMissingCount(prevCount => prevCount + 1);
       navigate('/error');
       return;
     } else {

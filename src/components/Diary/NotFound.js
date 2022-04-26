@@ -15,7 +15,31 @@ import Card from '../UI/Card';
 import MainContents from '../UI/MainContents';
 import styles from '../UI/animation.module.css';
 
-const NotFound = ({ missingCount }) => {
+// firebase
+import {
+  ref,
+  get,
+  set,
+  query,
+  orderByChild,
+  equalTo,
+  getDatabase,
+} from '@firebase/database';
+
+const NotFound = ({}) => {
+  const [count, setCount] = useState(0);
+  const db = getDatabase();
+
+  useEffect(async () => {
+    const data = await get(ref(db, '/lostCount'));
+
+    setCount(data.val() + 1);
+
+    set(ref(db, '/lostCount'), data.val() + 1);
+  }, []);
+
+  console.log(count + '회');
+
   return (
     <>
       <MainContents>
@@ -49,7 +73,8 @@ const NotFound = ({ missingCount }) => {
           <Card px={[5, 5, 20]} bg={'transparent'}>
             <Text fontSize={['xl', 'xl', 'lg']} color={'blackAlpha.700'}>
               잘못된 주소를 통해 이 비밀스러운 페이지에 입장하셨군요! 당신은
-              이곳의 {missingCount}번째 미아입니다. 반가워요! ヾ(•ω•`)o<br></br>
+              이곳의 {count.toLocaleString()}번째 미아입니다. 반가워요!
+              ヾ(•ω•`)o<br></br>
               하지만 여기에 계속 머무를 수는 없겠죠? 이별은 아쉽지만, 선물로
               <b> '사이버 미아 행동 요령'</b>을 드릴게요. 그럼 잘가요!
             </Text>

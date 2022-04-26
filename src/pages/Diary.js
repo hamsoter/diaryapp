@@ -8,7 +8,7 @@ import { ref, get, query, orderByChild, equalTo } from '@firebase/database';
 import { getAuth } from 'firebase/auth';
 
 // http://localhost:3000/diary/8ug8bk
-const Diary = ({ setMissingCount, db }) => {
+const Diary = ({ db }) => {
   const navigate = useNavigate();
 
   // 찾아낸 다이어리를 저장할 공간
@@ -57,7 +57,6 @@ const Diary = ({ setMissingCount, db }) => {
 
         // db에 존재하는 다이어리인지 확인
         if (findById.val() === null) {
-          setMissingCount(prevCount => prevCount + 1);
           navigate('/error');
           return;
         }
@@ -68,7 +67,6 @@ const Diary = ({ setMissingCount, db }) => {
         if (user.uid === result.owner.id) {
           setThisDiary(result);
         } else {
-          setMissingCount(prevCount => prevCount + 1);
           navigate('/error');
           return;
         }
@@ -86,7 +84,6 @@ const Diary = ({ setMissingCount, db }) => {
       thisDiary={thisDiary}
       thisParam={thisParamId}
       getPages={getPages}
-      setMissingCount={setMissingCount}
     />
   );
 

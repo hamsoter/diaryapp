@@ -16,7 +16,7 @@ import {
 } from '@firebase/database';
 import { getAuth } from 'firebase/auth';
 
-const ThisDay = ({ mode, setMissingCount, loginUser, db }) => {
+const ThisDay = ({ mode, loginUser, db }) => {
   const dbref = ref(getDatabase());
   const location = useLocation();
   const navigate = useNavigate();
@@ -49,7 +49,6 @@ const ThisDay = ({ mode, setMissingCount, loginUser, db }) => {
 
         // db에 존재하는 다이어리인지 확인
         if (findById.val() === null) {
-          setMissingCount(prevCount => prevCount + 1);
           navigate('/error');
           return;
         } else {
@@ -60,7 +59,6 @@ const ThisDay = ({ mode, setMissingCount, loginUser, db }) => {
             console.log(result);
             setThisDiary(result);
           } else {
-            setMissingCount(prevCount => prevCount + 1);
             navigate('/error');
           }
         }
@@ -155,7 +153,6 @@ const ThisDay = ({ mode, setMissingCount, loginUser, db }) => {
             isLoading={isLoading}
             db={db}
             data={thisDiary}
-            setMissingCount={setMissingCount}
             onBack={goBack}
             changeMode={setThisMode}
             deleteData={deleteData}

@@ -139,13 +139,9 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages }) => {
               filteredPages &&
               filteredPages.map(item => {
                 return (
-                  <Box ml={[3, 3, 0]}>
-                    <Link
-                      key={item.id}
-                      to={`/diary/${thisParam}/${item.id}/read`}
-                    >
+                  <Box ml={[3, 3, 0]} key={item.id}>
+                    <Link to={`/diary/${thisParam}/${item.id}/read`}>
                       <CurrentDay
-                        key={item.id}
                         title={item.title}
                         content={item.content}
                         mood={item.mood}

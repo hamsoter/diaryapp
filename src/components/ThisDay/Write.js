@@ -28,15 +28,7 @@ import { ref, get, query, orderByChild, equalTo } from '@firebase/database';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bool } from 'yup';
 
-const Write = ({
-  onBack,
-  writer,
-  saveData,
-  diaries,
-  mode,
-  db,
-  setMissingCount,
-}) => {
+const Write = ({ onBack, writer, saveData, mode, db }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -71,7 +63,6 @@ const Write = ({
       // db에 존재하는 패이지인지 확인
       // 없을시 404
       if (findById.val() === null) {
-        setMissingCount(prevCount => prevCount + 1);
         navigate('/error');
         return;
       } else {

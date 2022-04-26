@@ -4,12 +4,12 @@ import NotFound from '../components/Diary/NotFound';
 import Header from '../components/DiaryLists/Header';
 import MainContainer from '../components/UI/MainContainer';
 
-const NotFoundPage = ({ missingCount }) => {
+const NotFoundPage = () => {
   return (
     <ChakraProvider h={'100%'} theme={theme}>
       <MainContainer>
         <Header title={''} rightContent={''} />
-        <NotFound missingCount={missingCount} />
+        <NotFound />
       </MainContainer>
     </ChakraProvider>
   );
