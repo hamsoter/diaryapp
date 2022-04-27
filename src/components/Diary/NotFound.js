@@ -10,21 +10,12 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../DiaryLists/Header';
 import Card from '../UI/Card';
 import MainContents from '../UI/MainContents';
 import styles from '../UI/animation.module.css';
 
 // firebase
-import {
-  ref,
-  get,
-  set,
-  query,
-  orderByChild,
-  equalTo,
-  getDatabase,
-} from '@firebase/database';
+import { ref, get, set, getDatabase } from '@firebase/database';
 
 const NotFound = ({}) => {
   const [count, setCount] = useState(0);

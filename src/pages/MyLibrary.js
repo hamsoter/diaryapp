@@ -73,6 +73,7 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
     <ChakraProvider h={'100%'} theme={theme}>
       <MainContainer>
         <Header
+          isLoading={isLoading}
           title={'책장'}
           rightContent={
             <AddDiaryModal

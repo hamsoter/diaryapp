@@ -1,12 +1,8 @@
 import React from 'react';
 
-import { Flex, Heading, Box, Center } from '@chakra-ui/react';
+import { Flex, Heading, Box, Center, Skeleton } from '@chakra-ui/react';
 
-const Header = props => {
-  const leftContent = props.leftContent;
-  const rightContent = props.rightContent;
-  const title = props.title;
-
+const Header = ({ leftContent, rightContent, title, isLoading }) => {
   // css style
   const styles = {
     bg: 'orange.400',
@@ -22,7 +18,7 @@ const Header = props => {
     <Flex
       position={'relative'}
       {...styles}
-      pr={typeof props.rightContent === 'undefined' ? '40px' : 'auto'}
+      pr={typeof rightContent === 'undefined' ? '40px' : 'auto'}
     >
       <Heading
         w={'100%'}
@@ -31,17 +27,26 @@ const Header = props => {
         display={'flex'}
         justifyContent="space-between"
       >
-        <Box w={typeof props.leftContent === 'undefined' ? '100px' : 10}>
-          {leftContent}
-        </Box>
-        <Center alignSelf={'center'}>{title}</Center>
-        <Box
-          w={typeof props.rightContent === 'undefined' ? '35px' : -10}
-          fontSize="md"
-          fontWeight={'bold'}
+        <Skeleton
+          w={'100%'}
+          display={'flex'}
+          justifyContent="space-between"
+          isLoaded={!isLoading}
+          startColor={'whiteAlpha.300'}
+          endColor="orange.500"
         >
-          {rightContent}
-        </Box>
+          <Box w={typeof leftContent === 'undefined' ? '100px' : 10}>
+            {leftContent}
+          </Box>
+          <Center alignSelf={'center'}>{title}</Center>
+          <Box
+            w={typeof rightContent === undefined ? '35px' : -10}
+            fontSize="md"
+            fontWeight={'bold'}
+          >
+            {rightContent}
+          </Box>
+        </Skeleton>
       </Heading>
     </Flex>
   );
