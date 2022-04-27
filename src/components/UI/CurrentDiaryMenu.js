@@ -36,12 +36,12 @@ const CurrentDiaryMenu = ({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            정말 다이어리를 지울까요?
+            정말로요?
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            다이어리의 모든 일기가 한꺼번에 지워지며, 지워진 데이터는 복구되지
-            않습니다.
+            다이어리의 모든 일기가 한꺼번에 지워지며, <br></br>지워진 데이터는
+            복구되지 않습니다.
           </AlertDialogBody>
 
           <AlertDialogFooter>
@@ -54,7 +54,7 @@ const CurrentDiaryMenu = ({
                 deleteThisDiary();
 
                 toast({
-                  title: '삭제완료',
+                  title: '성공!',
                   description: '잘가요! 종이가 흩날립니다...📃',
                   status: 'success',
                   duration: 9000,
@@ -88,19 +88,6 @@ const CurrentDiaryMenu = ({
       <MenuList>
         <Skeleton isLoaded={!isLoading}>
           <MenuItem
-            key={0}
-            onClick={() => {
-              setOverlay(<DeleteOverlay />);
-              onOpen();
-            }}
-            color={'blackAlpha.700'}
-          >
-            삭제하기
-          </MenuItem>
-        </Skeleton>
-
-        <Skeleton isLoaded={!isLoading}>
-          <MenuItem
             key={1}
             onClick={() => {
               setOverlay(
@@ -115,6 +102,19 @@ const CurrentDiaryMenu = ({
             color={'blackAlpha.700'}
           >
             정보수정
+          </MenuItem>
+        </Skeleton>
+
+        <Skeleton isLoaded={!isLoading}>
+          <MenuItem
+            key={0}
+            onClick={() => {
+              setOverlay(<DeleteOverlay />);
+              onOpen();
+            }}
+            color={'red.500'}
+          >
+            삭제하기
           </MenuItem>
         </Skeleton>
       </MenuList>

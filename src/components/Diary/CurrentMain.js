@@ -33,14 +33,15 @@ const CurrnetMain = ({ thisDiary, isLoading }) => {
     >
       <Bubble>
         <Flex flexDir={'column'} w={'100%'} alignItems={'center'}>
-          <Stack>
+          <Stack display={'flex'}>
             <Skeleton
               startColor={'whiteAlpha.300'}
               endColor="orange.500"
               isLoaded={!isLoading}
             >
-              <Heading fontSize={['xl']} color="whiteAlpha.900">
-                안녕, {thisDiary ? thisDiary.owner.name : ''}
+              <Heading fontSize={'18px'} color="whiteAlpha.900">
+                안녕,{' '}
+                {thisDiary.owner.name ? thisDiary.owner.name : thisDiary.owner}
               </Heading>
             </Skeleton>
             <Skeleton

@@ -54,7 +54,8 @@ export const UpdateModalOverlay = ({ onClose, updateThisDiary, thisDiary }) => {
       updateThisDiary(values);
 
       toast({
-        title: '다이어리 이름 변경 완료!',
+        title: '성공!',
+        description: '다이어리가 더 멋지게 변경되었어요!🎇',
         status: 'success',
         duration: 9000,
         isClosable: true,

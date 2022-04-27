@@ -21,9 +21,9 @@ import CurrentPages from './CurrentPages';
 import CurrnetMain from './CurrentMain';
 import YearFilter from './YearFilter';
 
-import { ref, update, getDatabase } from '@firebase/database';
+import { ref, set, update, getDatabase } from '@firebase/database';
 
-const CurrentDiary = ({ thisDiary, thisParam, getPages, setThisDiary }) => {
+const CurrentDiary = ({ thisDiary, thisParam, getPages, setThisDiary, db }) => {
   const dbref = ref(getDatabase());
   const navigate = useNavigate();
 
@@ -92,14 +92,25 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setThisDiary }) => {
 
     const newDiary = {};
 
+    console.log(thisDiary.owner);
+
     setThisDiary({
       id: thisDiary.id,
-      owner: thisDiary.owner.name,
+      owner: thisDiary.owner.name ? thisDiary.owner.name : thisDiary.owner,
       color: updateInfo.color,
       title: updateInfo.title,
 
       lastRecord: thisDiary.lastRecord.toString(),
     });
+
+    // set(ref(db, '/diaries/' + thisDiary.id), {
+    //   id: thisDiary.id,
+    //   owner: thisDiary && thisDiary.owner.name,
+    //   color: updateInfo.color,
+    //   title: updateInfo.title,
+
+    //   lastRecord: thisDiary.lastRecord.toString(),
+    // });
 
     updateName['diaries/' + thisDiary.id + '/title'] = updateInfo.title;
     updateColor['diaries/' + thisDiary.id + '/color'] = updateInfo.color;
@@ -173,7 +184,7 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setThisDiary }) => {
               filteredPages &&
               filteredPages.map(item => {
                 return (
-                  <Box ml={[3, 3, 0]} key={item.id}>
+                  <Box ml={0} key={item.id}>
                     <Link to={`/diary/${thisParam}/${item.id}/read`}>
                       <CurrentPages
                         title={item.title}

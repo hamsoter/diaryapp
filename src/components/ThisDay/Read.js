@@ -55,6 +55,7 @@ import {
   orderByChild,
   equalTo,
 } from '@firebase/database';
+import Bubble from '../UI/Bubble';
 
 const Read = ({ onBack, changeMode, deleteData, db }) => {
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
@@ -158,31 +159,32 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
               </Skeleton>
 
               {/* 기분 */}
-              <Box>
-                <Image src={imgSrc[0]} w="50px"></Image>
-              </Box>
+              <Skeleton isLoaded={!isLoading}>
+                <Box>
+                  <Image src={imgSrc[0]} w="50px"></Image>
+                </Box>
+              </Skeleton>
               {/* 페이지제목 */}
-              <Skeleton isLoaded={!isLoading} m={3}>
+              <Skeleton w={'100%'} px={3} isLoaded={!isLoading} m={3}>
                 <Heading
                   id="title"
                   fontSize={'lg'}
-                  w={'100%'}
-                  h={'48px'}
-                  display={'flex'}
                   alignItems={'center'}
                   justifyContent={'center'}
                 >
-                  {thisPage && thisPage.title}
+                  <Text noOfLines={1}>{thisPage && thisPage.title}</Text>
                 </Heading>
               </Skeleton>
+
               {/* 내용 */}
 
               {isLoading ? (
-                <Box w={'100%'} p={3} h={`calc(100vh - 276px)`} bg="orange.50">
+                <Box m={3} w={'100%'} h={`calc(100vh - 276px)`} bg="orange.50">
                   <SkeletonText h={'100%'} noOfLines={5} spacing="4" />
                 </Box>
               ) : (
                 <Box
+                  m={3}
                   w={'100%'}
                   className="content"
                   id="content"

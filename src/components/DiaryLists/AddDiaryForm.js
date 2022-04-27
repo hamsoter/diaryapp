@@ -9,6 +9,7 @@ import {
   Input,
   FormHelperText,
   extendTheme,
+  useToast,
 } from '@chakra-ui/react';
 import ColorPicker from '../UI/ColorPicker';
 import { useFormik } from 'formik';
@@ -35,6 +36,8 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
   };
 
   const [selectedColor, setSelectedColor] = React.useState('#FF6900');
+  // 알림창 관리
+  const toast = useToast();
 
   const formik = useFormik({
     // 초기값 설정
@@ -55,6 +58,15 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
 
       onGetData(values);
       action.resetForm();
+
+      toast({
+        title: '성공!',
+        description: '새 일기장을 생성했어요! 📔',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+
       onClose();
     },
     // 값 변경시마다 유효성체크
