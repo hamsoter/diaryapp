@@ -11,6 +11,7 @@ import {
   SkeletonText,
   Textarea,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import React, { useState, useEffect } from 'react';
@@ -81,8 +82,8 @@ const Write = ({ onBack, writer, saveData, diaries, mode, db }) => {
     setIsLoading(false);
   }, []);
 
-  // 모달 상태 관리
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   // form의 validation을 확인하는 메서드
   const validator = (values, actions) => {
@@ -171,7 +172,12 @@ const Write = ({ onBack, writer, saveData, diaries, mode, db }) => {
                 />
               </Skeleton>
               {isLoading ? (
-                <Box w={'100%'} h={`calc(100vh - 456px)`} overflow={'hidden'}>
+                <Box
+                  mt={5}
+                  w={'100%'}
+                  h={`calc(100vh - 442px)`}
+                  overflow={'hidden'}
+                >
                   <SkeletonText h={'100%'} noOfLines={5} spacing="4" />
                 </Box>
               ) : (
@@ -195,8 +201,8 @@ const Write = ({ onBack, writer, saveData, diaries, mode, db }) => {
                     },
                   }}
                   h={[
-                    `calc(100vh - 445.5px)`,
-                    `calc(100vh - 445.5px)`,
+                    `calc(100vh - 446px)`,
+                    `calc(100vh - 446px)`,
                     `calc(100vh - 469px)`,
                   ]} // 436
                   resize={'none'}

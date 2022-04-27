@@ -57,7 +57,7 @@ export const UpdateModalOverlay = ({ onClose, updateThisDiary, thisDiary }) => {
         title: '성공!',
         description: '다이어리가 더 멋지게 변경되었어요!🎇',
         status: 'success',
-        duration: 9000,
+        duration: 3000,
         isClosable: true,
       });
 

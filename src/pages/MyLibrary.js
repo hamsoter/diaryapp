@@ -14,6 +14,7 @@ import { ref, set } from '@firebase/database';
 
 import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
+import MyLibraryMenu from '../components/UI/MyLibraryMenu';
 
 const MyLibrary = ({ db, loadDiaries, loginUser }) => {
   const auth = getAuth();
@@ -66,6 +67,7 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
         <Header
           isLoading={isLoading}
           title={'책장'}
+          leftContent={<MyLibraryMenu />}
           rightContent={
             <AddDiaryModal
               loginUser={loginUser}

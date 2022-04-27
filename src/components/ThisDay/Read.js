@@ -34,6 +34,7 @@ import {
   useDisclosure,
   useMenuState,
   useStyles,
+  useToast,
 } from '@chakra-ui/react';
 import Header from '../DiaryLists/Header';
 import Card from '../UI/Card';
@@ -83,6 +84,7 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const [thisPage, setThisPage] = useState();
 
@@ -108,6 +110,14 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
 
   const deletePage = () => {
     deleteData(thisPage);
+
+    toast({
+      title: '성공!',
+      description: '이 페이지를 찢어버렸어요!😏',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   return (
@@ -133,7 +143,6 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
             icon={<ArrowBackIcon boxSize="5" onClick={onBack} />}
           />
         }
-        rightContent={<></>}
       />
 
       {/* 메인컨텐츠 */}
@@ -165,7 +174,13 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
                 </Box>
               </Skeleton>
               {/* 페이지제목 */}
-              <Skeleton w={'100%'} px={3} isLoaded={!isLoading} m={3}>
+              <Skeleton
+                w={'100%'}
+                px={3}
+                height={'24px'}
+                isLoaded={!isLoading}
+                m={3}
+              >
                 <Heading
                   id="title"
                   fontSize={'lg'}
@@ -179,7 +194,7 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
               {/* 내용 */}
 
               {isLoading ? (
-                <Box m={3} w={'100%'} h={`calc(100vh - 276px)`} bg="orange.50">
+                <Box m={3} w={'100%'} h={`calc(100vh - 314px)`} bg="orange.50">
                   <SkeletonText h={'100%'} noOfLines={5} spacing="4" />
                 </Box>
               ) : (
@@ -191,7 +206,7 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
                   type="text"
                   // bg={'white'}
                   px={3}
-                  h={`calc(100vh - 276px)`}
+                  h={`calc(100vh - 314px)`}
                   whiteSpace="pre-wrap"
                   textAlign={'left'}
                   overflowY={'scroll'}

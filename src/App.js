@@ -24,6 +24,7 @@ import Login from './pages/Login';
 import firebase from 'firebase/compat/app';
 
 import { getAuth } from 'firebase/auth';
+import MyPage from './pages/MyPage';
 
 function App() {
   // firebase
@@ -155,6 +156,7 @@ function App() {
               ></Login>
             }
           />
+          <Route path="/mypage" element={<MyPage />} />
 
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>

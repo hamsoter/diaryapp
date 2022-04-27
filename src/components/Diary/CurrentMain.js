@@ -40,8 +40,7 @@ const CurrnetMain = ({ thisDiary, isLoading }) => {
               isLoaded={!isLoading}
             >
               <Heading fontSize={'18px'} color="whiteAlpha.900">
-                안녕,{' '}
-                {thisDiary.owner.name ? thisDiary.owner.name : thisDiary.owner}
+                안녕, {thisDiary ? thisDiary.owner.name : 'thisDiary.owner'}
               </Heading>
             </Skeleton>
             <Skeleton

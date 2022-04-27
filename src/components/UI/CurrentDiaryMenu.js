@@ -57,7 +57,7 @@ const CurrentDiaryMenu = ({
                   title: '성공!',
                   description: '잘가요! 종이가 흩날립니다...📃',
                   status: 'success',
-                  duration: 9000,
+                  duration: 3000,
                   isClosable: true,
                 });
               }}
@@ -101,7 +101,7 @@ const CurrentDiaryMenu = ({
             }}
             color={'blackAlpha.700'}
           >
-            정보수정
+            일기장 수정
           </MenuItem>
         </Skeleton>
 

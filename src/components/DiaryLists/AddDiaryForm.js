@@ -10,10 +10,14 @@ import {
   FormHelperText,
   extendTheme,
   useToast,
+  Flex,
+  Divider,
+  Text,
 } from '@chakra-ui/react';
 import ColorPicker from '../UI/ColorPicker';
 import { useFormik } from 'formik';
 import customColorTheme from '../UI/CustomColorTheme';
+import { Link } from 'react-router-dom';
 
 const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
   // form의 validation을 확인하는 메서드
@@ -63,7 +67,7 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
         title: '성공!',
         description: '새 일기장을 생성했어요! 📔',
         status: 'success',
-        duration: 9000,
+        duration: 3000,
         isClosable: true,
       });
 
@@ -134,7 +138,26 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
   return (
     <form id="addDiaryForm" onSubmit={formik.handleSubmit}>
       <FormControl>
-        <FormLabel htmlFor="userName">당신의 이름</FormLabel>
+        <Flex alignItems={'center'}>
+          <FormLabel w={'60%'} htmlFor="userName">
+            당신의 이름
+          </FormLabel>
+          <FormHelperText
+            w="70%"
+            fontSize={'sm'}
+            m={0}
+            display="flex"
+            justifyContent={'space-around'}
+            mb={2}
+          >
+            변경을 원하나요?
+            <Link to="/mypage">
+              <Text color={'blue.400'} textDecoration="underline">
+                여기로
+              </Text>
+            </Link>
+          </FormHelperText>
+        </Flex>
         <Input
           isDisabled
           id="userName"
@@ -146,9 +169,7 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
         <FormHelperText fontSize={'sm'} color={'red.400'}>
           {formik.errors.userName}
         </FormHelperText>
-        <FormLabel mt={5} htmlFor="title">
-          새 일기장의 이름
-        </FormLabel>
+        <FormLabel htmlFor="title">새 일기장의 이름</FormLabel>
         <Input
           id="title"
           onChange={formik.handleChange}
@@ -159,6 +180,7 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
         <FormHelperText fontSize={'sm'} color={'red.400'}>
           {formik.errors.title}
         </FormHelperText>
+        <Divider mt={5}></Divider>
         <FormLabel mt={5}>커버 색상</FormLabel>
         <ColorPicker
           onGetSelectedColor={selectedColor}

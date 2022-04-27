@@ -96,7 +96,9 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setThisDiary, db }) => {
 
     setThisDiary({
       id: thisDiary.id,
-      owner: thisDiary.owner.name ? thisDiary.owner.name : thisDiary.owner,
+      owner: {
+        name: thisDiary.owner.name,
+      },
       color: updateInfo.color,
       title: updateInfo.title,
 
