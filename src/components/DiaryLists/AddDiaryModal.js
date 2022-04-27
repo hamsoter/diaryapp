@@ -12,13 +12,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  // 폼
-  FormHelperText,
-  useControllableState,
-  Text,
 } from '@chakra-ui/react';
-import ColorPicker from '../UI/ColorPicker';
-import { useFormik } from 'formik';
 import AddDiaryForm from './AddDiaryForm';
 
 const AddDiaryModal = ({ loginUser, onSaveDiary }) => {

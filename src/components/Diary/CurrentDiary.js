@@ -16,14 +16,14 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/DiaryLists/Header';
 import MainContent from '../../components/UI/MainContent';
-import HamburgerMenu from '../UI/HamburgerMenu';
+import CurrentDiaryMenu from '../UI/CurrentDiaryMenu';
 import CurrentPages from './CurrentPages';
 import CurrnetMain from './CurrentMain';
 import YearFilter from './YearFilter';
 
 import { ref, update, getDatabase } from '@firebase/database';
 
-const CurrentDiary = ({ thisDiary, thisParam, getPages }) => {
+const CurrentDiary = ({ thisDiary, thisParam, getPages, setThisDiary }) => {
   const dbref = ref(getDatabase());
   const navigate = useNavigate();
 
@@ -76,10 +76,37 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages }) => {
     console.log(thisDiary.id, '를 삭제?');
 
     const updates = {};
-    updates['diaries/' + thisDiary.id + '/'] = null;
+    updates['diaries/' + thisDiary.id] = null;
+
+    console.log(updates);
 
     update(dbref, updates);
     goBack();
+  };
+
+  const updateThisDiary = updateInfo => {
+    console.log(thisDiary.id, '를 업데이트?');
+
+    const updateName = {};
+    const updateColor = {};
+
+    const newDiary = {};
+
+    setThisDiary({
+      id: thisDiary.id,
+      owner: thisDiary.owner.name,
+      color: updateInfo.color,
+      title: updateInfo.title,
+
+      lastRecord: thisDiary.lastRecord.toString(),
+    });
+
+    updateName['diaries/' + thisDiary.id + '/title'] = updateInfo.title;
+    updateColor['diaries/' + thisDiary.id + '/color'] = updateInfo.color;
+
+    update(dbref, updateName);
+    update(dbref, updateColor);
+    console.log(thisDiary);
   };
 
   return (
@@ -104,7 +131,14 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages }) => {
             icon={<ArrowBackIcon boxSize="5" onClick={goBack} />}
           />
         }
-        rightContent={<HamburgerMenu deleteThisDiary={deleteThisDiary} />}
+        rightContent={
+          <CurrentDiaryMenu
+            thisDiary={thisDiary}
+            isLoading={isLoading}
+            updateThisDiary={updateThisDiary}
+            deleteThisDiary={deleteThisDiary}
+          />
+        }
       />
       <MainContent w={'100%'}>
         <Flex w={'auto'} flexDir={'column'}>

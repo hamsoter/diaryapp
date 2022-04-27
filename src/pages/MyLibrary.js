@@ -60,6 +60,15 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
     });
   };
 
+  // 유저명변경
+  const updateUserName = newDiaryName => {
+    // console.log(thisDiary.id, '를 업데이트?');
+    // const updates = {};
+    // updates['diaries/' + thisDiary.id + '/owner/name'] = newDiaryName;
+    // console.log(updates);
+    // update(dbref, updates);
+  };
+
   return (
     <ChakraProvider h={'100%'} theme={theme}>
       <MainContainer>

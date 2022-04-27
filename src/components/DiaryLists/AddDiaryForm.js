@@ -22,14 +22,14 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
 
     const { userName, title } = values;
 
-    // if (userName.length < 1) {
-    //   error.userName = '이름을 입력하세요';
-    // }
     if (title.length < 1) {
       error.title = '일기장 이름을 입력하세요';
     }
 
-    // console.log(error);
+    if (title.length > 17) {
+      error.title = '일기장 이름은 18자 이상일 수 없습니다';
+    }
+
     // 에러 객체가 있을 시 handler이 submit 되지 않음
     return error;
   };
@@ -49,7 +49,7 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
       pages: [],
     },
     onSubmit: (values, action) => {
-      // console.log(values);
+      // console.log('헤헹');
       values.id = Math.random().toString(36).substring(2, 8);
       values.color = setColorTheme(selectedColor);
 

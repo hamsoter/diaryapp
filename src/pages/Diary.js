@@ -79,6 +79,7 @@ const Diary = ({ db }) => {
   let content = (
     <CurrentDiary
       thisDiary={thisDiary}
+      setThisDiary={setThisDiary}
       thisParam={thisParamId}
       getPages={getPages}
     />

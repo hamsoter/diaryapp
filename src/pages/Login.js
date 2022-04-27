@@ -105,12 +105,18 @@ const Login = ({ db }) => {
               fallbackSrc="https://via.placeholder.com/200"
             />
           </Center>
-          <Flex flexDir={'column'}>
+          <Flex flexDir={'column'} w={'300px'}>
             <StyledFirebaseAuth
               uiConfig={uiConfig}
               firebaseAuth={firebase.auth()}
             />
           </Flex>
+
+          <Text fontSize={'sm'} color={'blackAlpha.500'}>
+            데이터는 모두 firebase db에 저장되며, 따라서 제가 읽어버릴 수
+            있게되지만 읽지 않겠습니다<br></br> (각오 및 동의하는 자만
+            가입하씨요)
+          </Text>
         </Card>
       </Center>
     );

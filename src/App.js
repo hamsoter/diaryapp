@@ -69,7 +69,6 @@ function App() {
     // 작성된 일기가 있을시
     if (data.val() !== null) {
       const dataArr = Object.values(data.val());
-      console.log(dataArr);
 
       const solved = dataArr
         .map(item => {
