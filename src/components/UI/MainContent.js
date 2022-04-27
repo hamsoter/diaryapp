@@ -6,9 +6,8 @@ const MainContent = props => {
 
   const style = {
     m: 'auto',
-    p: [0, 0, 3],
+    p: [0, 0, 0],
     pr: [0, 0, 0],
-    // 변동 가능성 o colorScheme ? 'colorScheme.mainColor' :
     bg: colorScheme ? colorScheme.normal100 : 'orange.100',
     borderBottomRadius: 'md',
     display: 'flex',

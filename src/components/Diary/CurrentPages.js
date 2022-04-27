@@ -11,12 +11,21 @@ import {
 } from '@chakra-ui/react';
 import Card from '../UI/Card';
 
-const CurrentDay = ({ title, content, date }) => {
+const CurrentPages = ({ title, content, date, mood }) => {
   // 날짜 출력 편의를 위한 변수
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
   const month = date.getMonth() + 1;
   const day = date.getDate();
   const week = weekArr[date.getDay()];
+
+  console.log(mood);
+
+  const imgSrc = [
+    'https://user-images.githubusercontent.com/100299692/165281611-90f31def-287e-46d4-b948-5b3c20113c02.png',
+    'https://user-images.githubusercontent.com/100299692/165281598-4a5e2033-3f7a-4115-9347-64cf2ec88893.png',
+    'https://user-images.githubusercontent.com/100299692/165281610-36e390a4-fab3-4146-a83c-4ccaf3c39b01.png',
+    'https://user-images.githubusercontent.com/100299692/165281613-955ce4e2-fbfc-4d23-abf5-dda3e3bb0e34.png',
+  ];
 
   return (
     <ListItem pb={3} listStyleType={'none'}>
@@ -25,7 +34,7 @@ const CurrentDay = ({ title, content, date }) => {
           <Box display={'flex'} className="thisday-mood mood0" w={'100px'}>
             <Image
               w="100%"
-              src=""
+              src={imgSrc[mood]}
               fallbackSrc="https://via.placeholder.com/73"
             />
           </Box>
@@ -64,4 +73,4 @@ const CurrentDay = ({ title, content, date }) => {
   );
 };
 
-export default CurrentDay;
+export default CurrentPages;

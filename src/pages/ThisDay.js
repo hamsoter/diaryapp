@@ -95,12 +95,14 @@ const ThisDay = ({ mode, loginUser, db }) => {
     };
 
     const saveDayHandler = async newDiary => {
+      console.log(newDiary);
       saveDay(newDiary);
 
       pageChange(newDiary);
     };
 
     const updateDataHandler = async newDiary => {
+      console.log(newDiary);
       updateData(newDiary);
       pageChange(newDiary);
     };
@@ -111,12 +113,12 @@ const ThisDay = ({ mode, loginUser, db }) => {
 
       set(ref(db, '/pages/' + newDiary.id), {
         id: newDiary.id,
+        mood: newDiary.mood,
         owner: loginUser,
         diary: thisDiary,
         writer: loginUser.name,
         title: newDiary.title,
         content: newDiary.content,
-        mood: 0,
         date: newDiary.date.toString(),
       });
 

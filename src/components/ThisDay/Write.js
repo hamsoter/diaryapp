@@ -27,14 +27,17 @@ import MessageModal from '../UI/MessageModal';
 import { ref, get, query, orderByChild, equalTo } from '@firebase/database';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bool } from 'yup';
+import MoodSelector from './MoodSelector';
 
-const Write = ({ onBack, writer, saveData, mode, db }) => {
+const Write = ({ onBack, writer, saveData, diaries, mode, db }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const [isLoading, setIsLoading] = useState(true);
 
   const [startDate, setStartDate] = useState(new Date());
+
+  const [mood, setMood] = useState(0);
 
   const pageId = location.pathname.split('/')[3];
 
@@ -116,9 +119,10 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
     onSubmit: (values, action) => {
       values.id = Math.random().toString(36).substring(2, 8);
       values.date = startDate;
-
+      values.mood = mood;
       // console.log(values);
 
+      console.log(values);
       saveData(values, pageId);
     },
     // 값 변경시마다 유효성체크
@@ -155,7 +159,7 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
               <Skeleton isLoaded={!isLoading}>
                 <DatePick setStartDate={setStartDate} startDate={startDate} />
               </Skeleton>
-              <Skeleton w={'100%'} h={'48px'} m={3} isLoaded={!isLoading}>
+              <Skeleton w={'100%'} h={'48px'} isLoaded={!isLoading}>
                 <Input
                   id="title"
                   onChange={formik.handleChange}
@@ -167,7 +171,7 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
                 />
               </Skeleton>
               {isLoading ? (
-                <Box w={'100%'} h={`calc(100vh - 276px)`} overflow={'hidden'}>
+                <Box w={'100%'} h={`calc(100vh - 456px)`} overflow={'hidden'}>
                   <SkeletonText h={'100%'} noOfLines={5} spacing="4" />
                 </Box>
               ) : (
@@ -179,11 +183,27 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
                   type="text"
                   bg={'white'}
                   p={3}
+                  m={3}
                   placeholder="무슨 일이 있었나요?"
-                  h={`calc(100vh - 276px)`}
+                  sx={{
+                    '&::-webkit-scrollbar': {
+                      width: '12px',
+                      backgroundColor: `rgba(0, 0, 0, 0.0)`,
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                    },
+                  }}
+                  h={[
+                    `calc(100vh - 445.5px)`,
+                    `calc(100vh - 445.5px)`,
+                    `calc(100vh - 469px)`,
+                  ]} // 436
                   resize={'none'}
                 />
               )}
+
+              <MoodSelector setMood={setMood}></MoodSelector>
               <Button
                 mt={['6', '6', '3']}
                 type="submit"

@@ -17,6 +17,7 @@ import {
   FormLabel,
   Heading,
   IconButton,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -57,9 +58,15 @@ import {
 
 const Read = ({ onBack, changeMode, deleteData, db }) => {
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
-  const cancelRef = React.useRef();
 
-  // console.log(data);
+  const imgSrc = [
+    'https://user-images.githubusercontent.com/100299692/165281611-90f31def-287e-46d4-b948-5b3c20113c02.png',
+    'https://user-images.githubusercontent.com/100299692/165281598-4a5e2033-3f7a-4115-9347-64cf2ec88893.png',
+    'https://user-images.githubusercontent.com/100299692/165281610-36e390a4-fab3-4146-a83c-4ccaf3c39b01.png',
+    'https://user-images.githubusercontent.com/100299692/165281613-955ce4e2-fbfc-4d23-abf5-dda3e3bb0e34.png',
+  ];
+
+  const cancelRef = React.useRef();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -111,6 +118,8 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
             isLoaded={!isLoading}
             startColor={'whiteAlpha.300'}
             endColor="orange.500"
+            isTruncated
+            maxW={['250px', '310px', '640px']}
           >
             {thisPage && thisPage.title}
           </Skeleton>
@@ -123,6 +132,7 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
             icon={<ArrowBackIcon boxSize="5" onClick={onBack} />}
           />
         }
+        rightContent={<></>}
       />
 
       {/* 메인컨텐츠 */}
@@ -147,7 +157,11 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
                 </Button>
               </Skeleton>
 
-              {/* 타이틀 */}
+              {/* 기분 */}
+              <Box>
+                <Image src={imgSrc[0]} w="50px"></Image>
+              </Box>
+              {/* 페이지제목 */}
               <Skeleton isLoaded={!isLoading} m={3}>
                 <Heading
                   id="title"
@@ -174,7 +188,7 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
                   id="content"
                   type="text"
                   // bg={'white'}
-                  p={3}
+                  px={3}
                   h={`calc(100vh - 276px)`}
                   whiteSpace="pre-wrap"
                   textAlign={'left'}

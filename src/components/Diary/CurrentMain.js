@@ -18,7 +18,6 @@ import Card from '../UI/Card';
 const CurrnetMain = ({ thisDiary, isLoading }) => {
   let location = useLocation();
   const path = `${location.pathname}`;
-  console.log(thisDiary);
 
   return (
     <Card
@@ -29,6 +28,7 @@ const CurrnetMain = ({ thisDiary, isLoading }) => {
       borderRadius={5}
       pb={5}
       px={5}
+      pt={10}
       gap={0}
     >
       <Bubble>
@@ -40,7 +40,7 @@ const CurrnetMain = ({ thisDiary, isLoading }) => {
               isLoaded={!isLoading}
             >
               <Heading fontSize={['xl']} color="whiteAlpha.900">
-                안녕, {thisDiary.owner.name}
+                안녕, {thisDiary ? thisDiary.owner.name : ''}
               </Heading>
             </Skeleton>
             <Skeleton

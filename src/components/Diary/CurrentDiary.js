@@ -17,7 +17,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/DiaryLists/Header';
 import MainContent from '../../components/UI/MainContent';
 import HamburgerMenu from '../UI/HamburgerMenu';
-import CurrentDay from './CurrentDay';
+import CurrentPages from './CurrentPages';
 import CurrnetMain from './CurrentMain';
 import YearFilter from './YearFilter';
 
@@ -141,12 +141,12 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages }) => {
                 return (
                   <Box ml={[3, 3, 0]} key={item.id}>
                     <Link to={`/diary/${thisParam}/${item.id}/read`}>
-                      <CurrentDay
+                      <CurrentPages
                         title={item.title}
                         content={item.content}
                         mood={item.mood}
                         date={new Date(item.date)}
-                      ></CurrentDay>
+                      ></CurrentPages>
                     </Link>
                   </Box>
                 );

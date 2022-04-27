@@ -30,9 +30,6 @@ const Diary = ({ db }) => {
 
     if (thisPages.val()) {
       return thisPages.val();
-    } else {
-      console.log('없ㅇ므');
-      return false;
     }
   };
 
