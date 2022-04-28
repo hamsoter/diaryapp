@@ -117,6 +117,10 @@ const ReName = ({ loginUser, db, setLoginUser }) => {
                   defaultValue={loginUser ? loginUser.name : ''}
                   id="newUserName"
                 />
+
+                <FormHelperText mt={5}>
+                  바뀐 이름은 모든 일기에 적용됩니다!
+                </FormHelperText>
               </FormControl>
 
               <Button

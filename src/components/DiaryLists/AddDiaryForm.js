@@ -139,24 +139,23 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
     <form id="addDiaryForm" onSubmit={formik.handleSubmit}>
       <FormControl>
         <Flex alignItems={'center'}>
-          <FormLabel w={'60%'} htmlFor="userName">
-            당신의 이름
-          </FormLabel>
-          <FormHelperText
-            w="70%"
-            fontSize={'sm'}
-            m={0}
-            display="flex"
-            justifyContent={'space-around'}
-            mb={2}
-          >
-            변경을 원하나요?
-            <Link to="/mypage">
-              <Text color={'blue.400'} textDecoration="underline">
-                여기로
-              </Text>
-            </Link>
-          </FormHelperText>
+          <FormLabel htmlFor="userName">당신의 이름</FormLabel>
+          <Flex ml={'auto'} alignItems="center">
+            <FormHelperText
+              fontSize={'sm'}
+              m={0}
+              display="flex"
+              justifyContent={'space-around'}
+              mb={2}
+            >
+              변경을 원하나요?
+              <Link to="/mypage/rename">
+                <Text ml={1} color={'blue.400'} textDecoration="underline">
+                  여기로
+                </Text>
+              </Link>
+            </FormHelperText>
+          </Flex>
         </Flex>
         <Input
           isDisabled
@@ -169,7 +168,9 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
         <FormHelperText fontSize={'sm'} color={'red.400'}>
           {formik.errors.userName}
         </FormHelperText>
-        <FormLabel htmlFor="title">새 일기장의 이름</FormLabel>
+        <FormLabel mt={5} htmlFor="title">
+          새 일기장의 이름
+        </FormLabel>
         <Input
           id="title"
           onChange={formik.handleChange}

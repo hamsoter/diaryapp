@@ -4,15 +4,18 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Button,
+  Flex,
   FormControl,
   FormHelperText,
   FormLabel,
   Input,
   ModalFooter,
+  Text,
   useToast,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import ColorPicker from './ColorPicker';
 import customColorTheme from './CustomColorTheme';
 
@@ -131,15 +134,37 @@ export const UpdateModalOverlay = ({
 
   return (
     <AlertDialogOverlay>
-      <AlertDialogContent>
+      <AlertDialogContent mx={[3, 0, 0]} w={['100%', '350px', '100%']}>
         <AlertDialogHeader fontSize="lg" fontWeight="bold">
-          정보 수정
+          일기장 정보
         </AlertDialogHeader>
 
         <AlertDialogBody>
           <form id="addDiaryForm" onSubmit={formik.handleSubmit}>
             <FormControl>
-              <FormLabel htmlFor="userName">당신의 이름</FormLabel>
+              <Flex alignItems={'center'}>
+                <FormLabel htmlFor="userName">당신의 이름</FormLabel>
+                <Flex ml={'auto'} alignItems="center">
+                  <FormHelperText
+                    fontSize={'sm'}
+                    m={0}
+                    display="flex"
+                    justifyContent={'space-around'}
+                    mb={2}
+                  >
+                    변경을 원하나요?
+                    <Link to="/mypage/rename">
+                      <Text
+                        ml={1}
+                        color={'blue.400'}
+                        textDecoration="underline"
+                      >
+                        여기로
+                      </Text>
+                    </Link>
+                  </FormHelperText>
+                </Flex>
+              </Flex>
               <Input
                 isDisabled
                 id="userName"

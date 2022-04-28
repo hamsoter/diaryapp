@@ -13,6 +13,7 @@ import {
   ModalBody,
   ModalCloseButton,
   IconButton,
+  Divider,
 } from '@chakra-ui/react';
 import AddDiaryForm from './AddDiaryForm';
 import { AddIcon } from '@chakra-ui/icons';
@@ -36,9 +37,9 @@ const AddDiaryModal = ({ loginUser, onSaveDiary }) => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent w={['290px', '350px', '100%']}>
-          <ModalHeader>새 일기장 추가</ModalHeader>
-          <ModalCloseButton />
+        <ModalContent mx={[3, 0, 0]} w={['100%', '350px', '100%']}>
+          <ModalHeader fontSize="lg">새 일기장 추가</ModalHeader>
+
           <ModalBody>
             <AddDiaryForm
               onClose={onClose}
