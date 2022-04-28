@@ -66,7 +66,12 @@ const ReName = ({ loginUser, db, setLoginUser }) => {
     // db에 저장된 유저에 바꿀이름을 집어넣음
     update(dbref, updateName);
 
-    setLoginUser();
+    console.log(loginUser);
+    setLoginUser({
+      id: loginUser.id,
+      name: newName,
+      email: loginUser.email,
+    });
   };
 
   return (

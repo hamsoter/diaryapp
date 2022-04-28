@@ -19,11 +19,18 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../components/UI/animation.module.css';
 
 // firebase
-import { ref, set } from '@firebase/database';
+import {
+  ref,
+  set,
+  get,
+  query,
+  orderByChild,
+  equalTo,
+} from '@firebase/database';
 import Card from '../components/UI/Card';
 import Bubble from '../components/UI/Bubble';
 
-const Login = ({ db }) => {
+const Login = ({ db, setLoginUser }) => {
   const navigate = useNavigate();
 
   let content;
@@ -41,22 +48,58 @@ const Login = ({ db }) => {
   // 로그인정보
   const [isSignedIn, setIsSignedIn] = useState(false);
 
-  useEffect(() => {
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-      setIsSignedIn(!!user);
+  useEffect(async () => {
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged(async user => {
+        setIsSignedIn(!!user);
 
-      if (!!user) {
-        // db에 유저데이터 저장
-        set(ref(db, 'users/' + user.uid), {
-          id: user.uid,
-          name: user._delegate.displayName,
-          email: user._delegate.email,
-          indexOn: [],
-        });
+        if (!!user) {
+          console.log('여기는언제활성화되는것이지');
 
-        navigate('/');
-      }
-    });
+          const authUid = user.uid;
+
+          const dbUser = await get(
+            query(ref(db, 'users/'), orderByChild('id'), equalTo(user.uid))
+          );
+
+          // 로그인 시도시, 이미 db에 있는 유저일 때
+          // db에 저장된 닉네임으로 유저를 세팅
+          if (dbUser.val() !== null) {
+            // db에 유저데이터 저장
+            set(ref(db, 'users/' + user.uid), {
+              id: user.uid,
+              name: Object.values(dbUser.val())[0].name,
+              email: user._delegate.email,
+            });
+
+            setLoginUser({
+              id: user.uid,
+              name: Object.values(dbUser.val())[0].name,
+              email: user.email,
+            });
+            // 로그인 시도시, 이미 db에 없는 유저일 때
+            // 구글 이름을 세팅
+          } else {
+            console.log('db에 없는데용...');
+
+            // db에 유저데이터 저장
+            set(ref(db, 'users/' + user.uid), {
+              id: user.uid,
+              name: user._delegate.displayName,
+              email: user._delegate.email,
+            });
+
+            setLoginUser({
+              id: user.uid,
+              name: user._delegate.displayName,
+              email: user.email,
+            });
+          }
+
+          navigate('/');
+        }
+      });
 
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
