@@ -74,7 +74,7 @@ function App() {
   const getDiariesHandler = async uid => {
     // 로그인한 유저의 일기를 가져오는 쿼리문
     const data = await get(
-      query(ref(db, 'diaries'), orderByChild('owner/id'), equalTo(uid))
+      query(ref(db, 'diaries'), orderByChild('owner'), equalTo(uid))
     );
 
     // 작성된 일기가 있을시

@@ -8,7 +8,7 @@ import { ref, get, query, orderByChild, equalTo } from '@firebase/database';
 import { getAuth } from 'firebase/auth';
 
 // http://localhost:3000/diary/8ug8bk
-const Diary = ({ db }) => {
+const Diary = ({ db, loginUser }) => {
   const navigate = useNavigate();
 
   // 찾아낸 다이어리를 저장할 공간
@@ -61,7 +61,7 @@ const Diary = ({ db }) => {
         const result = Object.values(findById.val())[0];
 
         // 로그인한 유저의 다이어리인지 확인
-        if (user.uid === result.owner.id) {
+        if (user.uid === result.owner) {
           setThisDiary(result);
         } else {
           navigate('/error');
@@ -83,6 +83,7 @@ const Diary = ({ db }) => {
       setThisDiary={setThisDiary}
       thisParam={thisParamId}
       getPages={getPages}
+      loginUser={loginUser}
     />
   );
 

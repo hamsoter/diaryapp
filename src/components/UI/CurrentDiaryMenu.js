@@ -24,6 +24,7 @@ const CurrentDiaryMenu = ({
   updateThisDiary,
   thisDiary,
   isLoading,
+  loginUser,
 }) => {
   // 모달 상태 관리
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -95,6 +96,7 @@ const CurrentDiaryMenu = ({
                   onClose={onClose}
                   updateThisDiary={updateThisDiary}
                   thisDiary={thisDiary}
+                  loginUser={loginUser}
                 />
               );
               onOpen();

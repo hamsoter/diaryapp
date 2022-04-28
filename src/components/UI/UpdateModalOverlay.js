@@ -16,7 +16,12 @@ import { useState } from 'react';
 import ColorPicker from './ColorPicker';
 import customColorTheme from './CustomColorTheme';
 
-export const UpdateModalOverlay = ({ onClose, updateThisDiary, thisDiary }) => {
+export const UpdateModalOverlay = ({
+  onClose,
+  updateThisDiary,
+  thisDiary,
+  loginUser,
+}) => {
   // 알림창 관리
   const toast = useToast();
 
@@ -43,7 +48,7 @@ export const UpdateModalOverlay = ({ onClose, updateThisDiary, thisDiary }) => {
     initialValues: {
       title: thisDiary && thisDiary.title,
       color: selectedColor,
-      userName: thisDiary && thisDiary.owner.name,
+      userName: loginUser.name,
     },
     onSubmit: (values, action) => {
       // console.log(values);

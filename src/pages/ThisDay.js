@@ -55,7 +55,7 @@ const ThisDay = ({ mode, loginUser, db }) => {
           result = Object.values(findById.val())[0];
 
           // 로그인한 유저의 다이어리인지 확인
-          if (user.uid === result.owner.id) {
+          if (user.uid === result.owner) {
             console.log(result);
             setThisDiary(result);
           } else {
@@ -76,9 +76,8 @@ const ThisDay = ({ mode, loginUser, db }) => {
     const saveDay = newDiary => {
       set(ref(db, '/pages/' + newDiary.id), {
         id: newDiary.id,
-        owner: loginUser,
+        owner: loginUser.id,
         diary: thisDiary,
-        writer: loginUser.name,
         title: newDiary.title,
         content: newDiary.content,
         mood: 0,
@@ -114,9 +113,8 @@ const ThisDay = ({ mode, loginUser, db }) => {
       set(ref(db, '/pages/' + newDiary.id), {
         id: newDiary.id,
         mood: newDiary.mood,
-        owner: loginUser,
+        owner: loginUser.id,
         diary: thisDiary,
-        writer: loginUser.name,
         title: newDiary.title,
         content: newDiary.content,
         date: newDiary.date.toString(),

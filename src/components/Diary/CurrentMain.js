@@ -15,7 +15,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Bubble from '../../components/UI/Bubble';
 import Card from '../UI/Card';
 
-const CurrnetMain = ({ thisDiary, isLoading }) => {
+const CurrnetMain = ({ thisDiary, isLoading, loginUser }) => {
   let location = useLocation();
   const path = `${location.pathname}`;
 
@@ -40,7 +40,7 @@ const CurrnetMain = ({ thisDiary, isLoading }) => {
               isLoaded={!isLoading}
             >
               <Heading fontSize={'18px'} color="whiteAlpha.900">
-                안녕, {thisDiary ? thisDiary.owner.name : 'thisDiary.owner'}
+                안녕, {loginUser.name}
               </Heading>
             </Skeleton>
             <Skeleton

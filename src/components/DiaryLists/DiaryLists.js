@@ -4,7 +4,7 @@ import Card from '../UI/Card';
 import Ul from '../UI/Ul';
 import DiaryItem from './DiaryItem';
 
-const DiaryLists = ({ diaries }) => {
+const DiaryLists = ({ diaries, loginUser }) => {
   return (
     // <UnorderedList display={'flex'} m={0} width={'100%'} flexWrap="wrap">
     <Ul w={'100%'}>
@@ -28,7 +28,7 @@ const DiaryLists = ({ diaries }) => {
             <DiaryItem
               key={diary.id}
               id={diary.id}
-              name={diary.owner.name}
+              name={loginUser ? loginUser.name : ''}
               title={diary.title}
               color={diary.color}
               lastRecord={diary.lastRecord}

@@ -23,7 +23,13 @@ import YearFilter from './YearFilter';
 
 import { ref, set, update, getDatabase } from '@firebase/database';
 
-const CurrentDiary = ({ thisDiary, thisParam, getPages, setThisDiary, db }) => {
+const CurrentDiary = ({
+  thisDiary,
+  thisParam,
+  getPages,
+  setThisDiary,
+  loginUser,
+}) => {
   const dbref = ref(getDatabase());
   const navigate = useNavigate();
 
@@ -97,22 +103,13 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setThisDiary, db }) => {
     setThisDiary({
       id: thisDiary.id,
       owner: {
-        name: thisDiary.owner.name,
+        name: loginUser.name,
       },
       color: updateInfo.color,
       title: updateInfo.title,
 
       lastRecord: thisDiary.lastRecord.toString(),
     });
-
-    // set(ref(db, '/diaries/' + thisDiary.id), {
-    //   id: thisDiary.id,
-    //   owner: thisDiary && thisDiary.owner.name,
-    //   color: updateInfo.color,
-    //   title: updateInfo.title,
-
-    //   lastRecord: thisDiary.lastRecord.toString(),
-    // });
 
     updateName['diaries/' + thisDiary.id + '/title'] = updateInfo.title;
     updateColor['diaries/' + thisDiary.id + '/color'] = updateInfo.color;
@@ -149,6 +146,7 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setThisDiary, db }) => {
           <CurrentDiaryMenu
             thisDiary={thisDiary}
             isLoading={isLoading}
+            loginUser={loginUser}
             updateThisDiary={updateThisDiary}
             deleteThisDiary={deleteThisDiary}
           />
@@ -157,6 +155,7 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setThisDiary, db }) => {
       <MainContent w={'100%'}>
         <Flex w={'auto'} flexDir={'column'}>
           <CurrnetMain
+            loginUser={loginUser}
             isLoading={isLoading}
             thisDiary={thisDiary}
           ></CurrnetMain>

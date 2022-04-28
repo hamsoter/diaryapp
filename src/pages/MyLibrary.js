@@ -32,6 +32,8 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
 
         const data = await loadDiaries(user.uid);
 
+        console.log(data);
+
         setDiaries(data);
         setIsLoading(false);
       } else {
@@ -43,11 +45,12 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
   }, []);
 
   const saveDiaryHandler = newDiary => {
-    newDiary.owner = loginUser;
+    newDiary.owner = loginUser.id;
 
     set(ref(db, '/diaries/' + newDiary.id), {
       id: newDiary.id,
-      owner: loginUser,
+      // owner: loginUser,
+      owner: loginUser.id,
       color: newDiary.color,
       title: newDiary.title,
 
@@ -87,7 +90,7 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
               mt={10}
             />
           ) : (
-            <DiaryLists diaries={diaries}></DiaryLists>
+            <DiaryLists loginUser={loginUser} diaries={diaries}></DiaryLists>
           )}
         </MainContents>
       </MainContainer>
