@@ -117,6 +117,7 @@ const CurrentDiary = ({ thisDiary, thisParam, getPages, setThisDiary, db }) => {
     updateName['diaries/' + thisDiary.id + '/title'] = updateInfo.title;
     updateColor['diaries/' + thisDiary.id + '/color'] = updateInfo.color;
 
+    console.log(updateName);
     update(dbref, updateName);
     update(dbref, updateColor);
     console.log(thisDiary);

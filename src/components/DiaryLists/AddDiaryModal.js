@@ -12,8 +12,10 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  IconButton,
 } from '@chakra-ui/react';
 import AddDiaryForm from './AddDiaryForm';
+import { AddIcon } from '@chakra-ui/icons';
 
 const AddDiaryModal = ({ loginUser, onSaveDiary }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -24,14 +26,13 @@ const AddDiaryModal = ({ loginUser, onSaveDiary }) => {
 
   return (
     <>
-      <Button
+      <IconButton
         onClick={onOpen}
         fontSize={['sm', 'sm', 'md']}
         colorScheme="orange"
         variant="solid"
-      >
-        새 일기장 +
-      </Button>
+        icon={<AddIcon></AddIcon>}
+      ></IconButton>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

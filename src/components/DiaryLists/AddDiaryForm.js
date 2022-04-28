@@ -180,7 +180,6 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
         <FormHelperText fontSize={'sm'} color={'red.400'}>
           {formik.errors.title}
         </FormHelperText>
-        <Divider mt={5}></Divider>
         <FormLabel mt={5}>커버 색상</FormLabel>
         <ColorPicker
           onGetSelectedColor={selectedColor}

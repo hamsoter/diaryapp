@@ -18,7 +18,7 @@ const Header = ({ leftContent, rightContent, title, isLoading }) => {
     <Flex
       position={'relative'}
       {...styles}
-      pr={typeof rightContent === 'undefined' ? '40px' : 'auto'}
+      pr={typeof rightContent === 'undefined' ? '50px' : 'auto'}
     >
       <Heading
         w={'100%'}

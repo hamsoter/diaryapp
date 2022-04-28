@@ -61,13 +61,22 @@ const MyLibraryMenu = ({ isLoading }) => {
           <DrawerHeader mb={4}></DrawerHeader>
 
           <DrawerBody>
-            <List w={'100%'} _hover={{ bg: 'rgb(243,243,243,1)' }} p={3}>
+            <List
+              w={'100%'}
+              _hover={{ bg: 'rgb(243,243,243,1)' }}
+              p={[4, 4, 6]}
+            >
               <Link to="/mypage">
-                <Text>내 정보 수정</Text>
+                <Text>설정</Text>
               </Link>
             </List>
             <Divider></Divider>
-            <List w={'100%'} opacity={0.1} _hover={{ bg: 'gray' }} p={3}>
+            <List
+              w={'100%'}
+              opacity={0.1}
+              _hover={{ bg: 'gray' }}
+              p={[4, 4, 6]}
+            >
               <Link to="/">
                 <Text>👻👻👻</Text>
               </Link>

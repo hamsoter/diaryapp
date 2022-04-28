@@ -25,6 +25,7 @@ import firebase from 'firebase/compat/app';
 
 import { getAuth } from 'firebase/auth';
 import MyPage from './pages/MyPage';
+import ReName from './pages/ReName';
 
 function App() {
   // firebase
@@ -52,11 +53,20 @@ function App() {
     // 로그인 체크 + 로그인유저 세팅
     auth.onAuthStateChanged(async user => {
       if (user) {
-        setLoginUser({
-          id: user.uid,
-          name: user.displayName,
-          email: user.email,
-        });
+        const authUid = user.uid;
+
+        const dbUser = await get(
+          query(ref(db, 'users/'), orderByChild('id'), equalTo(authUid))
+        );
+
+        if (dbUser.val() !== null) {
+          // 사용자가 직접 지정한 닉네임으로 유저를 세팅
+          setLoginUser({
+            id: user.uid,
+            name: Object.values(dbUser.val())[0].name,
+            email: user.email,
+          });
+        }
       }
     });
   }, []);
@@ -156,7 +166,19 @@ function App() {
               ></Login>
             }
           />
+
+          {/* mypage */}
           <Route path="/mypage" element={<MyPage />} />
+          <Route
+            path="/mypage/rename"
+            element={
+              <ReName
+                loginUser={loginUser}
+                setLoginUser={setLoginUser}
+                db={db}
+              ></ReName>
+            }
+          />
 
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>

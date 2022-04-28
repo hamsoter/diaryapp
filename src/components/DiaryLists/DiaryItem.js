@@ -20,16 +20,16 @@ const DiaryItem = ({ name, lastRecord, color, title, id }) => {
       <Link w={'100%'} to={`/diary/${id}`} data={id}>
         <ListItem {...liStyles}>
           <Box bg={color.sub} color={'white'} p={2}>
-            <Text fontSize={['3xl', 'xl', 'lg']} isTruncated>
+            <Text fontSize={['2xl', 'md', 'lg']} isTruncated>
               {title}
             </Text>
-            <Text fontSize={'xs'} isTruncated>
+            <Text fontSize={['sm', 'xs', 'xs']} isTruncated>
               마지막 업데이트: {lastRecord.toLocaleDateString()}
             </Text>
           </Box>
           <Text
             fontWeight={'bold'}
-            fontSize={['md', 'sm', 'xs']}
+            fontSize={['sm', 'xs', 'xs']}
             color={color.sub}
             ml={'2'}
             isTruncated
