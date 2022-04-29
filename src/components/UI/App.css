@@ -52,3 +52,12 @@ html {
     width: auto;
   }
 }
+
+::selection {
+  background-color: #12b366;
+  color: whitesmoke;
+}
+h1::selection {
+  background-color: #12b366;
+  color: whitesmoke;
+}

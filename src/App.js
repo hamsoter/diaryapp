@@ -27,6 +27,7 @@ import { getAuth } from 'firebase/auth';
 import MyPage from './pages/MyPage';
 import ReName from './pages/ReName';
 import useIsMount from './useIsMount';
+import Ghost from './pages/Ghost';
 // import Logout from './components/UI/LogoutModal';
 
 function App() {
@@ -192,6 +193,10 @@ function App() {
                 db={db}
               ></ReName>
             }
+          />
+          <Route
+            path="/kawaighostchan"
+            element={<Ghost loginUser={loginUser}></Ghost>}
           />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>

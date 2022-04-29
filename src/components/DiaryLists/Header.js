@@ -18,6 +18,7 @@ const Header = ({ leftContent, rightContent, title, isLoading }) => {
     <Flex
       position={'relative'}
       {...styles}
+      bg={title === '⊂(・﹏・⊂)' ? 'teal' : 'orange.400'}
       pr={typeof rightContent === 'undefined' ? '50px' : 'auto'}
     >
       <Heading

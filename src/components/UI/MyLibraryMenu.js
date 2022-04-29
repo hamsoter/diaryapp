@@ -77,7 +77,7 @@ const MyLibraryMenu = ({ isLoading }) => {
               _hover={{ bg: 'gray' }}
               p={[4, 4, 6]}
             >
-              <Link to="/">
+              <Link to="/kawaighostchan">
                 <Text>👻👻👻</Text>
               </Link>
             </List>
