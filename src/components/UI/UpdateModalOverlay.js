@@ -54,7 +54,6 @@ export const UpdateModalOverlay = ({
       userName: loginUser.name,
     },
     onSubmit: (values, action) => {
-      // console.log(values);
       values.color = setColorTheme(selectedColor);
 
       action.resetForm();

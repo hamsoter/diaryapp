@@ -55,9 +55,7 @@ const Login = ({ db, setLoginUser }) => {
         setIsSignedIn(!!user);
 
         if (!!user) {
-          console.log('여기는언제활성화되는것이지');
-
-          const authUid = user.uid;
+          // 로그인
 
           const dbUser = await get(
             query(ref(db, 'users/'), orderByChild('id'), equalTo(user.uid))

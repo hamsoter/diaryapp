@@ -29,8 +29,6 @@ const NotFound = ({}) => {
     set(ref(db, '/lostCount'), data.val() + 1);
   }, []);
 
-  console.log(count + '회');
-
   return (
     <>
       <MainContents>

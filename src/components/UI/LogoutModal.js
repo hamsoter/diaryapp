@@ -51,7 +51,6 @@ const LogoutModal = ({ isOpen, onClose }) => {
             colorScheme="red"
             color={'white'}
             onClick={() => {
-              console.log('logout');
               logout();
             }}
           >

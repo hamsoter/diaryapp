@@ -58,7 +58,6 @@ const CurrentDiary = ({
 
   useEffect(async () => {
     if (await getPages()) {
-      console.log(await getPages());
       setPagesArr(Object.values(await getPages()));
 
       // 화면에 그려진 필터된 다이어리
@@ -79,26 +78,18 @@ const CurrentDiary = ({
   };
 
   const deleteThisDiary = () => {
-    console.log(thisDiary.id, '를 삭제?');
-
     const updates = {};
     updates['diaries/' + thisDiary.id] = null;
-
-    console.log(updates);
 
     update(dbref, updates);
     goBack();
   };
 
   const updateThisDiary = updateInfo => {
-    console.log(thisDiary.id, '를 업데이트?');
-
     const updateName = {};
     const updateColor = {};
 
     const newDiary = {};
-
-    console.log(thisDiary.owner);
 
     setThisDiary({
       id: thisDiary.id,
@@ -114,10 +105,8 @@ const CurrentDiary = ({
     updateName['diaries/' + thisDiary.id + '/title'] = updateInfo.title;
     updateColor['diaries/' + thisDiary.id + '/color'] = updateInfo.color;
 
-    console.log(updateName);
     update(dbref, updateName);
     update(dbref, updateColor);
-    console.log(thisDiary);
   };
 
   return (

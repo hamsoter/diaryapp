@@ -18,8 +18,6 @@ const CurrentPages = ({ title, content, date, mood }) => {
   const day = date.getDate();
   const week = weekArr[date.getDay()];
 
-  console.log(mood);
-
   const imgSrc = [
     'https://user-images.githubusercontent.com/100299692/165281611-90f31def-287e-46d4-b948-5b3c20113c02.png',
     'https://user-images.githubusercontent.com/100299692/165281598-4a5e2033-3f7a-4115-9347-64cf2ec88893.png',

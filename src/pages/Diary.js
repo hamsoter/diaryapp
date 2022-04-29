@@ -37,17 +37,6 @@ const Diary = ({ db, loginUser }) => {
     // 로그인 체크
     auth.onAuthStateChanged(async user => {
       if (user) {
-        console.log('로그인됨', user);
-
-        // const findById = () => {
-        //   const result = diaries.find(item => {
-        //     return item.id == thisParamId;
-        //   });
-        //   // 찾은 객체 리턴
-        //   return result;
-        // };
-
-        // findById
         const findById = await get(
           query(ref(db, 'diaries'), orderByChild('id'), equalTo(thisParamId))
         );
@@ -68,7 +57,7 @@ const Diary = ({ db, loginUser }) => {
           return;
         }
       } else {
-        console.log('로그인안됨');
+        // auth 로그인 되지 않은 상태일 때
         navigate('/login');
         return;
       }

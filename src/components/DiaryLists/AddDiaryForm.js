@@ -56,7 +56,6 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
       pages: [],
     },
     onSubmit: (values, action) => {
-      // console.log('헤헹');
       values.id = Math.random().toString(36).substring(2, 8);
       values.color = setColorTheme(selectedColor);
 

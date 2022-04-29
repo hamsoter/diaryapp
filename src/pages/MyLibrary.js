@@ -28,16 +28,11 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
     // 로그인 체크
     auth.onAuthStateChanged(async user => {
       if (user) {
-        console.log('로그인됨', user.uid);
-
         const data = await loadDiaries(user.uid);
-
-        console.log(data);
 
         setDiaries(data);
         setIsLoading(false);
       } else {
-        console.log('로그인안됨');
         navigate('/login');
       }
     });

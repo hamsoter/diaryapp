@@ -46,8 +46,6 @@ const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
 
     const user = auth.currentUser;
 
-    console.log(user);
-
     deleteUser(user)
       .then(() => {
         // user deleted
@@ -58,29 +56,22 @@ const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
   const deleteAll = async point => {
     // 탈퇴유저가 owner인 데이터를 찾음
 
-    console.log(point);
     const obj = await get(
       query(ref(db, point), orderByChild('owner'), equalTo(loginUser.id))
     );
-
-    console.log(obj.val());
 
     const updates = {};
 
     // 데이터가 있을시 지움
     if (obj.val() !== null) {
-      console.log(obj.val());
-
       const arr = Object.values(obj.val());
 
       arr.map(item => {
-        console.log(item);
         updates[point + item.id] = null;
-        console.log(updates);
         update(dbref, updates);
       });
     } else {
-      console.log('지울 게 없더');
+      // 지울 게 없음
     }
   };
 
@@ -92,8 +83,6 @@ const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
   };
 
   const signout = async () => {
-    console.log('signout');
-
     // db/diaries, db/pages 삭제
     await deleteAll('pages/');
     await deleteAll('diaries/');
@@ -102,7 +91,7 @@ const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
     await deleteDbUser();
 
     // // 인증 해제
-    deleteAuthUser();
+    await deleteAuthUser();
 
     // // 클라이언트 유저정보 클리어
 
@@ -112,7 +101,6 @@ const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
 
   const validator = value => {
     let error;
-    console.log();
     if (value !== '탈퇴합니다') {
       error = '메세지 불일치';
       setIsDisabled(true);
@@ -152,7 +140,6 @@ const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
           <Formik
             initialValues={{ message: '' }}
             onSubmit={(values, actions) => {
-              console.log(values);
               signout();
             }}
           >

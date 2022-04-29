@@ -51,8 +51,6 @@ const Write = ({ onBack, writer, saveData, diaries, mode, db }) => {
 
     const data = Object.values(findById.val())[0];
 
-    console.log(data);
-
     formik.values.content = data.content;
     formik.values.title = data.title;
     // setStartDate(new Date(findById.date));
@@ -121,9 +119,7 @@ const Write = ({ onBack, writer, saveData, diaries, mode, db }) => {
       values.id = Math.random().toString(36).substring(2, 8);
       values.date = startDate;
       values.mood = mood;
-      // console.log(values);
 
-      console.log(values);
       saveData(values, pageId);
     },
     // 값 변경시마다 유효성체크

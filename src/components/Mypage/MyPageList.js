@@ -46,7 +46,6 @@ const MyPageList = ({ loginUser, db, setLoginUser }) => {
           fontSize={['md', 'md', 'lg']}
           justifyContent={'space-between'}
           onClick={() => {
-            console.log('click');
             setOverlay(
               <LogoutModal
                 isOpen={isOpen}
@@ -71,7 +70,6 @@ const MyPageList = ({ loginUser, db, setLoginUser }) => {
           fontSize={['md', 'md', 'lg']}
           justifyContent={'space-between'}
           onClick={() => {
-            console.log('click');
             setOverlay(
               <SignOutModal
                 isOpen={isOpen}

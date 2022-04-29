@@ -39,8 +39,6 @@ const ThisDay = ({ mode, loginUser, db }) => {
     // 로그인 체크
     auth.onAuthStateChanged(async user => {
       if (user) {
-        console.log('로그인됨', user);
-
         let result;
         // findById
         const findById = await get(
@@ -56,7 +54,6 @@ const ThisDay = ({ mode, loginUser, db }) => {
 
           // 로그인한 유저의 다이어리인지 확인
           if (user.uid === result.owner) {
-            console.log(result);
             setThisDiary(result);
           } else {
             navigate('/error');
@@ -94,14 +91,12 @@ const ThisDay = ({ mode, loginUser, db }) => {
     };
 
     const saveDayHandler = async newDiary => {
-      console.log(newDiary);
       saveDay(newDiary);
 
       pageChange(newDiary);
     };
 
     const updateDataHandler = async newDiary => {
-      console.log(newDiary);
       updateData(newDiary);
       pageChange(newDiary);
     };

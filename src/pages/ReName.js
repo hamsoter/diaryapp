@@ -28,12 +28,10 @@ const ReName = ({ loginUser, db, setLoginUser }) => {
   const auth = getAuth();
   const dbref = ref(getDatabase());
 
-  console.log();
   useEffect(async () => {
     // 로그인 체크
     auth.onAuthStateChanged(async user => {
       if (user) {
-        console.log('로그인됨', user.uid);
       } else {
         navigate('/login');
       }
@@ -51,13 +49,11 @@ const ReName = ({ loginUser, db, setLoginUser }) => {
 
     const updateName = {};
 
-    // console.log(loginUser);
     updateName['users/' + loginUser.id + '/name'] = newName;
 
     // db에 저장된 유저에 바꿀이름을 집어넣음
     update(dbref, updateName);
 
-    console.log(loginUser);
     setLoginUser({
       id: loginUser.id,
       name: newName,
