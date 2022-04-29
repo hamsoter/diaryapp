@@ -29,6 +29,7 @@ import {
 } from '@firebase/database';
 import Card from '../components/UI/Card';
 import Bubble from '../components/UI/Bubble';
+import useIsMount from '../useIsMount';
 
 const Login = ({ db, setLoginUser }) => {
   const navigate = useNavigate();
@@ -48,11 +49,15 @@ const Login = ({ db, setLoginUser }) => {
   // 로그인정보
   const [isSignedIn, setIsSignedIn] = useState(false);
 
+  const isMount = useIsMount();
+
   useEffect(async () => {
     const unregisterAuthObserver = firebase
       .auth()
       .onAuthStateChanged(async user => {
-        setIsSignedIn(!!user);
+        if (isMount.current) {
+          setIsSignedIn(!!user);
+        }
 
         if (!!user) {
           // 로그인
@@ -99,18 +104,14 @@ const Login = ({ db, setLoginUser }) => {
 
     return () => {
       setIsSignedIn(false);
+      setLoginUser(false);
     }; // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
 
   if (!isSignedIn) {
     content = (
-      <Center h={['100%']}>
-        <Card
-          w={['100%', '100%', '600px']}
-          h={['100%', '100%', 'auto']}
-          p={[10]}
-          display={'flex'}
-        >
+      <Center h={'100%'}>
+        <Card w={'100%'} h={['100%', '100%', '100%']} p={[10]} display={'flex'}>
           <Center flexDir={'column'}>
             <Heading
               fontSize={[42]}

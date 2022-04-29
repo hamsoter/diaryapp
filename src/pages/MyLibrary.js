@@ -15,13 +15,15 @@ import { ref, set } from '@firebase/database';
 import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import MyLibraryMenu from '../components/UI/MyLibraryMenu';
+import useIsMount from '../useIsMount';
 
 const MyLibrary = ({ db, loadDiaries, loginUser }) => {
   const auth = getAuth();
+  const isMount = useIsMount();
 
   const navigate = useNavigate();
 
-  const [diaries, setDiaries] = React.useState([]);
+  const [diaries, setDiaries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(async () => {
@@ -30,17 +32,18 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
       if (user) {
         const data = await loadDiaries(user.uid);
 
-        setDiaries(data);
-        setIsLoading(false);
+        if (isMount.current) {
+          setDiaries(data);
+          setIsLoading(false);
+        }
       } else {
         navigate('/login');
       }
     });
-    // 최초 한번만 실행
     return () => {
       setDiaries(false);
     };
-  }, []);
+  }, [isMount]);
 
   const saveDiaryHandler = newDiary => {
     newDiary.owner = loginUser.id;

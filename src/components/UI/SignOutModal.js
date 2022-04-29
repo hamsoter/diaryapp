@@ -13,7 +13,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // firebase
 import {
@@ -40,6 +40,12 @@ const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
   const onBack = () => {
     navigate(`/`);
   };
+
+  useEffect(() => {
+    return () => {
+      setIsDisabled(false);
+    };
+  });
 
   const deleteAuthUser = () => {
     const auth = getAuth();
@@ -95,6 +101,7 @@ const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
 
     // // 클라이언트 유저정보 클리어
 
+    setIsDisabled(true);
     // // 로그아웃
     onBack();
   };

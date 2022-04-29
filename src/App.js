@@ -26,6 +26,7 @@ import firebase from 'firebase/compat/app';
 import { getAuth } from 'firebase/auth';
 import MyPage from './pages/MyPage';
 import ReName from './pages/ReName';
+import useIsMount from './useIsMount';
 // import Logout from './components/UI/LogoutModal';
 
 function App() {
@@ -73,6 +74,9 @@ function App() {
         }
       }
     });
+    return () => {
+      setLoginUser(false);
+    };
   }, []);
 
   const getDiariesHandler = async uid => {
