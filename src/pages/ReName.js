@@ -16,18 +16,9 @@ import MainContent from '../components/UI/MainContent';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import Card from '../components/UI/Card';
-import { Form, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 
-import {
-  ref,
-  get,
-  query,
-  orderByChild,
-  equalTo,
-  update,
-  getDatabase,
-} from '@firebase/database';
+import { ref, update, getDatabase } from '@firebase/database';
 import { getAuth } from 'firebase/auth';
 // import { getAuth } from 'firebase/auth';
 
@@ -72,6 +63,8 @@ const ReName = ({ loginUser, db, setLoginUser }) => {
       name: newName,
       email: loginUser.email,
     });
+
+    onBack();
   };
 
   return (
@@ -92,7 +85,8 @@ const ReName = ({ loginUser, db, setLoginUser }) => {
           <Card w={'100%'} h={'100%'} m={0} p={5}>
             {/* 컨텐츠 */}
 
-            <form
+            <Box
+              as="form"
               id="nameChangeForm"
               onSubmit={submitHandler}
               style={{
@@ -122,7 +116,6 @@ const ReName = ({ loginUser, db, setLoginUser }) => {
                   바뀐 이름은 모든 일기에 적용됩니다!
                 </FormHelperText>
               </FormControl>
-
               <Button
                 mt={4}
                 colorScheme="orange"
@@ -131,7 +124,7 @@ const ReName = ({ loginUser, db, setLoginUser }) => {
               >
                 확인
               </Button>
-            </form>
+            </Box>
           </Card>
         </MainContent>
       </MainContainer>

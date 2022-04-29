@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Box, useControllableState } from '@chakra-ui/react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import MyLibrary from './pages/MyLibrary';
 import Diary from './pages/Diary';
 import '../src/components/UI/App.css';
@@ -26,6 +26,7 @@ import firebase from 'firebase/compat/app';
 import { getAuth } from 'firebase/auth';
 import MyPage from './pages/MyPage';
 import ReName from './pages/ReName';
+// import Logout from './components/UI/LogoutModal';
 
 function App() {
   // firebase
@@ -59,13 +60,16 @@ function App() {
           query(ref(db, 'users/'), orderByChild('id'), equalTo(authUid))
         );
 
+        // db에 로그인유저의 정보가 있을 시
         if (dbUser.val() !== null) {
-          // 사용자가 직접 지정한 닉네임으로 유저를 세팅
+          // db의 닉네임으로 유저를 세팅
           setLoginUser({
             id: user.uid,
             name: Object.values(dbUser.val())[0].name,
             email: user.email,
           });
+        } else {
+          //   '구글로그인이 됐으나 db에 정보가 없음 (이런일이벌어져서ㅏㄴ안됨)'
         }
       }
     });
@@ -149,12 +153,10 @@ function App() {
             path="/diary/:uuid/:dayid/read"
             element={<ThisDay db={db} loginUser={loginUser} mode={'read'} />}
           />
-
           <Route
             path="/diary/:uuid/:dayid/update"
             element={<ThisDay db={db} loginUser={loginUser} mode={'update'} />}
           />
-
           <Route
             path="/login"
             element={
@@ -166,9 +168,17 @@ function App() {
               ></Login>
             }
           />
-
           {/* mypage */}
-          <Route path="/mypage" element={<MyPage />} />
+          <Route
+            path="/mypage"
+            element={
+              <MyPage
+                loginUser={loginUser}
+                db={db}
+                setLoginUser={setLoginUser}
+              />
+            }
+          />
           <Route
             path="/mypage/rename"
             element={
@@ -179,7 +189,6 @@ function App() {
               ></ReName>
             }
           />
-
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

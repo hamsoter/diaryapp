@@ -81,8 +81,6 @@ const Login = ({ db, setLoginUser }) => {
             // 로그인 시도시, 이미 db에 없는 유저일 때
             // 구글 이름을 세팅
           } else {
-            console.log('db에 없는데용...');
-
             // db에 유저데이터 저장
             set(ref(db, 'users/' + user.uid), {
               id: user.uid,
@@ -101,7 +99,9 @@ const Login = ({ db, setLoginUser }) => {
         }
       });
 
-    return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
+    return () => {
+      setIsSignedIn(false);
+    }; // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
 
   if (!isSignedIn) {

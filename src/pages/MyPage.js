@@ -6,7 +6,7 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import MyPageList from '../components/Mypage/MyPageList';
 
-const MyPage = () => {
+const MyPage = ({ loginUser, db, setLoginUser }) => {
   let content = <>dd</>;
   const navigate = useNavigate();
 
@@ -29,7 +29,11 @@ const MyPage = () => {
           }
         />
         <MainContent>
-          <MyPageList></MyPageList>
+          <MyPageList
+            db={db}
+            loginUser={loginUser}
+            setLoginUser={setLoginUser}
+          ></MyPageList>
         </MainContent>
       </MainContainer>
     </ChakraProvider>

@@ -42,6 +42,9 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
       }
     });
     // 최초 한번만 실행
+    return () => {
+      setDiaries(false);
+    };
   }, []);
 
   const saveDiaryHandler = newDiary => {
