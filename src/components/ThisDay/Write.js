@@ -11,7 +11,6 @@ import {
   SkeletonText,
   Textarea,
   useDisclosure,
-  useToast,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import React, { useState, useEffect } from 'react';
@@ -27,10 +26,9 @@ import MessageModal from '../UI/MessageModal';
 // firebase
 import { ref, get, query, orderByChild, equalTo } from '@firebase/database';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { bool } from 'yup';
 import MoodSelector from './MoodSelector';
 
-const Write = ({ onBack, writer, saveData, diaries, mode, db }) => {
+const Write = ({ onBack, writer, saveData, mode, db }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -42,22 +40,8 @@ const Write = ({ onBack, writer, saveData, diaries, mode, db }) => {
 
   const pageId = location.pathname.split('/')[3];
 
-  const [thisPage, setThisPage] = useState();
-
-  const setValue = async () => {
-    const findById = await get(
-      query(ref(db, 'pages'), orderByChild('id'), equalTo(pageId))
-    );
-
-    const data = Object.values(findById.val())[0];
-
-    formik.values.content = data.content;
-    formik.values.title = data.title;
-    // setStartDate(new Date(findById.date));
-  };
-
-  useEffect(async () => {
-    if (mode === 'update') {
+  useEffect(() => {
+    const fecthData = async () => {
       const findById = await get(
         query(ref(db, 'pages'), orderByChild('id'), equalTo(pageId))
       );
@@ -68,26 +52,26 @@ const Write = ({ onBack, writer, saveData, diaries, mode, db }) => {
         navigate('/error');
         return;
       } else {
-        setThisPage(Object.values(await findById.val())[0]);
-
         const valData = Object.values(await findById.val())[0];
         formik.values.content = valData.content;
         formik.values.title = valData.title;
         setStartDate(new Date(valData.date));
         // await setValue();
       }
+    };
+
+    if (mode === 'update') {
+      fecthData();
     }
     setIsLoading(false);
-  }, []);
+  }, [db, mode, navigate, pageId]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
-
   // form의 validation을 확인하는 메서드
-  const validator = (values, actions) => {
+  const validator = values => {
     let errors = {};
 
-    const { content, title, date } = values;
+    const { content, title } = values;
 
     if (content.length < 1) {
       errors.content = '내용은 필수입니다!';
@@ -105,7 +89,6 @@ const Write = ({ onBack, writer, saveData, diaries, mode, db }) => {
     // 초기값 설정
     initialValues: {
       id: '',
-      writer: '',
       title: '',
       content: '',
       writer: writer,
@@ -115,7 +98,7 @@ const Write = ({ onBack, writer, saveData, diaries, mode, db }) => {
     },
 
     // 서브밋시
-    onSubmit: (values, action) => {
+    onSubmit: values => {
       values.id = Math.random().toString(36).substring(2, 8);
       values.date = startDate;
       values.mood = mood;

@@ -31,7 +31,7 @@ const Ghost = () => {
           title={'⊂(・﹏・⊂)'}
           leftContent={
             <IconButton
-              colorScheme={'orange'}
+              colorScheme={'teal'}
               bg={'transparent'}
               aria-label="back-btn"
               icon={<ArrowBackIcon boxSize="5" onClick={onBack} />}

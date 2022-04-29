@@ -1,4 +1,12 @@
-import { Center, Flex, Heading, Text, UnorderedList } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
+import {
+  Center,
+  Flex,
+  Heading,
+  Text,
+  UnorderedList,
+  IconButton,
+} from '@chakra-ui/react';
 import React from 'react';
 import Card from '../UI/Card';
 import Ul from '../UI/Ul';
@@ -19,7 +27,7 @@ const DiaryLists = ({ diaries, loginUser }) => {
             color="blackAlpha.700"
           >
             <Heading>∑(O_O;)</Heading>
-            아무것도 없네요!
+            아무 것도 없네요!
           </Card>
         </Center>
       ) : (

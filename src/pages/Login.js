@@ -3,7 +3,6 @@ import firebase from 'firebase/compat/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import 'firebase/compat/auth';
 import {
-  Box,
   Center,
   ChakraProvider,
   Flex,
@@ -51,82 +50,91 @@ const Login = ({ db, setLoginUser }) => {
 
   const isMount = useIsMount();
 
-  useEffect(async () => {
-    const unregisterAuthObserver = firebase
-      .auth()
-      .onAuthStateChanged(async user => {
-        if (isMount.current) {
-          setIsSignedIn(!!user);
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(async user => {
+      if (isMount.current) {
+        setIsSignedIn(!!user);
+      }
+
+      if (!!user) {
+        // 로그인
+
+        const dbUser = await get(
+          query(ref(db, 'users/'), orderByChild('id'), equalTo(user.uid))
+        );
+
+        // 로그인 시도시, 이미 db에 있는 유저일 때
+        // db에 저장된 닉네임으로 유저를 세팅
+        if (dbUser.val() !== null) {
+          // db에 유저데이터 저장
+          set(ref(db, 'users/' + user.uid), {
+            id: user.uid,
+            name: Object.values(dbUser.val())[0].name,
+            email: user._delegate.email,
+          });
+
+          setLoginUser({
+            id: user.uid,
+            name: Object.values(dbUser.val())[0].name,
+            email: user.email,
+          });
+          // 로그인 시도시, 이미 db에 없는 유저일 때
+          // 구글 이름을 세팅
+        } else {
+          // db에 유저데이터 저장
+          set(ref(db, 'users/' + user.uid), {
+            id: user.uid,
+            name: user._delegate.displayName,
+            email: user._delegate.email,
+          });
+
+          setLoginUser({
+            id: user.uid,
+            name: user._delegate.displayName,
+            email: user.email,
+          });
         }
 
-        if (!!user) {
-          // 로그인
-
-          const dbUser = await get(
-            query(ref(db, 'users/'), orderByChild('id'), equalTo(user.uid))
-          );
-
-          // 로그인 시도시, 이미 db에 있는 유저일 때
-          // db에 저장된 닉네임으로 유저를 세팅
-          if (dbUser.val() !== null) {
-            // db에 유저데이터 저장
-            set(ref(db, 'users/' + user.uid), {
-              id: user.uid,
-              name: Object.values(dbUser.val())[0].name,
-              email: user._delegate.email,
-            });
-
-            setLoginUser({
-              id: user.uid,
-              name: Object.values(dbUser.val())[0].name,
-              email: user.email,
-            });
-            // 로그인 시도시, 이미 db에 없는 유저일 때
-            // 구글 이름을 세팅
-          } else {
-            // db에 유저데이터 저장
-            set(ref(db, 'users/' + user.uid), {
-              id: user.uid,
-              name: user._delegate.displayName,
-              email: user._delegate.email,
-            });
-
-            setLoginUser({
-              id: user.uid,
-              name: user._delegate.displayName,
-              email: user.email,
-            });
-          }
-
-          navigate('/');
-        }
-      });
+        navigate('/');
+      }
+    });
 
     return () => {
       setIsSignedIn(false);
       setLoginUser(false);
     }; // Make sure we un-register Firebase observers when the component unmounts.
-  }, []);
+  }, [db, isMount, navigate, setLoginUser]);
 
   if (!isSignedIn) {
     content = (
-      <Center h={'100%'}>
-        <Card w={'100%'} h={['100%', '100%', '100%']} p={[10]} display={'flex'}>
+      <Center>
+        <Card
+          w={'100%'}
+          h={['100%', '100%', '100%']}
+          py={5}
+          px={10}
+          display={'flex'}
+        >
           <Center flexDir={'column'}>
             <Heading
               fontSize={[42]}
               fontFamily={'NeoDunggeunmo'}
               color={'orange.800'}
-              mb={30}
+              mb={5}
             >
               로그인!
             </Heading>
             <Bubble>
               <Flex flexDir={'column'} w={'100%'} alignItems={'center'}>
-                <Text fontWeight={'light'} color={'whiteAlpha.800'}>
+                <Text
+                  fontWeight={'light'}
+                  fontSize="16px"
+                  color={'whiteAlpha.800'}
+                >
                   절대.
                   <a
                     target="_blank"
+                    rel="noreferrer"
                     className="horror_link"
                     href="https://www.youtube.com/watch?v=OzVfxafNCZg&t=158s"
                   >
@@ -140,7 +148,6 @@ const Login = ({ db, setLoginUser }) => {
             </Bubble>
             <Image
               mt={'2rem'}
-              mb={'1rem'}
               className={styles['slide-top']}
               w={['auto']}
               src="https://user-images.githubusercontent.com/100299692/164914118-9de82616-bb29-40e3-89eb-220f5a76fd84.png"

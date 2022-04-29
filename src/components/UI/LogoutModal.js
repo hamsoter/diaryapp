@@ -7,22 +7,12 @@ import {
   Text,
   Button,
 } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 
 import firebase from 'firebase/compat/app';
 
-import { getAuth } from 'firebase/auth';
 import { useState } from 'react';
 
-const LogoutModal = ({ isOpen, onClose }) => {
-  const navigate = useNavigate();
-  // const toast = useToast();
-  const auth = getAuth();
-
-  const onBack = () => {
-    navigate(`/`);
-  };
-
+const LogoutModal = ({ onClose }) => {
   const [signOutFlag, setSignOutFlag] = useState(false);
 
   if (signOutFlag) {
@@ -39,7 +29,7 @@ const LogoutModal = ({ isOpen, onClose }) => {
       <ModalContent mx={[3, 0, 0]} w={['100%', '350px', '100%']}>
         <ModalHeader>정말 로그아웃할까요?</ModalHeader>
         <ModalBody>
-          <Text mb="1rem">
+          <Text mb="1rem" fontSize={'16px'}>
             언제든지 다시 로그인해서 <br></br>
             일기를 쓰고 읽을 수 있답니다.
           </Text>

@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import MyPageList from '../components/Mypage/MyPageList';
 
 const MyPage = ({ loginUser, db, setLoginUser }) => {
-  let content = <>dd</>;
   const navigate = useNavigate();
 
   const onBack = () => {

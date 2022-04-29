@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Divider,
-  Flex,
-  Heading,
-  Image,
-  ListItem,
-  Tag,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Flex, Heading, Image, ListItem, Text } from '@chakra-ui/react';
 import Card from '../UI/Card';
 
 const CurrentPages = ({ title, content, date, mood }) => {
@@ -37,10 +28,17 @@ const CurrentPages = ({ title, content, date, mood }) => {
             />
           </Box>
           <Box ml={6} w={'100%'}>
-            <Heading mb={2} className="title" fontSize={'lg'} noOfLines="1">
+            <Heading
+              textAlign={'left'}
+              mb={2}
+              className="title"
+              fontSize={'lg'}
+              noOfLines="1"
+            >
               {title}
             </Heading>
             <Heading
+              textAlign={'left'}
               className="date"
               fontWeight={'sm'}
               fontSize={'sm'}

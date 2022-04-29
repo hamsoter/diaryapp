@@ -15,7 +15,7 @@ const YearFilter = ({ selected, data, onSelectYear, isLoading }) => {
 
   let yearArr = [];
   data &&
-    data.map(item => {
+    data.forEach(item => {
       const date = new Date(item.date);
       yearArr.push(date.getFullYear());
     });
@@ -34,7 +34,6 @@ const YearFilter = ({ selected, data, onSelectYear, isLoading }) => {
       <Skeleton isLoaded={!isLoading} display={'flex'}>
         <MenuButton
           colorScheme={'orange'}
-          _focus={{ boxShadow: 'outline', bg: 'orange.200' }}
           _hover={{ bg: 'orange.200' }}
           _active={{ bg: 'orange.200' }}
           as={Button}

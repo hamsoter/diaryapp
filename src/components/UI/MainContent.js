@@ -1,4 +1,4 @@
-import { Box, Container, styled, Wrap } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 const MainContent = props => {

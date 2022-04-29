@@ -2,15 +2,12 @@ import {
   Box,
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
@@ -18,7 +15,6 @@ import { useEffect, useState } from 'react';
 // firebase
 import {
   ref,
-  set,
   get,
   update,
   query,
@@ -27,10 +23,9 @@ import {
   getDatabase,
 } from '@firebase/database';
 import { useNavigate } from 'react-router-dom';
-import { FirebaseAuth } from 'react-firebaseui';
 import { deleteUser, getAuth } from 'firebase/auth';
 
-const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
+const SignOutModal = ({ onClose, loginUser, db }) => {
   const [isDisabled, setIsDisabled] = useState(true);
 
   const dbref = ref(getDatabase());
@@ -72,7 +67,7 @@ const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
     if (obj.val() !== null) {
       const arr = Object.values(obj.val());
 
-      arr.map(item => {
+      arr.forEach(item => {
         updates[point + item.id] = null;
         update(dbref, updates);
       });
@@ -124,15 +119,12 @@ const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
       <ModalContent mx={[3, 0, 0]} w={['100%', '350px', '100%']}>
         <ModalHeader>정말요...?</ModalHeader>
         <ModalBody>
-          <Text mb="1rem">
-            영원히 떠나시는 게 맞나요?
-            <br></br>
-            <br></br>
+          <FormLabel mb="1rem">
             데이터는 영원히 삭제되고 절대 복구되지 않으며 귀여운 유령이 눈물을
             흘립니다...
-          </Text>
+          </FormLabel>
 
-          <FormLabel mb={10} display={'flex'} fontWeight="bold">
+          <FormLabel mb={5} display={'flex'} fontWeight="bold">
             동의한다면 '탈퇴합니다' 를 입력하세요.
           </FormLabel>
         </ModalBody>
@@ -159,7 +151,11 @@ const SignOutModal = ({ onClose, loginUser, db, setLoginUser }) => {
                         mb={2}
                         isInvalid={form.errors.message && form.touched.message}
                       >
-                        <Input {...field} id="message" placeholder="name" />
+                        <Input
+                          {...field}
+                          id="message"
+                          placeholder="탈퇴합니다"
+                        />
                       </FormControl>
                     );
                   }}

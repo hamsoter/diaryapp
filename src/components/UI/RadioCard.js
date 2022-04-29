@@ -1,4 +1,4 @@
-import { Box, Image, Radio, Tag, Text, useRadio } from '@chakra-ui/react';
+import { Box, Image, useRadio } from '@chakra-ui/react';
 
 const RadioCard = props => {
   const { getInputProps, getCheckboxProps } = useRadio(props);
@@ -23,7 +23,6 @@ const RadioCard = props => {
           color: 'white',
           borderColor: 'orange.600',
         }}
-        _focus={{}}
         p={3}
       >
         <Image w={['50px', '50px', '75px']} src={input.value}></Image>

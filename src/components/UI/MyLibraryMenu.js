@@ -1,28 +1,21 @@
 import React from 'react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import {
-  Button,
   Divider,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   IconButton,
   List,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Skeleton,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-const MyLibraryMenu = ({ isLoading }) => {
+const MyLibraryMenu = () => {
   // 모달 상태 관리
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
@@ -49,12 +42,7 @@ const MyLibraryMenu = ({ isLoading }) => {
       >
         Open
       </IconButton>
-      <Drawer
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        finalFocusRef={btnRef}
-      >
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
