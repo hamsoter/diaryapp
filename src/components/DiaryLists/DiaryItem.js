@@ -1,7 +1,7 @@
 import { Box, ListItem, Text } from '@chakra-ui/react';
 import React from 'react';
 import { ScaleFade } from '@chakra-ui/react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const DiaryItem = ({ name, lastRecord, color, title, id }) => {
   const liStyles = {

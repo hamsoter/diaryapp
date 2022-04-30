@@ -65,7 +65,7 @@ const ThisDay = ({ mode, loginUser, db }) => {
 
       setIsLoading(false);
     });
-  }, []);
+  }, [auth, db, diaryId, navigate]);
 
   if (thisDiary === undefined) {
     return null;
@@ -77,7 +77,7 @@ const ThisDay = ({ mode, loginUser, db }) => {
         diary: thisDiary,
         title: newDiary.title,
         content: newDiary.content,
-        mood: 0,
+        mood: newDiary.mood,
         date: newDiary.date.toString(),
       });
 
@@ -91,12 +91,13 @@ const ThisDay = ({ mode, loginUser, db }) => {
     };
 
     const saveDayHandler = async newDiary => {
+      console.log(newDiary);
       saveDay(newDiary);
-
       pageChange(newDiary);
     };
 
     const updateDataHandler = async newDiary => {
+      console.log(newDiary);
       updateData(newDiary);
       pageChange(newDiary);
     };

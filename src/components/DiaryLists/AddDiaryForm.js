@@ -8,10 +8,8 @@ import {
   FormLabel,
   Input,
   FormHelperText,
-  extendTheme,
   useToast,
   Flex,
-  Divider,
   Text,
 } from '@chakra-ui/react';
 import ColorPicker from '../UI/ColorPicker';
@@ -25,7 +23,7 @@ const AddDiaryForm = ({ onClose, onGetData, loginUser }) => {
   const validator = values => {
     let error = {};
 
-    const { userName, title } = values;
+    const { title } = values;
 
     if (title.length < 1) {
       error.title = '일기장 이름을 입력하세요';

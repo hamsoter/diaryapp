@@ -40,33 +40,7 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
 
   const pageId = location.pathname.split('/')[3];
 
-  useEffect(() => {
-    const fecthData = async () => {
-      const findById = await get(
-        query(ref(db, 'pages'), orderByChild('id'), equalTo(pageId))
-      );
-
-      // db에 존재하는 패이지인지 확인
-      // 없을시 404
-      if (findById.val() === null) {
-        navigate('/error');
-        return;
-      } else {
-        const valData = Object.values(await findById.val())[0];
-        formik.values.content = valData.content;
-        formik.values.title = valData.title;
-        setStartDate(new Date(valData.date));
-        // await setValue();
-      }
-    };
-
-    if (mode === 'update') {
-      fecthData();
-    }
-    setIsLoading(false);
-  }, [db, mode, navigate, pageId]);
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen } = useDisclosure();
   // form의 validation을 확인하는 메서드
   const validator = values => {
     let errors = {};
@@ -93,7 +67,7 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
       content: '',
       writer: writer,
       // 차후 추가
-      mood: 0,
+      mood: mood,
       date: startDate,
     },
 
@@ -111,6 +85,33 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
     validateOnBlur: true,
     validate: validator,
   });
+
+  useEffect(() => {
+    const fecthData = async () => {
+      const findById = await get(
+        query(ref(db, 'pages'), orderByChild('id'), equalTo(pageId))
+      );
+
+      // db에 존재하는 패이지인지 확인
+      // 없을시 404
+      if (findById.val() !== null) {
+        const valData = Object.values(await findById.val())[0];
+        formik.values.content = valData.content;
+        formik.values.title = valData.title;
+
+        setMood(valData.mood);
+        setStartDate(new Date(valData.date));
+      } else {
+        navigate('/error');
+        return;
+      }
+    };
+
+    if (mode === 'update') {
+      fecthData();
+    }
+    setIsLoading(false);
+  }, [db, mode, navigate, pageId, formik.values]);
 
   return (
     <MainContainer>
@@ -188,7 +189,7 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
                 />
               )}
 
-              <MoodSelector setMood={setMood}></MoodSelector>
+              <MoodSelector setMood={setMood} mood={mood}></MoodSelector>
               <Button
                 mt={['6', '6', '3']}
                 type="submit"
@@ -202,13 +203,7 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
             </Center>
           </FormControl>
         </Card>
-        <MessageModal
-          title={'잠시만요 Σ(°ロ°)'}
-          content={'제목과 내용을 제대로 기입해주세요.'}
-          isOpen={isOpen}
-          onOpen={onOpen}
-          onClose={onClose}
-        ></MessageModal>
+        <MessageModal isOpen={isOpen} onOpen={onOpen}></MessageModal>
       </MainContent>
     </MainContainer>
   );

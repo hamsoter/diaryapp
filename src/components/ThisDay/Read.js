@@ -10,30 +10,14 @@ import {
   Box,
   Button,
   Center,
-  Divider,
   Flex,
-  FormControl,
-  FormHelperText,
-  FormLabel,
   Heading,
   IconButton,
   Image,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Skeleton,
-  SkeletonCircle,
   SkeletonText,
   Text,
-  Textarea,
   useDisclosure,
-  useMenuState,
-  useStyles,
   useToast,
 } from '@chakra-ui/react';
 import Header from '../DiaryLists/Header';
@@ -43,20 +27,9 @@ import MainContent from '../UI/MainContent';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 
 import { useLocation, useNavigate } from 'react-router-dom';
-import MessageModal from '../UI/MessageModal';
 
 // firebase
-import {
-  ref,
-  update,
-  getDatabase,
-  set,
-  get,
-  query,
-  orderByChild,
-  equalTo,
-} from '@firebase/database';
-import Bubble from '../UI/Bubble';
+import { ref, get, query, orderByChild, equalTo } from '@firebase/database';
 
 const Read = ({ onBack, changeMode, deleteData, db }) => {
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
@@ -82,28 +55,34 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
     changeMode(`update`);
   };
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [thisPage, setThisPage] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(async () => {
+  useEffect(() => {
     // 파라미터의 pageId를 기반으로 표기할 데이터를 찾음
-    const findById = await get(
-      query(ref(db, 'pages'), orderByChild('id'), equalTo(pageId))
-    );
-    // db에 존재하는 패이지인지 확인
-    // 없을시 404
-    if (findById.val() === null) {
-      navigate('/error');
-      return;
-    } else {
-      setThisPage(Object.values(findById.val())[0]);
-    }
-    setIsLoading(false);
-  }, []);
+    const fetchData = async () => {
+      const findById = await get(
+        query(ref(db, 'pages'), orderByChild('id'), equalTo(pageId))
+      );
+      // db에 존재하는 패이지인지 확인
+      // 없을시 404
+      if (findById.val() === null) {
+        navigate('/error');
+        return;
+      } else {
+        console.log(Object.values(findById.val())[0]);
+        setThisPage(Object.values(findById.val())[0]);
+      }
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [db, navigate, pageId]);
 
   const date = thisPage ? new Date(thisPage.date) : new Date();
 
@@ -169,7 +148,10 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
               {/* 기분 */}
               <Skeleton isLoaded={!isLoading}>
                 <Box>
-                  <Image src={imgSrc[0]} w="50px"></Image>
+                  <Image
+                    src={imgSrc[thisPage ? thisPage.mood : 0]}
+                    w="50px"
+                  ></Image>
                 </Box>
               </Skeleton>
               {/* 페이지제목 */}

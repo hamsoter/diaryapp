@@ -6,7 +6,6 @@ import {
   UnorderedList,
   Button,
   Divider,
-  Flex,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -17,17 +16,19 @@ import styles from '../UI/animation.module.css';
 // firebase
 import { ref, get, set, getDatabase } from '@firebase/database';
 
-const NotFound = ({}) => {
+const NotFound = () => {
   const [count, setCount] = useState(0);
   const db = getDatabase();
 
-  useEffect(async () => {
-    const data = await get(ref(db, '/lostCount'));
-
-    setCount(data.val() + 1);
-
-    set(ref(db, '/lostCount'), data.val() + 1);
-  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await get(ref(db, '/lostCount'));
+      setCount(data.val() + 1);
+      //db에 카운트 저장
+      set(ref(db, '/lostCount'), data.val() + 1);
+    };
+    fetchData();
+  }, [db]);
 
   return (
     <>

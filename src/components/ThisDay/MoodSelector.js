@@ -1,12 +1,4 @@
-import {
-  Box,
-  Heading,
-  HStack,
-  useRadio,
-  Text,
-  useRadioGroup,
-  Tag,
-} from '@chakra-ui/react';
+import { Box, HStack, Text, useRadioGroup } from '@chakra-ui/react';
 import RadioCard from '../UI/RadioCard';
 
 const MoodSelector = ({ setMood }) => {
@@ -23,6 +15,7 @@ const MoodSelector = ({ setMood }) => {
     onChange: e => {
       const mood = options.indexOf(e);
       setMood(mood);
+      // console.log(mood);
     },
   });
 

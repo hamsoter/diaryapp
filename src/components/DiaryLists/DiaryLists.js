@@ -1,12 +1,4 @@
-import { AddIcon } from '@chakra-ui/icons';
-import {
-  Center,
-  Flex,
-  Heading,
-  Text,
-  UnorderedList,
-  IconButton,
-} from '@chakra-ui/react';
+import { Center, Heading } from '@chakra-ui/react';
 import React from 'react';
 import Card from '../UI/Card';
 import Ul from '../UI/Ul';
@@ -14,7 +6,6 @@ import DiaryItem from './DiaryItem';
 
 const DiaryLists = ({ diaries, loginUser }) => {
   return (
-    // <UnorderedList display={'flex'} m={0} width={'100%'} flexWrap="wrap">
     <Ul w={'100%'}>
       {diaries.length === 0 ? (
         <Center w="100%" mt="20">

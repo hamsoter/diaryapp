@@ -1,19 +1,11 @@
-import React, { useRef } from 'react';
-
-import { CirclePicker } from 'react-color';
-
 import {
   useDisclosure,
-  Button,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
-  ModalCloseButton,
   IconButton,
-  Divider,
 } from '@chakra-ui/react';
 import AddDiaryForm from './AddDiaryForm';
 import { AddIcon } from '@chakra-ui/icons';

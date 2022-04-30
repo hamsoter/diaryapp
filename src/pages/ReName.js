@@ -8,7 +8,6 @@ import {
   IconButton,
   Input,
   theme,
-  useToast,
 } from '@chakra-ui/react';
 import Header from '../components/DiaryLists/Header';
 import MainContainer from '../components/UI/MainContainer';
@@ -16,27 +15,28 @@ import MainContent from '../components/UI/MainContent';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import Card from '../components/UI/Card';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { ref, update, getDatabase } from '@firebase/database';
 import { getAuth } from 'firebase/auth';
-// import { getAuth } from 'firebase/auth';
 
-const ReName = ({ loginUser, db, setLoginUser }) => {
+const ReName = ({ loginUser, setLoginUser }) => {
   const navigate = useNavigate();
-  const toast = useToast();
   const auth = getAuth();
   const dbref = ref(getDatabase());
 
-  useEffect(async () => {
+  useEffect(() => {
     // 로그인 체크
-    auth.onAuthStateChanged(async user => {
-      if (user) {
-      } else {
-        navigate('/login');
-      }
-    });
-  }, []);
+    const fetchData = async () => {
+      await auth.onAuthStateChanged(async user => {
+        if (!user) {
+          navigate('/login');
+        }
+      });
+    };
+
+    fetchData();
+  }, [auth, navigate]);
 
   const onBack = () => {
     navigate(`/mypage`);

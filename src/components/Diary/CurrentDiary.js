@@ -21,7 +21,7 @@ import CurrentPages from './CurrentPages';
 import CurrnetMain from './CurrentMain';
 import YearFilter from './YearFilter';
 
-import { ref, set, update, getDatabase } from '@firebase/database';
+import { ref, update, getDatabase } from '@firebase/database';
 
 const CurrentDiary = ({
   thisDiary,
@@ -39,6 +39,8 @@ const CurrentDiary = ({
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
   // 연도별 필터 + 최신순 정렬
   const filterYear = async year => {
     const arr = Object.values(await getPages());
@@ -46,7 +48,7 @@ const CurrentDiary = ({
       .filter(item => {
         if (new Date(item.date).getFullYear() === year) {
           return item;
-        }
+        } else return null;
       })
       .sort(function (a, b) {
         const aDate = a.date;
@@ -56,21 +58,9 @@ const CurrentDiary = ({
       });
   };
 
-  useEffect(async () => {
-    if (await getPages()) {
-      setPagesArr(Object.values(await getPages()));
-
-      // 화면에 그려진 필터된 다이어리
-      setFilteredPages(await filterYear(selectedYear));
-    }
-    setIsLoading(false);
-  }, []);
-
   const goBack = () => {
     navigate('/');
   };
-
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   const yearChangeHandler = async year => {
     setSelectedYear(year);
@@ -89,8 +79,6 @@ const CurrentDiary = ({
     const updateName = {};
     const updateColor = {};
 
-    const newDiary = {};
-
     setThisDiary({
       id: thisDiary.id,
       owner: {
@@ -108,6 +96,20 @@ const CurrentDiary = ({
     update(dbref, updateName);
     update(dbref, updateColor);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (await getPages()) {
+        setPagesArr(Object.values(await getPages()));
+
+        // 화면에 그려진 필터된 다이어리
+        setFilteredPages(await filterYear(selectedYear));
+      }
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [getPages, selectedYear]);
 
   return (
     <>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import '../components/UI/App.css';
-import { Center, ChakraProvider, Flex, Spinner, theme } from '@chakra-ui/react';
+import { ChakraProvider, Spinner, theme } from '@chakra-ui/react';
 
 import DiaryLists from '../components/DiaryLists/DiaryLists';
 import AddDiaryModal from '../components/DiaryLists/AddDiaryModal';
@@ -26,24 +26,27 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
   const [diaries, setDiaries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(async () => {
+  useEffect(() => {
     // 로그인 체크
-    auth.onAuthStateChanged(async user => {
-      if (user) {
-        const data = await loadDiaries(user.uid);
+    const fetchData = async () => {
+      await auth.onAuthStateChanged(async user => {
+        if (user) {
+          const data = await loadDiaries(user.uid);
 
-        if (isMount.current) {
-          setDiaries(data);
-          setIsLoading(false);
+          if (isMount.current) {
+            setDiaries(data);
+            setIsLoading(false);
+          }
+        } else {
+          navigate('/login');
         }
-      } else {
-        navigate('/login');
-      }
-    });
-    return () => {
-      setDiaries(false);
+      });
     };
-  }, [isMount]);
+    fetchData();
+    // return () => {
+    //   setDiaries(false);
+    // };
+  }, [isMount, auth, loadDiaries, navigate]);
 
   const saveDiaryHandler = newDiary => {
     newDiary.owner = loginUser.id;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, useControllableState } from '@chakra-ui/react';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { Box } from '@chakra-ui/react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MyLibrary from './pages/MyLibrary';
 import Diary from './pages/Diary';
 import '../src/components/UI/App.css';
@@ -10,25 +10,15 @@ import NotFoundPage from './pages/NotFoundPage';
 
 // firebase
 import { initializeApp } from '@firebase/app';
-import { getAnalytics } from '@firebase/analytics';
 import { getDatabase } from '@firebase/database';
-import {
-  ref,
-  get,
-  child,
-  query,
-  orderByChild,
-  equalTo,
-} from '@firebase/database';
+import { ref, get, query, orderByChild, equalTo } from '@firebase/database';
 import Login from './pages/Login';
 import firebase from 'firebase/compat/app';
 
 import { getAuth } from 'firebase/auth';
 import MyPage from './pages/MyPage';
 import ReName from './pages/ReName';
-import useIsMount from './useIsMount';
 import Ghost from './pages/Ghost';
-// import Logout from './components/UI/LogoutModal';
 
 function App() {
   // firebase
@@ -47,38 +37,13 @@ function App() {
 
   const fbApp = initializeApp(firebaseConfig);
 
-  const analytics = getAnalytics(fbApp);
+  const db = getDatabase(fbApp);
 
+  // 일기장 존재 여부를 저장할 공간
+  const [notFoundFlag, setNotFoundFlag] = useState('false');
+
+  // 로그인한 유저 클라이언트에 저장
   const [loginUser, setLoginUser] = useState();
-
-  useEffect(async () => {
-    const auth = getAuth();
-    // 로그인 체크 + 로그인유저 세팅
-    auth.onAuthStateChanged(async user => {
-      if (user) {
-        const authUid = user.uid;
-
-        const dbUser = await get(
-          query(ref(db, 'users/'), orderByChild('id'), equalTo(authUid))
-        );
-
-        // db에 로그인유저의 정보가 있을 시
-        if (dbUser.val() !== null) {
-          // db의 닉네임으로 유저를 세팅
-          setLoginUser({
-            id: user.uid,
-            name: Object.values(dbUser.val())[0].name,
-            email: user.email,
-          });
-        } else {
-          //   '구글로그인이 됐으나 db에 정보가 없음 (이런일이벌어져서ㅏㄴ안됨)'
-        }
-      }
-    });
-    return () => {
-      setLoginUser(false);
-    };
-  }, []);
 
   const getDiariesHandler = async uid => {
     // 로그인한 유저의 일기를 가져오는 쿼리문
@@ -112,10 +77,39 @@ function App() {
     }
   };
 
-  const db = getDatabase(fbApp);
+  useEffect(() => {
+    const auth = getAuth();
+    // 로그인 체크 + 로그인유저 세팅
 
-  // 일기장 존재 여부를 저장할 공간
-  const [notFoundFlag, setNotFoundFlag] = useState('false');
+    const fetchData = async () => {
+      auth.onAuthStateChanged(async user => {
+        if (user) {
+          const authUid = user.uid;
+
+          const dbUser = await get(
+            query(ref(db, 'users/'), orderByChild('id'), equalTo(authUid))
+          );
+
+          // db에 로그인유저의 정보가 있을 시
+          if (dbUser.val() !== null) {
+            // db의 닉네임으로 유저를 세팅
+            setLoginUser({
+              id: user.uid,
+              name: Object.values(dbUser.val())[0].name,
+              email: user.email,
+            });
+          } else {
+            //   '구글로그인이 됐으나 db에 정보가 없음 (이런일이벌어져서ㅏㄴ안됨)'
+          }
+        }
+      });
+    };
+
+    fetchData();
+    return () => {
+      setLoginUser(false);
+    };
+  }, [db]);
 
   return (
     <Box>
@@ -190,7 +184,6 @@ function App() {
               <ReName
                 loginUser={loginUser}
                 setLoginUser={setLoginUser}
-                db={db}
               ></ReName>
             }
           />

@@ -62,8 +62,8 @@ const Diary = ({ db, loginUser }) => {
         return;
       }
     });
-    return () => setThisDiary(false);
-  }, []);
+    return () => setThisDiary([]);
+  }, [auth, db, navigate, thisParamId]);
 
   let content = (
     <CurrentDiary

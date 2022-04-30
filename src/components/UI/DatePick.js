@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/react';
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef } from 'react';
 
 import ko from 'date-fns/locale/ko';
 

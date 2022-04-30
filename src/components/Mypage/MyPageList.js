@@ -1,9 +1,6 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
-  Box,
-  Button,
   Divider,
-  ListIcon,
   ListItem,
   Modal,
   UnorderedList,

@@ -1,5 +1,4 @@
-import { chakra, Container, Flex } from '@chakra-ui/react';
-import React from 'react';
+import { chakra, Container } from '@chakra-ui/react';
 
 const MainContainer = chakra(Container, {
   baseStyle: {

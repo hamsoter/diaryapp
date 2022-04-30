@@ -8,10 +8,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
 } from '@chakra-ui/react';
 
-const MessageModal = ({ title, content, btnText, onClose, isOpen, onOpen }) => {
+const MessageModal = ({ onClose, isOpen }) => {
   return (
     <Modal size={'xs'} onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />

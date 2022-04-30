@@ -1,5 +1,4 @@
 import {
-  Button,
   ChakraProvider,
   Heading,
   IconButton,

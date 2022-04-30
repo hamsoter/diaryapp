@@ -1,8 +1,4 @@
-import {
-  extendTheme,
-  withDefaultColorScheme,
-  theme as baseTheme,
-} from '@chakra-ui/react';
+import { extendTheme } from '@chakra-ui/react';
 
 const customColorTheme = extendTheme({
   colors: {
