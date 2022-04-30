@@ -41,7 +41,7 @@ const Header = ({ leftContent, rightContent, title, isLoading }) => {
           </Box>
           <Center alignSelf={'center'}>{title}</Center>
           <Box
-            w={typeof rightContent === 'undefined' ? '35px' : -10}
+            w={typeof rightContent === 'undefined' ? 0 : -10}
             fontSize="md"
             fontWeight={'bold'}
           >

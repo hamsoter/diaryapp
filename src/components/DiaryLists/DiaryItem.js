@@ -20,7 +20,7 @@ const DiaryItem = ({ name, lastRecord, color, title, id }) => {
       <Link w={'100%'} to={`/diary/${id}`} data={id}>
         <ListItem {...liStyles}>
           <Box bg={color.sub} color={'white'} p={2}>
-            <Text fontSize={['2xl', 'md', 'lg']} isTruncated>
+            <Text fontSize={['2xl', 'lg', 'lg']} isTruncated>
               {title}
             </Text>
             <Text fontSize={['sm', 'xs', 'xs']} isTruncated>

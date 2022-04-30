@@ -130,7 +130,7 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
 
       {/* 메인컨텐츠 */}
       <MainContent>
-        <Card w={'100%'} h={'100%'}>
+        <Card w={'100%'}>
           <FormControl
             id="addDiaryForm"
             onSubmit={formik.handleSubmit}
@@ -162,13 +162,15 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
                 </Box>
               ) : (
                 <Textarea
-                  className="content"
+                  className="content-write"
+                  overflow={'scroll'}
                   id="content"
                   onChange={formik.handleChange}
                   value={formik.values.content}
                   type="text"
                   bg={'white'}
                   p={3}
+                  pr={2}
                   m={3}
                   placeholder="무슨 일이 있었나요?"
                   sx={{
@@ -185,6 +187,7 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
                     `calc(100vh - 446px)`,
                     `calc(100vh - 469px)`,
                   ]} // 436
+                  minHeight={'300px'}
                   resize={'none'}
                 />
               )}

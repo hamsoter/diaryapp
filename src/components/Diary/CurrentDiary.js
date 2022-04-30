@@ -114,6 +114,7 @@ const CurrentDiary = ({
   return (
     <>
       <Header
+        isLoading={isLoading}
         title={
           <Skeleton
             isLoaded={!isLoading}

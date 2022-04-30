@@ -19,7 +19,7 @@ const MainContent = props => {
     sx: {
       '&::-webkit-scrollbar': {
         width: '12px',
-        backgroundColor: `rgba(0, 0, 0, 0.0)`,
+        backgroundColor: `rgba(0, 0, 0, 0)`,
       },
       '&::-webkit-scrollbar-thumb': {
         backgroundColor: `rgba(0, 0, 0, 0.05)`,
