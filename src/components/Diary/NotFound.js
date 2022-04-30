@@ -32,14 +32,14 @@ const NotFound = () => {
 
   return (
     <>
-      <MainContents>
+      <MainContents m={0} p={0}>
         <Card
           rounded={5}
           m={0}
           p={3}
           fontSize={['xl', 'lg', 'lg']}
-          h={['auto', 'auto', '100%']}
           boxShadow={'xs'}
+          bgColor="orange.50"
         >
           <Box className={styles['shake-bottom']}>
             <Heading
