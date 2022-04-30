@@ -73,7 +73,7 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
       <MainContainer>
         <Header
           isLoading={isLoading}
-          title={'책장'}
+          title={diaries.length !== 0 ? `책장(${diaries.length})` : '책장'}
           leftContent={<MyLibraryMenu />}
           rightContent={
             <AddDiaryModal

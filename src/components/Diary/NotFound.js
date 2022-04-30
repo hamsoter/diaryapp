@@ -53,11 +53,7 @@ const NotFound = () => {
               404
             </Heading>
           </Box>
-          <Heading
-            fontFamily={'NeoDunggeunmo'}
-            fontSize={'24px'}
-            color={'orange.800'}
-          >
+          <Heading fontSize={'24px'} color={'orange.800'}>
             잘못된 주소예요
           </Heading>
           <Card px={[5, 5, 20]} bg={'transparent'}>

@@ -15,6 +15,7 @@
     "firebaseui": "^6.0.1",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
+    "gh-pages": "^3.2.3",
     "global": "^4.4.0",
     "react": "^17.0.2",
     "react-color": "^2.19.3",
@@ -31,7 +32,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,5 +50,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://hamsoter.github.io/diaryapp"
 }
