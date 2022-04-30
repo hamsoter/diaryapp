@@ -15,7 +15,7 @@ const Diary = ({ db, loginUser }) => {
   const [thisDiary, setThisDiary] = useState({ owner: { name: '' } });
 
   // 현재 url의 uuid 잘라내기
-  const thisParamId = window.location.pathname.split('/')[2];
+  const thisParamId = window.location.pathname.split('/')[3];
 
   // 렌더 무한루프 방지 순서 처리
   // 주소 유효값 검사

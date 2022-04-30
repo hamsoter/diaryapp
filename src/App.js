@@ -118,7 +118,7 @@ function App() {
         type="text/css"
         href="http://csshake.surge.sh/csshake-slow.min.css"
       ></link>
-      <BrowserRouter>
+      <BrowserRouter basename="diaryapp">
         <Routes>
           <Route
             path="/"
