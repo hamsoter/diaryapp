@@ -30,8 +30,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 // firebase
 import { ref, get, query, orderByChild, equalTo } from '@firebase/database';
+import { history } from '../../history';
 
-const Read = ({ onBack, changeMode, deleteData, db }) => {
+const Read = ({ onBack, changeMode, deleteData, db, mode }) => {
   const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
 
   const imgSrc = [
@@ -64,11 +65,18 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // '뒤로가기 버튼 눌렀을시'
+    history.listen(({ action }) => {
+      if (action === 'POP') {
+        onBack();
+      }
+    });
     // 파라미터의 pageId를 기반으로 표기할 데이터를 찾음
     const fetchData = async () => {
       const findById = await get(
         query(ref(db, 'pages'), orderByChild('id'), equalTo(pageId))
       );
+
       // db에 존재하는 패이지인지 확인
       // 없을시 404
       if (findById.val() === null) {
@@ -102,6 +110,7 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
     <MainContainer>
       {/* 헤더 */}
       <Header
+        isLoading={isLoading}
         title={
           <Skeleton
             isLoaded={!isLoading}
@@ -206,31 +215,33 @@ const Read = ({ onBack, changeMode, deleteData, db }) => {
                 </Box>
               )}
 
-              <Flex>
-                <Button
-                  mt={['6', '6', '3']}
-                  type="submit"
-                  form="addDiaryForm"
-                  w={['100%', '100%', '100px']}
-                  colorScheme="orange"
-                  onClick={goToupdatePage}
-                  mr={3}
-                >
-                  수정
-                </Button>
+              <Skeleton isLoaded={!isLoading}>
+                <Flex>
+                  <Button
+                    mt={['6', '6', '3']}
+                    type="submit"
+                    form="addDiaryForm"
+                    w={['100%', '100%', '100px']}
+                    colorScheme="orange"
+                    onClick={goToupdatePage}
+                    mr={3}
+                  >
+                    수정
+                  </Button>
 
-                <Button
-                  mt={['6', '6', '3']}
-                  type="submit"
-                  form="addDiaryForm"
-                  w={['100%', '100%', '100px']}
-                  colorScheme="orange"
-                  // onClick={deleteData}
-                  onClick={onOpen}
-                >
-                  삭제
-                </Button>
-              </Flex>
+                  <Button
+                    mt={['6', '6', '3']}
+                    type="submit"
+                    form="addDiaryForm"
+                    w={['100%', '100%', '100px']}
+                    colorScheme="orange"
+                    // onClick={deleteData}
+                    onClick={onOpen}
+                  >
+                    삭제
+                  </Button>
+                </Flex>
+              </Skeleton>
             </Center>
           </Box>
         </Card>

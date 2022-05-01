@@ -111,7 +111,7 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
       fecthData();
     }
     setIsLoading(false);
-  }, [db, mode, navigate, pageId, formik.values]);
+  }, [db, mode, navigate, pageId]);
 
   return (
     <MainContainer>

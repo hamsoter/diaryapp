@@ -151,6 +151,7 @@ const ThisDay = ({ mode, loginUser, db }) => {
             data={thisDiary}
             onBack={goBack}
             changeMode={setThisMode}
+            mode={mode}
             deleteData={deleteData}
           ></Read>
         )}
