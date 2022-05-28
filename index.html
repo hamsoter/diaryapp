@@ -16,14 +16,14 @@
       // the correct url will be waiting in the browser's history for
       // the single page app to route accordingly.
       (function (l) {
-        if (l.search[1] === '/') {
+        if (l.search[1] === "/") {
           var decoded = l.search
             .slice(1)
-            .split('&')
+            .split("&")
             .map(function (s) {
-              return s.replace(/~and~/g, '&');
+              return s.replace(/~and~/g, "&");
             })
-            .join('?');
+            .join("?");
           window.history.replaceState(
             null,
             null,
@@ -33,7 +33,6 @@
       })(window.location);
     </script>
     <!-- End Single Page Apps for GitHub Pages -->
-    <base href="https://hamsoter.github.io/diaryapp/" />
     <link rel="icon" href="/diaryapp/favicon.ico" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#000000" />
@@ -43,8 +42,8 @@
     />
     <link rel="apple-touch-icon" href="/diaryapp/logo192.png" />
     <link rel="manifest" href="/diaryapp/manifest.json" />
-    <title>React App</title>
-    <script defer="defer" src="/diaryapp/static/js/main.6c6ce6a7.js"></script>
+    <title>끄적끄적</title>
+    <script defer="defer" src="/diaryapp/static/js/main.0fd3fb07.js"></script>
     <link href="/diaryapp/static/css/main.b92f63d3.css" rel="stylesheet" />
   </head>
   <body>
