@@ -57,8 +57,6 @@ const Login = ({ db, setLoginUser }) => {
       }
 
       if (!!user) {
-        // 로그인
-
         const dbUser = await get(
           query(ref(db, 'users/'), orderByChild('id'), equalTo(user.uid))
         );
@@ -101,7 +99,6 @@ const Login = ({ db, setLoginUser }) => {
 
     return () => {
       setIsSignedIn(false);
-      setLoginUser(false);
     }; // Make sure we un-register Firebase observers when the component unmounts.
   }, [db, isMount, navigate, setLoginUser]);
 

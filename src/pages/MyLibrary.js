@@ -28,8 +28,8 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
 
   useEffect(() => {
     // 로그인 체크
-    const fetchData = async () => {
-      await auth.onAuthStateChanged(async user => {
+    const fetchData = () => {
+      auth.onAuthStateChanged(async user => {
         if (user) {
           const data = await loadDiaries(user.uid);
 
@@ -43,10 +43,7 @@ const MyLibrary = ({ db, loadDiaries, loginUser }) => {
       });
     };
     fetchData();
-    // return () => {
-    //   setDiaries(false);
-    // };
-  }, [isMount, auth, loadDiaries, navigate]);
+  }, [isMount, auth, loadDiaries, navigate, loginUser]);
 
   const saveDiaryHandler = newDiary => {
     newDiary.owner = loginUser.id;

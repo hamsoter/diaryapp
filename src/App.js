@@ -81,31 +81,28 @@ function App() {
     const auth = getAuth();
     // 로그인 체크 + 로그인유저 세팅
 
-    const fetchData = async () => {
-      auth.onAuthStateChanged(async user => {
-        if (user) {
-          const authUid = user.uid;
+    auth.onAuthStateChanged(async user => {
+      if (user) {
+        const authUid = user.uid;
 
-          const dbUser = await get(
-            query(ref(db, 'users/'), orderByChild('id'), equalTo(authUid))
-          );
+        const dbUser = await get(
+          query(ref(db, 'users/'), orderByChild('id'), equalTo(authUid))
+        );
 
-          // db에 로그인유저의 정보가 있을 시
-          if (dbUser.val() !== null) {
-            // db의 닉네임으로 유저를 세팅
-            setLoginUser({
-              id: user.uid,
-              name: Object.values(dbUser.val())[0].name,
-              email: user.email,
-            });
-          } else {
-            //   '구글로그인이 됐으나 db에 정보가 없음 (이런일이벌어져서ㅏㄴ안됨)'
-          }
+        // db에 로그인유저의 정보가 있을 시
+        if (dbUser.val() !== null) {
+          // db의 닉네임으로 유저를 세팅
+          setLoginUser({
+            id: user.uid,
+            name: Object.values(dbUser.val())[0].name,
+            email: user.email,
+          });
         }
-      });
-    };
+      }
+    });
 
-    fetchData();
+    console.log(loginUser);
+
     return () => {
       setLoginUser(false);
     };
@@ -158,14 +155,7 @@ function App() {
           />
           <Route
             path="/login"
-            element={
-              <Login
-                config={firebaseConfig}
-                fbApp={fbApp}
-                db={db}
-                setLoginUser={setLoginUser}
-              ></Login>
-            }
+            element={<Login db={db} setLoginUser={setLoginUser}></Login>}
           />
           {/* mypage */}
           <Route
