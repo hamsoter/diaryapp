@@ -40,7 +40,7 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
 
   const pageId = location.pathname.split('/')[3];
 
-  const { isOpen, onOpen } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   // form의 validation을 확인하는 메서드
   const validator = values => {
     let errors = {};
@@ -206,7 +206,11 @@ const Write = ({ onBack, writer, saveData, mode, db }) => {
             </Center>
           </FormControl>
         </Card>
-        <MessageModal isOpen={isOpen} onOpen={onOpen}></MessageModal>
+        <MessageModal
+          onClose={onClose}
+          isOpen={isOpen}
+          onOpen={onOpen}
+        ></MessageModal>
       </MainContent>
     </MainContainer>
   );
